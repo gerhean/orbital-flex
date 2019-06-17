@@ -11,13 +11,7 @@ export default class App extends Component {
 
     componentWillMount() {
       firebase.initializeApp({
-        apiKey: "AIzaSyAUZHRWTZT2C0BwQLrHZ47hofTG6QYAts0",
-        authDomain: "orbital-f4d45.firebaseapp.com",
-        databaseURL: "https://orbital-f4d45.firebaseio.com",
-        projectId: "orbital-f4d45",
-        storageBucket: "orbital-f4d45.appspot.com",
-        messagingSenderId: "393318681488",
-        appId: "1:393318681488:web:4ff8739acff21293"
+        //nothing here
       });
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {

@@ -3,7 +3,7 @@ import firebase from 'firebase';
 import { View } from 'react-native'
 import Login from './src/components/Auth/Login';
 import Home from './src/components/Home';
-import firebaseInitAppSecrets from './secrets.js';
+import { FIREBASE_INIT_SETTINGS }from './src/constants';
 
 export default class App extends Component {
     //default function()
