@@ -11,7 +11,7 @@ export default class App extends Component {
     state = { loggedIn: null };
 
     componentWillMount() {
-      firebase.initializeApp(firebaseInitAppSecrets);
+      firebase.initializeApp(FIREBASE_INIT_SETTINGS);
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           this.setState({ loggedIn: true });
