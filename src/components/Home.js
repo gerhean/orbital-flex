@@ -14,9 +14,8 @@ class Home extends Component {
 
     async componentWillMount() {
         await Expo.Font.loadAsync({
-          Roboto: require("native-base/Fonts/Roboto.ttf"),
-          Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
-          Ionicons: require("@expo/vector-icons/fonts/Ionicons.ttf"),
+          Roboto: require("../styles/fonts/Roboto-Black.ttf"),
+          Roboto_medium: require("../styles/fonts/Roboto-Medium.ttf")
         });
         this.setState({ loading: false });
       } // fix compatibility error between native base and expo

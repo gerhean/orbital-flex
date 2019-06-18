@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { Icon, Button, Input } from 'react-native-elements';
 import firebase from 'firebase';
+import { withFirebase } from '../../firebase';
 
-class Login extends Component {
+class LoginBase extends Component {
   constructor(props) {
     super(props);
     this.state = { 
@@ -15,16 +16,32 @@ class Login extends Component {
 
   showError = () => {
     this.setState({ error: 'Failed to log in, email/password incorrect'});
-  }
+  };
+
+  navigate = (screen) => () => {
+    console.log("hi");
+    // if (this.props.navigation) {
+    //   console.log("hihi");
+    // }
+    // this.props.navigation.navigate(screen);
+  };
   
   onButtonPress = () => {
     const { email, password } = this.state;
-    firebase.auth()
-      .signInWithEmailAndPassword(email, password)
-      .catch(() => this.showError());
+    this.props.firebase
+      .doSignInWithEmailAndPassword(email, password)
+      .then(authUser => {
+        this.setState({ ...initialState });
+        console.log(authUser);
+      })
+      .catch(error => {
+        console.log(error.message);
+        this.setState({ error: error.message });
+      });
   }
 
   render() {
+    console.log("hihi");
     return (
       <View style={styles.container}>
         <View style ={styles.loginContainer}>
@@ -48,7 +65,11 @@ class Login extends Component {
           <Button buttonStyle={styles.buttonStyle}
                   onPress={this.onButtonPress()}
                   title="Login"/>
-          <Button buttonStyle={styles.buttonStyle} type="outline" title="Create new account"/>
+          <Button 
+            buttonStyle={styles.buttonStyle}
+            onPress={this.navigate("Register")}
+            type="outline" 
+            title="Create new account"/>
         </View>
       </View>
     );
@@ -79,6 +100,6 @@ const styles = StyleSheet.create({
   }
 })
 
-
+const Login = withFirebase(LoginBase);
 
 export default Login;

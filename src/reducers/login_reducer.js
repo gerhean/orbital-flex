@@ -1,10 +1,10 @@
 import { 
-  INITIALIZE_APP,
-  CHECK_REMEMBER_ME,
-  TOGGLE_REMEMBER_ME,
-  LOGIN_INITIALIZE,
-  LOGIN_SUCCESS,
-  LOGIN_FAIL,
+  // INITIALIZE_APP,
+  // CHECK_REMEMBER_ME,
+  // TOGGLE_REMEMBER_ME,
+  // LOGIN_INITIALIZE,
+  // LOGIN_SUCCESS,
+  // LOGIN_FAIL,
   LOGOUT
 } from "../actions/actionTypes";
 
@@ -12,7 +12,7 @@ const initialState = {
   isAuthenticated: false,
 };
 
-export const rootReducer = (state = initialState, action) => {
+export const loginReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOGOUT: 
       return {
@@ -24,4 +24,4 @@ export const rootReducer = (state = initialState, action) => {
     }
 };
 
-export default rootReducer;
+export default loginReducer;
