@@ -23,7 +23,7 @@ class LoginBase extends Component {
     // if (this.props.navigation) {
     //   console.log("hihi");
     // }
-    // this.props.navigation.navigate(screen);
+    this.props.navigate(screen);
   };
   
   onButtonPress = () => {
@@ -63,7 +63,7 @@ class LoginBase extends Component {
                  value = { this.state.password }
                  onChangeText={ password => this.setState({ password })} />
           <Button buttonStyle={styles.buttonStyle}
-                  onPress={this.onButtonPress()}
+                  onPress={this.onButtonPress}
                   title="Login"/>
           <Button 
             buttonStyle={styles.buttonStyle}
@@ -101,5 +101,6 @@ const styles = StyleSheet.create({
 })
 
 const Login = withFirebase(LoginBase);
+// const Login = LoginBase;
 
 export default Login;

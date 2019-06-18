@@ -27,9 +27,9 @@ class SignUpForm extends Component {
   };
 
   navigate = (screen) => () => {
-    console.log("hi");
+    console.log(screen);
     console.log(this.props.navigation.navigate);
-    // this.props.navigation.navigate(screen);
+    this.props.navigate(screen);
   };
   
   onSubmit = () => {
@@ -100,6 +100,7 @@ class SignUpForm extends Component {
 }
 
 const Register = withFirebase(SignUpForm);
+// const Register = SignUpForm;
 
 const styles = StyleSheet.create({
   container: {
