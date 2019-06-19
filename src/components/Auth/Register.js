@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
-import { Button, Input } from 'react-native-elements';
+import { Icon, Button, Input } from 'react-native-elements';
 import firebase from 'firebase';
 import { withFirebase } from '../../firebase';
 
@@ -65,6 +65,11 @@ class SignUpForm extends Component {
 
     return (
       <View style={styles.container}>
+          <Icon
+            name='heartbeat'
+            type='font-awesome'
+            color='#f50' />
+          <Text style={styles.textStyle}>Signup for Flex</Text>
           <Text>{ error }</Text>
           <Input 
             placeholder = "Email"
@@ -108,6 +113,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#2c3e50',
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  textStyle: {
+    color: '#c5cae9',
+    fontStyle: 'italic',
+    fontSize: 25
   },
   buttonStyle: {
     margin: 5

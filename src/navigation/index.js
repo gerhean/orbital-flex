@@ -12,6 +12,9 @@ export const RootStack = createStackNavigator({
     // Splash: {
     //     screen: Splash
     // },
+    Home: {
+        screen: Home 
+    },                    
     Register: {
         screen: Register
     },
@@ -21,9 +24,6 @@ export const RootStack = createStackNavigator({
     // ForgottenPassword: {
     //     screen: ForgottenPassword
     // },
-    Home: {
-        screen: Home 
-    }                       
 }, {
     headerMode: 'none'
 })

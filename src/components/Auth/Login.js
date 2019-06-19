@@ -49,8 +49,8 @@ class LoginBase extends Component {
             name='heartbeat'
             type='font-awesome'
             color='#f50' />
-            <Text style={styles.textStyle}>Welcome to Flex</Text>
-            <Text style={styles.textStyle}>Find fitness trainers near you</Text>
+          <Text style={styles.textStyle}>Welcome to Flex</Text>
+          <Text style={styles.textStyle}>Find fitness trainers near you</Text>
         </View>
         
         <View>

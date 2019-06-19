@@ -22,7 +22,7 @@ class Home extends Component {
     
     render() {
         if (this.state.loading) {
-            return <Expo.AppLoading />;
+            return <Text>Loading</Text>;
         }
         
         return (
