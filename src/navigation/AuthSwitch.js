@@ -1,23 +1,24 @@
 // NavigationActions is super critical
-import { NavigationActions, createStackNavigator, createAppContainer } from 'react-navigation'
+import { NavigationActions, createSwitchNavigator, createAppContainer } from 'react-navigation'
 // these are literally whatever you want, standard components
 // but, they are sitting in the root of the stack
 import Register from '../components/Auth/Register'
 import Login from '../components/Auth/Login'
 // this is an example of a nested view, you might see after logging in
 import Home from '../components/Home' // index.js file
+import MainTab from './MainTab';
 
 
-export const RootStack = createStackNavigator({
+export const AuthSwitch = createSwitchNavigator({
     // Splash: {
     //     screen: Splash
     // },
-    Home: {
-        screen: Home 
-    },                    
     Register: {
         screen: Register
     },
+    MainTab: {
+        screen: MainTab 
+    },                    
     Login: {
         screen: Login
     },
@@ -25,7 +26,8 @@ export const RootStack = createStackNavigator({
     //     screen: ForgottenPassword
     // },
 }, {
-    headerMode: 'none'
+    headerMode: 'none',
+    initialRouteName: 'Login'
 })
 
-export default MainNavigator = createAppContainer(RootStack);
+export default AuthSwitchNavigator = createAppContainer(AuthSwitch);

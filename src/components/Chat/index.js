@@ -42,22 +42,6 @@ class Home extends Component {
                         <Text>Placeholder for list</Text>
                     </Card>
                 </Content>
-                <Footer>
-                    <FooterTab>
-                        <Button>
-                            <Text>Home</Text>
-                        </Button>       
-                        <Button>
-                            <Text>Search</Text>
-                        </Button>
-                        <Button>
-                            <Text>Request</Text>
-                        </Button>
-                        <Button>
-                            <Text>Chat</Text>
-                        </Button>
-                    </FooterTab>
-                </Footer>
 
             </Container>
         );

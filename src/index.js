@@ -5,7 +5,7 @@ import { Provider, connect } from 'react-redux'
 import { addNavigationHelpers } from 'react-navigation'
 // this is your root-most navigation stack that can nest
 // as many stacks as you want inside it
-import MainNavigator from './navigation'
+import AuthSwitchNavigator from './navigation/AuthSwitch'
 // this is a plain ol' store
 // same as const store = createStore(combinedReducers)
 import store from './store'
@@ -16,7 +16,7 @@ class Root extends Component {
 		return (
 		  <Provider store={store}>
 			<FirebaseContext.Provider value={new Firebase()}>
-		        <MainNavigator />
+		        <AuthSwitchNavigator />
 		  	</FirebaseContext.Provider>
 		  </Provider>
 		);

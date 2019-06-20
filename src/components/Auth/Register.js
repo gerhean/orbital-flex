@@ -27,9 +27,7 @@ class SignUpForm extends Component {
   };
 
   navigate = (screen) => () => {
-    console.log(screen);
-    console.log(this.props.navigation.navigate);
-    this.props.navigate(screen);
+    this.props.navigation.navigate(screen);
   };
   
   onSubmit = () => {
@@ -78,12 +76,13 @@ class SignUpForm extends Component {
           />
           <Input 
             placeholder = "Password"
+            secureTextEntry
             value = { passwordOne }
             onChangeText={ passwordOne => this.setState({ passwordOne })} 
           />
           <Input 
             placeholder = "Confirm Password"
-
+            secureTextEntry
             value = { passwordTwo }
             onChangeText={ passwordTwo => this.setState({ passwordTwo })} 
           />

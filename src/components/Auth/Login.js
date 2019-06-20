@@ -4,6 +4,12 @@ import { Icon, Button, Input } from 'react-native-elements';
 import firebase from 'firebase';
 import { withFirebase } from '../../firebase';
 
+const initialState = { 
+  email: "", 
+  password: "",
+  error: "" 
+};
+
 class LoginBase extends Component {
   constructor(props) {
     super(props);
@@ -19,11 +25,7 @@ class LoginBase extends Component {
   };
 
   navigate = (screen) => () => {
-    console.log("hi");
-    // if (this.props.navigation) {
-    //   console.log("hihi");
-    // }
-    this.props.navigate(screen);
+    this.props.navigation.navigate(screen);
   };
   
   onButtonPress = () => {
@@ -33,6 +35,7 @@ class LoginBase extends Component {
       .then(authUser => {
         this.setState({ ...initialState });
         console.log(authUser);
+        this.navigate("MainTab")();
       })
       .catch(error => {
         console.log(error.message);
@@ -41,7 +44,6 @@ class LoginBase extends Component {
   }
 
   render() {
-    console.log("hihi");
     return (
       <View style={styles.container}>
         <View style ={styles.loginContainer}>
