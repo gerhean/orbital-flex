@@ -62,7 +62,7 @@ class SignUpForm extends Component {
       // username === '';
 
     return (
-      <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
+      <View style={styles.container}>
           <Icon
             name='heartbeat'
             type='font-awesome'
@@ -98,7 +98,7 @@ class SignUpForm extends Component {
             title="Already have an account?"
           />
 
-      </KeyboardAvoidingView>
+      </View>
     );
   }
 }
