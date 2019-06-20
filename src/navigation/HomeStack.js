@@ -9,6 +9,8 @@ import HomeScreen from '../components/Home';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
+}, {
+    headerMode: 'none'
 });
 
 HomeStack.navigationOptions = {

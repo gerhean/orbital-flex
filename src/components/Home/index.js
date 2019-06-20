@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 //import { FlatList } from 'react-native';
 import { Text, Container, Header, Body, 
         Title, Button, Card, Content, 
-        Footer, FooterTab, Right } from 'native-base';
+        Footer, FooterTab, Right, Left } from 'native-base';
 import Expo from "expo";
-import Font from 'expo-font'
+import * as Font from 'expo-font';
 import firebase from 'firebase';
 
 
@@ -33,6 +33,7 @@ class Home extends Component {
         return (
             <Container>
                 <Header>
+                    <Left/>
                     <Body>
                         <Title>Profile</Title>
                     </Body>

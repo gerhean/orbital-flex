@@ -29,18 +29,19 @@ class LoginBase extends Component {
   };
   
   onButtonPress = () => {
-    const { email, password } = this.state;
-    this.props.firebase
-      .doSignInWithEmailAndPassword(email, password)
-      .then(authUser => {
-        this.setState({ ...initialState });
-        console.log(authUser);
-        this.navigate("MainTab")();
-      })
-      .catch(error => {
-        console.log(error.message);
-        this.setState({ error: error.message });
-      });
+    this.navigate("MainTab")();
+    // const { email, password } = this.state;
+    // this.props.firebase
+    //   .doSignInWithEmailAndPassword(email, password)
+    //   .then(authUser => {
+    //     this.setState({ ...initialState });
+    //     console.log(authUser);
+    //     this.navigate("MainTab")();
+    //   })
+    //   .catch(error => {
+    //     console.log(error.message);
+    //     this.setState({ error: error.message });
+    //   });
   }
 
   render() {
