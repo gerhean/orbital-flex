@@ -3,7 +3,7 @@ import {
   // CHECK_REMEMBER_ME,
   // TOGGLE_REMEMBER_ME,
   // LOGIN_INITIALIZE,
-  // LOGIN_SUCCESS,
+  LOGIN_SUCCESS,
   // LOGIN_FAIL,
   LOGOUT
 } from "../actions/actionTypes";
@@ -14,6 +14,11 @@ const initialState = {
 
 export const loginReducer = (state = initialState, action) => {
   switch (action.type) {
+    case LOGIN_SUCCESS: 
+      return {
+          ...initialState,
+          isAuthenticated: true,
+      };
     case LOGOUT: 
       return {
           ...initialState,

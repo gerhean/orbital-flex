@@ -1,8 +1,25 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { View, StyleSheet, Text } from 'react-native';
 import { Icon, Button, Input } from 'react-native-elements';
 import firebase from 'firebase';
 import { withFirebase } from '../../firebase';
+
+import { loginMock } from "../../actions";
+
+const mapStateToProps = state => ({
+  userInfo: state.userInfo,
+});
+
+const mapDispatchToProps = (dispatch) => (
+  bindActionCreators(
+    {
+      handleLoginMock: loginMock,
+    },
+    dispatch
+  )
+);
 
 const initialState = { 
   email: "", 
@@ -14,9 +31,7 @@ class LoginBase extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-      email: "", 
-      password: "", 
-      error: "" 
+      ...initialState 
     };
   }
 
@@ -29,6 +44,7 @@ class LoginBase extends Component {
   };
   
   onButtonPress = () => {
+    this.props.handleLoginMock();
     this.navigate("MainTab")();
     // const { email, password } = this.state;
     // this.props.firebase
@@ -103,7 +119,10 @@ const styles = StyleSheet.create({
   }
 })
 
-const Login = withFirebase(LoginBase);
+// const Login = withFirebase(LoginBase);
 // const Login = LoginBase;
 
-export default Login;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withFirebase(LoginBase));

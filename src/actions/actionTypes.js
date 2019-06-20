@@ -1,3 +1,6 @@
 export const LOGIN_EMAIL = 'LOGIN_EMAIL';
-export const GET_MOVIE_DATA_RECEIVED = 'GET_MOVIE_DATA_RECEIVED';
-export const GET_MOVIE_DATA_ERROR = 'GET_MOVIE_DATA_ERROR';
+export const LOGOUT = 'LOGOUT';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_FAIL = 'LOGIN_FAIL';
+
+export const LOGIN_MOCK = 'LOGIN_MOCK';

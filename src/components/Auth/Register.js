@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, KeyboardAvoidingView } from 'react-native';
 import { Icon, Button, Input } from 'react-native-elements';
 import firebase from 'firebase';
 import { withFirebase } from '../../firebase';
@@ -62,7 +62,7 @@ class SignUpForm extends Component {
       // username === '';
 
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
           <Icon
             name='heartbeat'
             type='font-awesome'
@@ -98,7 +98,7 @@ class SignUpForm extends Component {
             title="Already have an account?"
           />
 
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }

@@ -1,16 +1,8 @@
-import {
-    INITIALIZE_APP,
-    CHECK_REMEMBER_ME,
-    TOGGLE_REMEMBER_ME,
-    LOGIN_INITIALIZE,
-    LOGIN_SUCCESS,
-    LOGIN_FAIL,
-    LOGOUT
-} from './login_types'
+import * as actionTypes from './actionTypes'
 
-export const attemptLogin = () => ({
-    type: actionTypes.LOGIN_INITIALIZE
-});
+// export const attemptLogin = () => ({
+//     type: actionTypes.LOGIN_INITIALIZE
+// });
 
 export const loginSuccess = (user) => ({
     type: actionTypes.LOGIN_SUCCESS,
@@ -21,6 +13,10 @@ export const loginFail = (error) => ({
     type: actionTypes.LOGIN_FAIL,
     payload: error
 });
+
+export const loginMock = () => ({
+    type: actionTypes.LOGIN_MOCK,
+})
 
 //INITIALIZE APP
 // this isn't done, no try/catch and LOGIN_FAIL isn't hooked up

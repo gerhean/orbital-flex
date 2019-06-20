@@ -1,57 +1,77 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 //import { FlatList } from 'react-native';
 import { Text, Container, Header, Body, 
-        Title, Button, Card, Content, 
-        Footer, FooterTab, Right, Left } from 'native-base';
+    Title, Button, Card, Content, 
+    Footer, FooterTab, Right, Left,
+    CardItem, Thumbnail } from 'native-base';
 import Expo from "expo";
 import * as Font from 'expo-font';
 import firebase from 'firebase';
 
-
-//needs log out button
+const mapStateToProps = state => ({
+  userInfo: state.userInfo,
+});
 
 class Home extends Component {
-    state = { loading: true };
+  constructor(props) {
+    super(props);
+  }
 
-    async componentWillMount() {
-        await Font.loadAsync({
-          Roboto: require("../../styles/fonts/Roboto-Black.ttf"),
-          Roboto_medium: require("../../styles/fonts/Roboto-Medium.ttf")
-        });
-        this.setState({ loading: false });
-      } // fix compatibility error between native base and expo
+  // async componentWillMount() {
+  //   await Font.loadAsync({
+  //     Roboto: require("../../styles/fonts/Roboto-Black.ttf"),
+  //     Roboto_medium: require("../../styles/fonts/Roboto-Medium.ttf")
+  //   });
+  //   this.setState({ loading: false });
+  // } // fix compatibility error between native base and expo
 
-    navigate = (screen) => () => {
-        this.props.navigation.navigate(screen);
-    };
+  navigate = (screen) => () => {
+    this.props.navigation.navigate(screen);
+  };
+  
+  render() {
+    const user = this.props.userInfo;
     
-    render() {
-        if (this.state.loading) {
-            return <Text>Loading</Text>;
-        }
-        
-        return (
-            <Container>
-                <Header>
-                    <Left/>
-                    <Body>
-                        <Title>Profile</Title>
-                    </Body>
-                    <Right>
-                        <Button onPress={this.navigate('Login')}>
-                            <Text>Log out</Text>
-                        </Button>
-                    </Right>
-                </Header>
-                <Content>
-                    <Card>
-                        <Text>Placeholder for list</Text>
-                    </Card>
-                </Content>
+    return (
+      <Container>
 
-            </Container>
-        );
-    }
+        <Header>
+          <Left/>
+          <Body>
+            <Title>Profile</Title>
+          </Body>
+          <Right>
+            <Button onPress={this.navigate('Login')}>
+              <Text>Log out</Text>
+            </Button>
+          </Right>
+        </Header>
+
+        <Content>
+          <Text>{user.username}</Text>
+          <Card>
+            <CardItem>
+              <Left>
+                <Thumbnail source={{uri: user.profilePic}} />
+              </Left>
+              <Body>
+                <Text>{user.about}</Text>
+              </Body>
+            </CardItem>
+          </Card>
+          <Card>
+            <Text>Placeholder for list</Text>
+          </Card>
+        </Content>
+
+      </Container>
+    );
+  }
 }
 
-export default Home;
+// export default Home;
+
+export default connect(
+  mapStateToProps
+)(Home);
