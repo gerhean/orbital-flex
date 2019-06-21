@@ -6,8 +6,8 @@ import * as actionTypes from './actionTypes'
 
 export const loginInitialize = (user, successCallback = () => {}) => ({
     type: actionTypes.LOGIN_INITIALIZE,
-    user: user,
-    successCallback: successCallback,
+    user,
+    successCallback,
 });
 
 export const loginSuccess = (data) => ({
@@ -24,8 +24,10 @@ export const loginMock = () => ({
     type: actionTypes.LOGIN_MOCK,
 })
 
-export const signupInitialize = () => ({
+export const signupInitialize = (user, successCallback = () => {}) => ({
     type: actionTypes.SIGNUP_INITIALIZE,
+    user,
+    successCallback,
 })
 
 

@@ -45,7 +45,6 @@ class LoginBase extends Component {
   };
   
   onButtonPress = () => {
-    console.log("button pressed")
     const { email, password } = this.state;
     this.props.handleLogin({email, password}, this.navigate("MainTab"));
     // this.navigate("MainTab")();
