@@ -4,10 +4,6 @@ import { combineReducers } from 'redux'
 // with action types like LOGIN_SUCCESS, LOGIN_FAIL
 // import loginReducer from './loginReducer'
 
-// export default combineReducers({
-//     auth: loginReducer
-// })
-
 import { 
   // INITIALIZE_APP,
   // CHECK_REMEMBER_ME,
@@ -18,6 +14,8 @@ import {
   // LOGIN_FAIL,
   LOGOUT
 } from "../actions/actionTypes";
+
+import ScheduleFormReducer from './ScheduleFormReducer';
 
 const mockUser = {
 	username: "test",
@@ -43,6 +41,13 @@ const initialState = {
   userInfo: mockUser,
   trainerInfo: undefined,
 };
+
+/*
+export default combineReducers({
+    auth: loginReducer,
+    scheduleForm: ScheduleFormReducer
+});
+*/
 
 export default rootReducer = (state = initialState, action) => {
   switch (action.type) {
