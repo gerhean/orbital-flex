@@ -3,6 +3,20 @@ import { View, StyleSheet, Text, KeyboardAvoidingView } from 'react-native';
 import { Icon, Button, Input } from 'react-native-elements';
 import firebase from 'firebase';
 import { withFirebase } from '../../firebase';
+import { signupInitialize } from "../../actions";
+
+const mapStateToProps = state => ({
+  authError: state.auth.error,
+});
+
+const mapDispatchToProps = (dispatch) => (
+  bindActionCreators(
+    {
+      handleSignup: signupInitialize,
+    },
+    dispatch
+  )
+);
 
 const initialState = { 
   username: "",
@@ -32,17 +46,11 @@ class SignUpForm extends Component {
   
   onSubmit = () => {
     const { username, email, passwordOne } = this.state;
-
-    this.props.firebase
-      .doCreateUserWithEmailAndPassword(email, passwordOne)
-      .then(authUser => {
-        this.setState({ ...initialState });
-        console.log(authUser);
-      })
-      .catch(error => {
-        console.log(error.message);
-        this.setState({ error: error.message });
-      });
+    const user = {
+      email,
+      password: passwordOne
+    }
+    handleSignup(user, this.navigate("MainTab"))
   };
 
   render() {
@@ -103,9 +111,6 @@ class SignUpForm extends Component {
   }
 }
 
-const Register = withFirebase(SignUpForm);
-// const Register = SignUpForm;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -124,4 +129,7 @@ const styles = StyleSheet.create({
 })
 
 
-export default Register;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withFirebase(SignUpForm));
