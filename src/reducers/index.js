@@ -8,16 +8,7 @@ import { combineReducers } from 'redux'
 //     auth: loginReducer
 // })
 
-import { 
-  // INITIALIZE_APP,
-  // CHECK_REMEMBER_ME,
-  // TOGGLE_REMEMBER_ME,
-  // LOGIN_INITIALIZE,
-  LOGIN_MOCK,
-  LOGIN_SUCCESS,
-  // LOGIN_FAIL,
-  LOGOUT
-} from "../actions/actionTypes";
+import * as actionTypes from "../actions/actionTypes";
 
 const mockUser = {
 	username: "test",
@@ -34,36 +25,63 @@ const mockTrainer = {
   moreInfo: "AKA caped baldy"
 }
 
-const mockAuth = {
+const initialAuth = {
+  error: '',
+  isLoading: false,
   isAuthenticated: false,
 }
 
-const initialState = {
-	auth: mockAuth,
+export const initialState = {
+	auth: initialAuth,
   userInfo: mockUser,
   trainerInfo: undefined,
 };
 
 export default rootReducer = (state = initialState, action) => {
   switch (action.type) {
-    case LOGIN_MOCK:
+    case actionTypes.LOGIN_MOCK:
       return {
         ...state,
         userInfo: mockUser,
       }
-    case LOGIN_SUCCESS: 
+
+    case actionTypes.LOGIN_INITIALIZE:
+      return {
+          ...state,
+          auth: initialAuth
+      };
+
+    case actionTypes.LOGIN_SUCCESS: 
       return {
           ...state,
           auth: {
+            ...state.auth,
             isAuthenticated: true,
           }
       };
-    case LOGOUT: 
+
+    case actionTypes.LOGOUT: 
       return {
           ...initialState,
           auth: {
+            ...state.auth,
             isAuthenticated: false,
           }
+      };
+
+    case actionTypes.SIGNUP_INITIALIZE:
+      return {
+        ...state,
+        auth: initialAuth,
+      };
+
+    case actionTypes.SIGNUP_FAIL:
+      return {
+        ...state,
+        auth: {
+          ...initialAuth,
+          error: action.error.message,
+        },
       };
     default:
       return state;

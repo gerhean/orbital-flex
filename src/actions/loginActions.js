@@ -4,19 +4,33 @@ import * as actionTypes from './actionTypes'
 //     type: actionTypes.LOGIN_INITIALIZE
 // });
 
-export const loginSuccess = (user) => ({
+export const loginInitialize = (user, successCallback = () => {}) => ({
+    type: actionTypes.LOGIN_INITIALIZE,
+    user: user,
+    successCallback: successCallback,
+});
+
+export const loginSuccess = (data) => ({
     type: actionTypes.LOGIN_SUCCESS,
     payload: data
 });
 
 export const loginFail = (error) => ({
     type: actionTypes.LOGIN_FAIL,
-    payload: error
+    error: error
 });
 
 export const loginMock = () => ({
     type: actionTypes.LOGIN_MOCK,
 })
+
+export const signupInitialize = () => ({
+    type: actionTypes.SIGNUP_INITIALIZE,
+})
+
+
+
+
 
 //INITIALIZE APP
 // this isn't done, no try/catch and LOGIN_FAIL isn't hooked up

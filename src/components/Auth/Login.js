@@ -6,16 +6,17 @@ import { Icon, Button, Input } from 'react-native-elements';
 import firebase from 'firebase';
 import { withFirebase } from '../../firebase';
 
-import { loginMock } from "../../actions";
+import { loginMock, loginInitialize } from "../../actions";
 
 const mapStateToProps = state => ({
-  userInfo: state.userInfo,
+  authError: state.auth.error,
 });
 
 const mapDispatchToProps = (dispatch) => (
   bindActionCreators(
     {
       handleLoginMock: loginMock,
+      handleLogin: loginInitialize,
     },
     dispatch
   )
@@ -44,8 +45,11 @@ class LoginBase extends Component {
   };
   
   onButtonPress = () => {
-    this.props.handleLoginMock();
-    this.navigate("MainTab")();
+    console.log("button pressed")
+    const { email, password } = this.state;
+    this.props.handleLogin({email, password}, this.navigate("MainTab"));
+    // this.navigate("MainTab")();
+
     // const { email, password } = this.state;
     // this.props.firebase
     //   .doSignInWithEmailAndPassword(email, password)
@@ -74,6 +78,7 @@ class LoginBase extends Component {
         
         <View>
           <Text>{ this.state.error }</Text>
+          <Text>{ this.props.authError }</Text>
           <Input placeholder = "Email"
                  value = { this.state.email }
                  onChangeText={ email => this.setState({ email })} />
