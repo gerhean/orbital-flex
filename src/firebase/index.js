@@ -4,3 +4,5 @@ import Firebase from './firebase';
 export default Firebase;
 
 export { FirebaseContext, withFirebase };
+
+export const db = firebase.firestore();

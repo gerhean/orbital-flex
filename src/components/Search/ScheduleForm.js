@@ -5,9 +5,15 @@ import { Text, Container, Header, Body,
     CardItem, Thumbnail, Input } from 'native-base';
 import firebase from 'firebase';
 import { connect } from 'react-redux';
-import scheduleUpdate from '../../actions';
+import { scheduleUpdate, scheduleCreate } from '../../actions';
 
 class ScheduleForm extends Component {
+
+    onButtonPress = () => {
+        const { name, contact, time, location, specialty, price } = this.props;
+        this.props.scheduleCreate({ name, contact, time, location, specialty, price });
+    }
+    
     render() {
         return(
             <Container>
@@ -33,23 +39,44 @@ class ScheduleForm extends Component {
                         </CardItem>
                         <CardItem>
                             <Input 
-                                placeholder="schedule and location"
-                                value = { this.props.schedule_location }
+                                placeholder="Time"
+                                value = { this.props.time }
                                 onChangeText = { text => this.props.scheduleUpdate({
-                                        prop: 'schedule_location', value: text
+                                        prop: 'time', value: text
                                     })}
                             />
                         </CardItem>
                         <CardItem>
                             <Input 
-                                placeholder="Specialty and price"
-                                value = { this.specialty_price }
+                                placeholder="Location"
+                                value = { this.props.location }
                                 onChangeText = { text => this.props.scheduleUpdate({
-                                        prop: 'specialty_price', value: text
+                                        prop: 'location', value: text
+                                    })}
+                            />
+                        </CardItem>
+                        <CardItem>
+                            <Input 
+                                placeholder="Specialty"
+                                value = { this.props.specialty }
+                                onChangeText = { text => this.props.scheduleUpdate({
+                                        prop: 'specialty', value: text
+                                    })}
+                            />
+                        </CardItem>
+                        <CardItem>
+                            <Input 
+                                placeholder="Price"
+                                value = { this.props.price }
+                                onChangeText = { text => this.props.scheduleUpdate({
+                                        prop: 'price', value: text
                                     })}
                             />
                         </CardItem>
                     </Card>
+                    <Button onPress={this.onButtonPress.bind(this)}>
+                        <Text>Submit</Text>
+                    </Button>
                 </Content>
             </Container>
         );
@@ -57,8 +84,8 @@ class ScheduleForm extends Component {
 }
 
 const mapStateToProps = state => {
-    const { name, contact, schedule_location, specialty_price } = state.scheduleForm; // see reducers/index.js
-    return { name, contact, schedule_location, specialty_price };
+    const { name, contact, time, location, specialty, price } = state.scheduleForm;
+    return { name, contact, time, location, specialty, price };
 }
 
-export default connect(mapStateToProps, { scheduleUpdate })(ScheduleForm);
+export default connect(mapStateToProps, { scheduleUpdate, scheduleCreate })(ScheduleForm);

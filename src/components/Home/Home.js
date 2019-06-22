@@ -11,7 +11,7 @@ class Home extends Component {
         return(
             <Provider store={ createStore(reducers) }>
                 <View>
-                    <Schedule />
+                    // filtered Schedule
                 </View>
             </Provider>
 

@@ -5,6 +5,7 @@ import { Text, Container, Header, Body,
         Footer, FooterTab, Right } from 'native-base';
 import Expo from "expo";
 import firebase from 'firebase';
+import Schedule from './Schedule';
 
 
 //needs log out button
@@ -29,7 +30,7 @@ class Home extends Component {
             <Container>
                 <Header>
                     <Body>
-                        <Title>Profile</Title>
+                        <Title>Search bar</Title>
                     </Body>
                     <Right>
                         <Button onPress={() => firebase.auth().signOut()}>
@@ -38,9 +39,7 @@ class Home extends Component {
                     </Right>
                 </Header>
                 <Content>
-                    <Card>
-                        <Text>Placeholder for list</Text>
-                    </Card>
+                    <Schedule />
                 </Content>
 
             </Container>
