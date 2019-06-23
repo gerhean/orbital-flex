@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-//import { FlatList } from 'react-native';
 import { Text, Container, Header, Body, 
     Title, Button, Card, Content, 
     Footer, FooterTab, Right, Left,
     CardItem, Thumbnail } from 'native-base';
+import Provider from 'react-redux';
+import { createStore } from 'redux';
 import Expo from "expo";
 import * as Font from 'expo-font';
 import firebase from 'firebase';
+import reducers from '../../reducers';
 
 const mapStateToProps = state => ({
   userInfo: state.userInfo,
@@ -34,38 +36,40 @@ class Home extends Component {
     const user = this.props.userInfo;
     
     return (
-      <Container>
+      <Provider store={ createStore(reducers) }>
+        <Container>
 
-        <Header>
-          <Left/>
-          <Body>
-            <Title>Profile</Title>
-          </Body>
-          <Right>
-            <Button onPress={this.navigate('Login')}>
-              <Text>Log out</Text>
-            </Button>
-          </Right>
-        </Header>
+          <Header>
+            <Left/>
+            <Body>
+              <Title>Profile</Title>
+            </Body>
+            <Right>
+              <Button onPress={this.navigate('Login')}>
+                <Text>Log out</Text>
+              </Button>
+            </Right>
+          </Header>
 
-        <Content>
-          <Text>{user.username}</Text>
-          <Card>
-            <CardItem>
-              <Left>
-                <Thumbnail source={{uri: user.profilePic}} />
-              </Left>
-              <Body>
-                <Text>{user.about}</Text>
-              </Body>
-            </CardItem>
-          </Card>
-          <Card>
-            <Text>Placeholder for list</Text>
-          </Card>
-        </Content>
+          <Content>
+            <Text>{user.username}</Text>
+            <Card>
+              <CardItem>
+                <Left>
+                  <Thumbnail source={{uri: user.profilePic}} />
+                </Left>
+                <Body>
+                  <Text>{user.about}</Text>
+                </Body>
+              </CardItem>
+            </Card>
+            <Card>
+              <Text>Schedules that we booked</Text>
+            </Card>
+          </Content>
 
-      </Container>
+        </Container>
+      </Provider>
     );
   }
 }

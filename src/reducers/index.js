@@ -2,13 +2,13 @@
 import { combineReducers } from 'redux'
 // this is a standard reducer, same as you've been using since kindergarten
 // with action types like LOGIN_SUCCESS, LOGIN_FAIL
-// import loginReducer from './loginReducer'
-
-// export default combineReducers({
-//     auth: loginReducer
-// })
+import loginReducer from './loginReducer'
+import ScheduleFormReducer from './ScheduleFormReducer';
+import ScheduleReducer from './scheduleReducer'; 
 
 import * as actionTypes from "../actions/actionTypes";
+
+import ScheduleFormReducer from './ScheduleFormReducer';
 
 const mockUser = {
 	username: "test",
@@ -36,6 +36,14 @@ export const initialState = {
   userInfo: mockUser,
   trainerInfo: undefined,
 };
+
+/*
+export default combineReducers({
+    auth: loginReducer,
+    scheduleForm: ScheduleFormReducer,
+    schedule: ScheduleReducer
+});
+*/
 
 export default rootReducer = (state = initialState, action) => {
   switch (action.type) {
