@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import {
   Text,
@@ -19,10 +20,19 @@ import {
 import Expo from "expo";
 import * as Font from "expo-font";
 import firebase from "firebase";
+import { changeScreen, logout } from "../../actions";
 
 const mapStateToProps = state => ({
-  userInfo: state.userInfo
+  user: state.user
 });
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      handleLogout: logout,
+    },
+    dispatch
+  );
 
 class Home extends Component {
   constructor(props) {
@@ -38,11 +48,11 @@ class Home extends Component {
   // } // fix compatibility error between native base and expo
 
   navigate = screen => () => {
-    this.props.navigation.navigate(screen);
+    this.props.handleChangeScreen(screen);
   };
 
   render() {
-    const user = this.props.userInfo;
+    const user = this.props.user;
 
     return (
       <Container>
@@ -52,7 +62,7 @@ class Home extends Component {
             <Title>Profile</Title>
           </Body>
           <Right>
-            <Button onPress={this.navigate("Login")}>
+            <Button onPress={() => this.props.handleLogout()}>
               <Text>Log out</Text>
             </Button>
           </Right>
@@ -84,4 +94,4 @@ class Home extends Component {
 
 // export default Home;
 
-export default connect(mapStateToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

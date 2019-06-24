@@ -14,9 +14,6 @@ class Schedule extends Component {
   scheduleCard = schedule => {
     return (
       <CardItem>
-        <Left>
-          <Thumbnail source={{ uri: schedule.poster.profilePic }} />
-        </Left>
         <Body>
           <Text>{schedule.poster.name}</Text>
           <Text>{schedule.location}</Text>

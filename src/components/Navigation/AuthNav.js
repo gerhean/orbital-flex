@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from "redux";
+import { View } from "react-native";
 import { connect } from "react-redux";
 import Register from "../Auth/Register";
 import Login from "../Auth/Login";
-// this is an example of a nested view, you might see after logging in
-import Home from "../Home";
-import MainTab from "./MainTab";
+import AppNav from "./AppNav";
 
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
@@ -12,6 +12,10 @@ const mapStateToProps = state => ({
 });
 
 export class AuthNav extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   renderContent = () => {
     if (this.props.isAuthenticated) {
       return <AppNav />;
@@ -29,9 +33,7 @@ export class AuthNav extends Component {
 
   render() {
     return(
-      <View>
-        { this.renderContent() }
-      </View>
+      this.renderContent()
     );
   }
 }

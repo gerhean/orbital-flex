@@ -15,7 +15,7 @@ import {
 } from "native-base";
 import Expo from "expo";
 import firebase from "firebase";
-import Schedule from "./Schedule";
+// import Schedule from "./Schedule";
 
 //needs log out button
 
@@ -34,9 +34,6 @@ class Home extends Component {
           </Right>
         </Header>
 
-        <Content>
-          <Schedule />
-        </Content>
       </Container>
     );
   }

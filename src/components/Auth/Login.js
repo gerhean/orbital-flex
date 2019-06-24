@@ -6,7 +6,7 @@ import { Icon, Button, Input } from "react-native-elements";
 import firebase from "firebase";
 import { withFirebase } from "../../firebase";
 
-import { loginMock, loginInitialize } from "../../actions";
+import { loginMock, loginInitialize, changeScreen } from "../../actions";
 
 const mapStateToProps = state => ({
   authError: state.auth.error

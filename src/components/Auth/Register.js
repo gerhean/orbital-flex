@@ -1,9 +1,11 @@
 import React, { Component } from "react";
+import { bindActionCreators } from "redux";
 import { View, StyleSheet, Text, KeyboardAvoidingView } from "react-native";
+import { connect } from "react-redux";
 import { Icon, Button, Input } from "react-native-elements";
 import firebase from "firebase";
 import { withFirebase } from "../../firebase";
-import { signupInitialize } from "../../actions";
+import { signupInitialize, changeScreen } from "../../actions";
 
 const mapStateToProps = state => ({
   authError: state.auth.error
@@ -113,4 +115,4 @@ const styles = StyleSheet.create({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withFirebase(SignUpForm));
+)(SignUpForm);

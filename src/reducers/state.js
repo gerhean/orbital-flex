@@ -7,8 +7,7 @@ const initialAuth = {
 
 export default initialState = {
   auth: initialAuth,
-  userInfo: undefined,
-  trainerInfo: undefined,
+  user: undefined,
   postedSchedules: [],
   bookedSchedules: [],
   screen: '',

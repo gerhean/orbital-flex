@@ -19,20 +19,7 @@ import firebase from "firebase";
 //needs log out button
 
 class Home extends Component {
-  state = { loading: true };
-
-  async componentWillMount() {
-    await Expo.Font.loadAsync({
-      Roboto: require("../styles/fonts/Roboto-Black.ttf"),
-      Roboto_medium: require("../styles/fonts/Roboto-Medium.ttf")
-    });
-    this.setState({ loading: false });
-  } // fix compatibility error between native base and expo
-
   render() {
-    if (this.state.loading) {
-      return <Text>Loading</Text>;
-    }
 
     return (
       <Container>

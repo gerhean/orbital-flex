@@ -67,10 +67,8 @@ function* backendSaga() {
 			const currentUserUid = firebase.auth().uid;
 	    yield call(
 	    	[db, db.collection("trainer_schedules").add], 
-	    	{ ...action.payload,
-	        userIdentification: currentUserUid // possibly used later on to track whoever posted this
-	    })
-	    yield put({ type: SCHEDULE_CREATE_SUCCESS }) // need to navigate back to home page/search page
+	    	{ ...action.payload })
+	    yield put({ type: SCHEDULE_CREATE_SUCCESS, schedule: action.payload }) // need to navigate back to home page/search page
 	  } catch (error) {
 	    const error_message = { code: error.code, message: error.message };
 	    // yield put({ type: SCHEDULE_CREATE_FAIL, error: error_message });

@@ -1,18 +1,11 @@
 import * as actionTypes from "../actions/actionTypes";
+import initialState from "./state";
 
 const mockUser = {
   username: "test",
   about: "I'm just a random person",
   email: "test@test.com",
-  profilePic: "https://cdn.bulbagarden.net/upload/2/21/001Bulbasaur.png",
-  isTrainer: false
-};
-
-const mockTrainer = {
-  specialty: "Strongest Hero",
-  cost: 0,
-  location: "Area Z",
-  moreInfo: "AKA caped baldy"
+  profilePic: "https://cdn.bulbagarden.net/upload/2/21/001Bulbasaur.png"
 };
 
 const initialAuth = {
@@ -21,20 +14,9 @@ const initialAuth = {
   isAuthenticated: false
 };
 
-export const initialState = {
-  auth: initialAuth,
-  userInfo: mockUser,
-  trainerInfo: undefined
-};
-
-export const loginReducer = (state, action) => {
+export const loginReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.LOGIN_MOCK:
-      return {
-        ...state,
-        userInfo: mockUser
-      };
-
+    
     case actionTypes.LOGIN_INITIALIZE:
       return {
         ...state,
@@ -48,10 +30,11 @@ export const loginReducer = (state, action) => {
           ...state.auth,
           isAuthenticated: true
         },
+        user: action.user,
         screen: "Home"
       };
 
-    case actionTypes.LOGOUT:
+    case actionTypes.LOGOUT_SUCCESS:
       return {
         ...initialState,
         auth: initialAuth
@@ -70,6 +53,7 @@ export const loginReducer = (state, action) => {
           ...state.auth,
           isAuthenticated: true
         },
+        user: action.user,
         screen: "Home"
       };
 
