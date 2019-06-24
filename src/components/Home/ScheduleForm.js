@@ -20,16 +20,46 @@ import firebase from "firebase";
 import { connect } from "react-redux";
 import { scheduleUpdate, scheduleCreate } from "../../actions";
 
+const mapStateToProps = state => ({
+  userInfo: state.userInfo
+});
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      handleSignup: scheduleCreate
+    },
+    dispatch
+  );
+
+const initialState = {
+  name: "",
+  contact: "",
+  time: "",
+  location: "",
+  services: "",
+  price: "",
+  remarks: ""
+};
+
 class ScheduleForm extends Component {
-  onButtonPress = () => {
-    const { name, contact, time, location, specialty, price } = this.props;
+  constructor(props) {
+    super(props);
+    this.state = {
+      ...initialState
+    };
+  }
+
+  submitForm = () => {
+    const { name, contact, time, location, services, price, remarks } = this.props;
     this.props.scheduleCreate({
       name,
       contact,
       time,
       location,
-      specialty,
-      price
+      services,
+      price,
+      remarks
     });
   };
 
@@ -43,9 +73,8 @@ class ScheduleForm extends Component {
                 placeholder="Name"
                 value={this.props.name}
                 onChangeText={text =>
-                  this.props.scheduleUpdate({
-                    prop: "name",
-                    value: text
+                  this.setState({
+                    name: text
                   })
                 }
               />
@@ -55,9 +84,8 @@ class ScheduleForm extends Component {
                 placeholder="Contact details"
                 value={this.props.contact}
                 onChangeText={text =>
-                  this.props.scheduleUpdate({
-                    prop: "contact",
-                    value: text
+                  this.setState({
+                    contact: text
                   })
                 }
               />
@@ -67,9 +95,8 @@ class ScheduleForm extends Component {
                 placeholder="Time"
                 value={this.props.time}
                 onChangeText={text =>
-                  this.props.scheduleUpdate({
-                    prop: "time",
-                    value: text
+                  this.setState({
+                    time: text
                   })
                 }
               />
@@ -79,9 +106,8 @@ class ScheduleForm extends Component {
                 placeholder="Location"
                 value={this.props.location}
                 onChangeText={text =>
-                  this.props.scheduleUpdate({
-                    prop: "location",
-                    value: text
+                  this.setState({
+                    location: text
                   })
                 }
               />
@@ -89,11 +115,10 @@ class ScheduleForm extends Component {
             <CardItem>
               <Input
                 placeholder="Specialty"
-                value={this.props.specialty}
+                value={this.props.services}
                 onChangeText={text =>
-                  this.props.scheduleUpdate({
-                    prop: "specialty",
-                    value: text
+                  this.setState({
+                    services: text
                   })
                 }
               />
@@ -103,15 +128,25 @@ class ScheduleForm extends Component {
                 placeholder="Price"
                 value={this.props.price}
                 onChangeText={text =>
-                  this.props.scheduleUpdate({
-                    prop: "price",
-                    value: text
+                  this.setState({
+                    price: text
+                  })
+                }
+              />
+            </CardItem>
+            <CardItem>
+              <Input
+                placeholder="Remarks"
+                value={this.props.remarks}
+                onChangeText={text =>
+                  this.setState({
+                    remarks: text
                   })
                 }
               />
             </CardItem>
           </Card>
-          <Button onPress={this.onButtonPress.bind(this)}>
+          <Button onPress={this.submitForm}>
             <Text>Submit</Text>
           </Button>
         </Content>
@@ -120,19 +155,7 @@ class ScheduleForm extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  const {
-    name,
-    contact,
-    time,
-    location,
-    specialty,
-    price
-  } = state.scheduleForm;
-  return { name, contact, time, location, specialty, price };
-};
-
 export default connect(
   mapStateToProps,
-  { scheduleUpdate, scheduleCreate }
+  mapDispatchToProps
 )(ScheduleForm);

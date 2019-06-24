@@ -1,52 +1,52 @@
-import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { View, StyleSheet, Text } from 'react-native';
-import { Icon, Button, Input } from 'react-native-elements';
-import firebase from 'firebase';
-import { withFirebase } from '../../firebase';
+import React, { Component } from "react";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { View, StyleSheet, Text } from "react-native";
+import { Icon, Button, Input } from "react-native-elements";
+import firebase from "firebase";
+import { withFirebase } from "../../firebase";
 
 import { loginMock, loginInitialize } from "../../actions";
 
 const mapStateToProps = state => ({
-  authError: state.auth.error,
+  authError: state.auth.error
 });
 
-const mapDispatchToProps = (dispatch) => (
+const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       handleLoginMock: loginMock,
       handleLogin: loginInitialize,
+      handleChangeScreen: changeScreen,
     },
     dispatch
-  )
-);
+  );
 
-const initialState = { 
-  email: "", 
+const initialState = {
+  email: "",
   password: "",
-  error: "" 
+  error: ""
 };
 
 class LoginBase extends Component {
   constructor(props) {
     super(props);
-    this.state = { 
-      ...initialState 
+    this.state = {
+      ...initialState
     };
   }
 
   showError = () => {
-    this.setState({ error: 'Failed to log in, email/password incorrect'});
+    this.setState({ error: "Failed to log in, email/password incorrect" });
   };
 
-  navigate = (screen) => () => {
-    this.props.navigation.navigate(screen);
+  navigate = screen => () => {
+    this.props.handleChangeScreen(screen);
   };
-  
+
   onButtonPress = () => {
     const { email, password } = this.state;
-    this.props.handleLogin({email, password}, this.navigate("MainTab"));
+    this.props.handleLogin({ email, password });
     // this.navigate("MainTab")();
 
     // const { email, password } = this.state;
@@ -61,38 +61,42 @@ class LoginBase extends Component {
     //     console.log(error.message);
     //     this.setState({ error: error.message });
     //   });
-  }
+  };
 
   render() {
     return (
       <View style={styles.container}>
-        <View style ={styles.loginContainer}>
-          <Icon
-            name='heartbeat'
-            type='font-awesome'
-            color='#f50' />
+        <View style={styles.loginContainer}>
+          <Icon name="heartbeat" type="font-awesome" color="#f50" />
           <Text style={styles.textStyle}>Welcome to Flex</Text>
           <Text style={styles.textStyle}>Find fitness trainers near you</Text>
         </View>
-        
+
         <View>
-          <Text>{ this.state.error }</Text>
-          <Text>{ this.props.authError }</Text>
-          <Input placeholder = "Email"
-                 value = { this.state.email }
-                 onChangeText={ email => this.setState({ email })} />
-          <Input placeholder = "Password"
-                 secureTextEntry
-                 value = { this.state.password }
-                 onChangeText={ password => this.setState({ password })} />
-          <Button buttonStyle={styles.buttonStyle}
-                  onPress={this.onButtonPress}
-                  title="Login"/>
-          <Button 
+          <Text>{this.state.error}</Text>
+          <Text>{this.props.authError}</Text>
+          <Input
+            placeholder="Email"
+            value={this.state.email}
+            onChangeText={email => this.setState({ email })}
+          />
+          <Input
+            placeholder="Password"
+            secureTextEntry
+            value={this.state.password}
+            onChangeText={password => this.setState({ password })}
+          />
+          <Button
+            buttonStyle={styles.buttonStyle}
+            onPress={this.onButtonPress}
+            title="Login"
+          />
+          <Button
             buttonStyle={styles.buttonStyle}
             onPress={this.navigate("Register")}
-            type="outline" 
-            title="Create new account"/>
+            type="outline"
+            title="Create new account"
+          />
         </View>
       </View>
     );
@@ -102,26 +106,26 @@ class LoginBase extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#2c3e50',
+    backgroundColor: "#2c3e50"
   },
-  loginContainer:{
-    alignItems: 'center',
+  loginContainer: {
+    alignItems: "center",
     flexGrow: 1,
-    justifyContent: 'center'
+    justifyContent: "center"
   },
   buttonStyle: {
     margin: 5
   },
   textStyle: {
-    color: '#c5cae9',
-    fontStyle: 'italic',
+    color: "#c5cae9",
+    fontStyle: "italic",
     fontSize: 25
   },
   errorStyle: {
-    color: '#c5cae9',
+    color: "#c5cae9",
     fontSize: 10
   }
-})
+});
 
 // const Login = withFirebase(LoginBase);
 // const Login = LoginBase;

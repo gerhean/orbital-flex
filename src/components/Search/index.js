@@ -1,50 +1,45 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 //import { FlatList } from 'react-native';
-import { Text, Container, Header, Body, 
-        Title, Button, Card, Content, 
-        Footer, FooterTab, Right } from 'native-base';
+import {
+  Text,
+  Container,
+  Header,
+  Body,
+  Title,
+  Button,
+  Card,
+  Content,
+  Footer,
+  FooterTab,
+  Right
+} from "native-base";
 import Expo from "expo";
-import firebase from 'firebase';
-import Schedule from './Schedule';
-
+import firebase from "firebase";
+import Schedule from "./Schedule";
 
 //needs log out button
 
 class Home extends Component {
-    state = { loading: true };
+  render() {
+    return (
+      <Container>
+        <Header>
+          <Body>
+            <Title>Search bar</Title>
+          </Body>
+          <Right>
+            <Button onPress={() => firebase.auth().signOut()}>
+              <Text>Log out</Text>
+            </Button>
+          </Right>
+        </Header>
 
-    async componentWillMount() {
-        await Expo.Font.loadAsync({
-          Roboto: require("../styles/fonts/Roboto-Black.ttf"),
-          Roboto_medium: require("../styles/fonts/Roboto-Medium.ttf")
-        });
-        this.setState({ loading: false });
-      } // fix compatibility error between native base and expo
-    
-    render() {
-        if (this.state.loading) {
-            return <Text>Loading</Text>;
-        }
-        
-        return (
-            <Container>
-                <Header>
-                    <Body>
-                        <Title>Search bar</Title>
-                    </Body>
-                    <Right>
-                        <Button onPress={() => firebase.auth().signOut()}>
-                            <Text>Log out</Text>
-                        </Button>
-                    </Right>
-                </Header>
-                <Content>
-                    <Schedule />
-                </Content>
-
-            </Container>
-        );
-    }
+        <Content>
+          <Schedule />
+        </Content>
+      </Container>
+    );
+  }
 }
 
 export default Home;

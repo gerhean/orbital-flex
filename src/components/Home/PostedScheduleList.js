@@ -7,20 +7,28 @@ import { View } from 'native-base';
 
 //component responsible for rendering data returned by scheduleReducer
 class Schedule extends Component {
-    
-    componentWillMount() {
-        this.props.SchedulesFetch(); 
-    }
+  constructor(props) {
+    super(props);
+  }
 
-    // static getDerivedStateFromProps(props, state)
-
-    //helper function called with 1 element out of our data
-    renderItem = (schedule) => {
-        <ListItem 
-           // title= {schedule.property}       !
-        />
-    }
-    
+  scheduleCard = schedule => {
+    return (
+      <CardItem>
+        <Left>
+          <Thumbnail source={{ uri: schedule.poster.profilePic }} />
+        </Left>
+        <Body>
+          <Text>{schedule.poster.name}</Text>
+          <Text>{schedule.location}</Text>
+          <Text>{schedule.time}</Text>
+          <Text>{schedule.price}</Text>
+          <Text>{schedule.services}</Text>
+          <Text>{schedule.poster.contact}</Text>
+          <Text>{schedule.remarks}</Text>
+        </Body>
+      </CardItem>
+    )
+  }
     
     render() {
         return(          
@@ -37,7 +45,7 @@ class Schedule extends Component {
 
 const mapStateToProps = state => {
     return {
-        schedule: state.schedule
+        schedule: state.postedSchedules
     };
 }
 

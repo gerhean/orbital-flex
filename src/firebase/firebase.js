@@ -1,7 +1,7 @@
-import app from 'firebase/app';
-import 'firebase/auth';
+import app from "firebase/app";
+import "firebase/auth";
 
-import { firebaseConfig } from '../../env.js';
+import { firebaseConfig } from "../../env.js";
 
 class Firebase {
   constructor() {

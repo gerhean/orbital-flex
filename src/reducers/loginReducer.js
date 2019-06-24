@@ -1,32 +1,89 @@
-import { 
-  // INITIALIZE_APP,
-  // CHECK_REMEMBER_ME,
-  // TOGGLE_REMEMBER_ME,
-  // LOGIN_INITIALIZE,
-  LOGIN_SUCCESS,
-  // LOGIN_FAIL,
-  LOGOUT
-} from "../actions/actionTypes";
+import * as actionTypes from "../actions/actionTypes";
 
-const initialState = {
-  isAuthenticated: false,
+const mockUser = {
+  username: "test",
+  about: "I'm just a random person",
+  email: "test@test.com",
+  profilePic: "https://cdn.bulbagarden.net/upload/2/21/001Bulbasaur.png",
+  isTrainer: false
 };
 
-export const loginReducer = (state = initialState, action) => {
+const mockTrainer = {
+  specialty: "Strongest Hero",
+  cost: 0,
+  location: "Area Z",
+  moreInfo: "AKA caped baldy"
+};
+
+const initialAuth = {
+  error: "",
+  isLoading: false,
+  isAuthenticated: false
+};
+
+export const initialState = {
+  auth: initialAuth,
+  userInfo: mockUser,
+  trainerInfo: undefined
+};
+
+export const loginReducer = (state, action) => {
   switch (action.type) {
-    case LOGIN_SUCCESS: 
+    case actionTypes.LOGIN_MOCK:
       return {
-          ...initialState,
-          isAuthenticated: true,
+        ...state,
+        userInfo: mockUser
       };
-    case LOGOUT: 
+
+    case actionTypes.LOGIN_INITIALIZE:
       return {
-          ...initialState,
-          isAuthenticated: false,
+        ...state,
+        auth: initialAuth
+      };
+
+    case actionTypes.LOGIN_SUCCESS:
+      return {
+        ...state,
+        auth: {
+          ...state.auth,
+          isAuthenticated: true
+        },
+        screen: "Home"
+      };
+
+    case actionTypes.LOGOUT:
+      return {
+        ...initialState,
+        auth: initialAuth
+      };
+
+    case actionTypes.SIGNUP_INITIALIZE:
+      return {
+        ...state,
+        auth: initialAuth
+      };
+
+    case actionTypes.SIGNUP_SUCCESS:
+      return {
+        ...state,
+        auth: {
+          ...state.auth,
+          isAuthenticated: true
+        },
+        screen: "Home"
+      };
+
+    case actionTypes.SIGNUP_FAIL:
+      return {
+        ...state,
+        auth: {
+          ...initialAuth,
+          error: action.error.message
+        }
       };
     default:
       return state;
-    }
+  }
 };
 
 export default loginReducer;
