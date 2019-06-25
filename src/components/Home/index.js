@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import {
+  Accordion,
   Text,
   Container,
   Header,
@@ -17,7 +18,10 @@ import {
   CardItem,
   Thumbnail
 } from "native-base";
-import { changeScreen, logout } from "../../actions";
+import { changeScreen, logout, scheduleFetchHome } from "../../actions";
+import profilePictureDisplay from '../profilePictureDisplay';
+import BookedSchedule from "./BookedScheduleList";
+import PostedSchedule from "./PostedScheduleList";
 
 const mapStateToProps = state => ({
   user: state.user
@@ -28,6 +32,7 @@ const mapDispatchToProps = dispatch =>
     {
       handleLogout: logout,
       handleChangeScreen: changeScreen,
+      handleScheduleFetch: scheduleFetchHome
     },
     dispatch
   );
@@ -37,19 +42,19 @@ class Home extends Component {
     super(props);
   }
 
-  // async componentWillMount() {
-  //   await Font.loadAsync({
-  //     Roboto: require("../../styles/fonts/Roboto-Black.ttf"),
-  //     Roboto_medium: require("../../styles/fonts/Roboto-Medium.ttf")
-  //   });
-  //   this.setState({ loading: false });
-  // } // fix compatibility error between native base and expo
+  componentDidMount() {
+    this.props.handleScheduleFetch();
+  }
 
   navigate = screen => () => {
     this.props.handleChangeScreen(screen);
   };
 
   render() {
+    const scheduleArray = [
+      { title: "Booked Schedules", renderContent: <BookedSchedule/> },
+      { title: "Posted Schedules", renderContent: <PostedSchedule/> },
+    ]
     const user = this.props.user;
 
     return (
@@ -70,7 +75,7 @@ class Home extends Component {
           <Card>
             <CardItem>
               <Left>
-                <Thumbnail source={{ uri: user.profilePic }} />
+                {profilePictureDisplay(user.profilePic)}
               </Left>
               <Body>
                 <Text>{user.username}</Text>
@@ -79,16 +84,13 @@ class Home extends Component {
               </Body>
             </CardItem>
           </Card>
+            <Accordion dataArray={scheduleArray} />
           <Card>
-            <Text>Booked Schedules</Text>
-          </Card>
-          <Card>
-            <Text>Posted Schedules</Text>
-          </Card>
-          <Card>
-            <Button onPress={this.navigate("ScheduleForm")}>
-              <Text>Create Schedule</Text>
-            </Button>
+            <CardItem>
+              <Button onPress={this.navigate("ScheduleForm")}>
+                <Text>Create Schedule</Text>
+              </Button>
+            </CardItem>
           </Card>
         </Content>
       </Container>

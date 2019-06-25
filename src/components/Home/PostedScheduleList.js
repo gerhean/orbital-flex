@@ -3,15 +3,14 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { FlatList } from 'react-native'; //responsible for rendering a subset of data
 import { ListItem, Button } from 'react-native-elements';
-import { connect } from 'react-redux';
-import { SchedulesFetch } from '../../actions/ScheduleFormActions';
+// import { SchedulesFetch } from '../../actions/ScheduleFormActions';
 import { View, CardItem, Body, Text, Right } from 'native-base';
 
 
 const mapStateToProps = state => {
-    return {
-        schedule: state.postedSchedules
-    };
+  return {
+    schedule: state.postedSchedules
+  };
 }
 
 //component responsible for rendering data returned by scheduleReducer
@@ -41,8 +40,10 @@ class Schedule extends Component {
     
   render() {
     const postedCards = this.props.postedSchedules.map((schedule, index) => this.makeScheduleCard(schedule))
-    return(          
-      postedCards
+    return(   
+      <Card>       
+        { postedCards }
+      </Card>
     );
   }
 }

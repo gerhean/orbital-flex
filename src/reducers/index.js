@@ -9,7 +9,7 @@ import initialState from './state';
 
 export { initialState };
 
-const initialAuth = {
+const initialAuth = () => {
   error: "",
   isLoading: false,
   isAuthenticated: false
@@ -17,11 +17,6 @@ const initialAuth = {
 
 export default mainReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.LOGIN_INITIALIZE:
-      return {
-        ...state,
-        auth: initialAuth
-      };
 
     case actionTypes.LOGIN_SUCCESS:
       console.log(action.user);
@@ -38,13 +33,7 @@ export default mainReducer = (state = initialState, action) => {
     case actionTypes.LOGOUT_SUCCESS:
       return {
         ...initialState,
-        auth: initialAuth
-      };
-
-    case actionTypes.SIGNUP_INITIALIZE:
-      return {
-        ...state,
-        auth: initialAuth
+        auth: initialAuth(),
       };
 
     case actionTypes.SIGNUP_SUCCESS:
@@ -70,14 +59,21 @@ export default mainReducer = (state = initialState, action) => {
     case actionTypes.SCHEDULE_FETCH_HOME_SUCCESS:
       return {
         ...state,
-        postedSchedules: action.posted,
-        bookedSchedules: action.booked
+        user: {
+          ...state.user,
+          postedSchedules: action.posted,
+          bookedSchedules: action.booked
+        }
       };
 
     case actionTypes.SCHEDULE_CREATE_SUCCESS:
       return {
         ...state,
-        postedSchedules: state.postedSchedules.concat([action.payload]),
+        postedSchedules: state.postedSchedules.concat([action.schedule]),
+        user: {
+          ...state.user,
+          postedScheduleIds: state.user.postedScheduleIds.concat([action.scheduleId])
+        }
       };
 
     case actionTypes.UPDATE_USER_INFO_SUCCESS:

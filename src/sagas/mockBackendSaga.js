@@ -1,3 +1,4 @@
+import { Toast } from 'native-base';
 import { takeLatest, takeEvery, put, call } from "redux-saga/effects";
 import { 
   LOGIN_INITIALIZE,
@@ -19,9 +20,10 @@ import * as actionTypes from "../actions/actionTypes";
 
 const mockUser = {
   username: "test",
+  contact: "",
   about: "I'm just a random person",
-  email: "test@test.com",
-  profilePic: "https://i.stack.imgur.com/l60Hf.png"
+  profilePic: "https://i.stack.imgur.com/l60Hf.png",
+  gender: 0
 };
 
 const publicUserInfo = {
@@ -77,7 +79,7 @@ function* mockBackendSaga() {
   yield takeEvery(SCHEDULE_CREATE, function*(action){
     try {
       // trainer_schedules have users(trainers), users can post schedules
-      yield put({ type: SCHEDULE_CREATE_SUCCESS, payload: action.payload }) 
+      yield put({ type: SCHEDULE_CREATE_SUCCESS, schedule: action.payload, scheduleId: 0}) 
     } catch (error) {
       const error_message = { code: error.code, message: error.message };
       // yield put({ type: SCHEDULE_CREATE_FAIL, error: error_message });

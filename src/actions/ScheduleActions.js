@@ -1,13 +1,6 @@
-import { SCHEDULE_UPDATE, SCHEDULE_RESET, SCHEDULE_FETCH } from "./actionTypes";
+import { SCHEDULE_UPDATE, SCHEDULE_RESET, SCHEDULE_FETCH, SCHEDULE_FETCH_HOME } from "./actionTypes";
 import firebase from "firebase";
 import db from "../firebase";
-
-export const scheduleUpdate = ({ prop, value }) => {
-  return {
-    type: SCHEDULE_UPDATE,
-    payload: { prop, value }
-  };
-};
 
 // asynchronous action?
 // export const scheduleCreate = ({ name, contact, time, location, specialty, price }) => {
@@ -35,6 +28,12 @@ export const scheduleCreate = (schedule) => {
     payload: schedule
   };
 };
+
+export const scheduleFetchHome = () => {
+	return {
+		type: SCHEDULE_FETCH_HOME
+	}
+}
 
 // asynchronous action again, need to use redux thunk
 // export const schedulesFetch = () => {

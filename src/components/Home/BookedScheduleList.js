@@ -3,9 +3,8 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { FlatList } from 'react-native'; //responsible for rendering a subset of data
 import { ListItem, Button } from 'react-native-elements';
-import { connect } from 'react-redux';
-import { SchedulesFetch } from '../../actions/ScheduleFormActions';
-import { View } from 'native-base';
+// import { SchedulesFetch } from '../../actions/ScheduleActions';
+import { View, CardItem, Body, Text, Right, Left, Thumbnail } from 'native-base';
 
 const mapStateToProps = state => ({
   bookedSchedules: state.bookedSchedules
@@ -44,4 +43,4 @@ class BookedSchedule extends Component {
   }
 }
 
-export default connect(mapStateToProps)(Schedule);
+export default connect(mapStateToProps)(BookedSchedule);

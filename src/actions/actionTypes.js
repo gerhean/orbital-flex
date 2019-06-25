@@ -1,3 +1,4 @@
+export const INITIALIZE_APP = "INITIALIZE_APP";
 export const CHANGE_SCREEN = "CHANGE_SCREEN";
 
 export const LOGIN_EMAIL = "LOGIN_EMAIL";

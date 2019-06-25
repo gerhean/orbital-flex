@@ -18,10 +18,11 @@ import {
 } from "native-base";
 import firebase from "firebase";
 import { connect } from "react-redux";
-import { scheduleUpdate, scheduleCreate } from "../../actions";
+import { bindActionCreators } from "redux";
+import { scheduleCreate, changeScreen } from "../../actions";
 
 const mapStateToProps = state => ({
-  userInfo: state.userInfo
+  user: state.user
 });
 
 const mapDispatchToProps = dispatch =>
@@ -34,8 +35,6 @@ const mapDispatchToProps = dispatch =>
   );
 
 const initialState = {
-  name: "",
-  contact: "",
   time: "",
   location: "",
   services: "",
@@ -52,11 +51,9 @@ class ScheduleForm extends Component {
   }
 
   submitForm = () => {
-    const { name, contact, time, location, services, price, remarks } = this.props;
+    const { time, location, services, price, remarks } = this.props;
     console.log("schedule format is wrong")
     // this.props.scheduleCreate({
-    //   name,
-    //   contact,
     //   time,
     //   location,
     //   services,
@@ -78,7 +75,7 @@ class ScheduleForm extends Component {
             <Title>Create Schedule</Title>
           </Body>
           <Right>
-            <Button onPress={navigate("Home")}>
+            <Button onPress={this.navigate("Home")}>
               <Text>Discard Changes</Text>
             </Button>
           </Right>
@@ -86,28 +83,6 @@ class ScheduleForm extends Component {
 
         <Content>
           <Card>
-            <CardItem>
-              <Input
-                placeholder="Name"
-                value={this.props.name}
-                onChangeText={text =>
-                  this.setState({
-                    name: text
-                  })
-                }
-              />
-            </CardItem>
-            <CardItem>
-              <Input
-                placeholder="Contact details"
-                value={this.props.contact}
-                onChangeText={text =>
-                  this.setState({
-                    contact: text
-                  })
-                }
-              />
-            </CardItem>
             <CardItem>
               <Input
                 placeholder="Time"
