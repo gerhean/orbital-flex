@@ -6,6 +6,7 @@ import { changeScreen } from "../../actions";
 import Home from "../Home";
 import Search from "../Search";
 import Chat from "../Chat";
+import ScheduleForm from "../Home/ScheduleForm"
 
 // export default createBottomTabNavigator({
 //   HomeStack,
@@ -41,6 +42,8 @@ export class AppNav extends Component {
     switch (this.props.screen) {
       case "Home":
         return <Home />;
+      case "ScheduleForm":
+        return <ScheduleForm />;
       case "Search":
         return <Search />;
       case "Chat":

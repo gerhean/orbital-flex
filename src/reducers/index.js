@@ -74,6 +74,18 @@ export default mainReducer = (state = initialState, action) => {
         bookedSchedules: action.booked
       };
 
+    case actionTypes.SCHEDULE_CREATE_SUCCESS:
+      return {
+        ...state,
+        postedSchedules: state.postedSchedules.concat([action.payload]),
+      };
+
+    case actionTypes.UPDATE_USER_INFO_SUCCESS:
+      return {
+        ...state,
+        user: action.payload
+      };
+
     case actionTypes.CHANGE_SCREEN:
       return {
         ...state,

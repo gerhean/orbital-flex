@@ -1,9 +1,18 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 import { FlatList } from 'react-native'; //responsible for rendering a subset of data
 import { ListItem, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { SchedulesFetch } from '../../actions/ScheduleFormActions';
-import { View } from 'native-base';
+import { View, CardItem, Body, Text, Right } from 'native-base';
+
+
+const mapStateToProps = state => {
+    return {
+        schedule: state.postedSchedules
+    };
+}
 
 //component responsible for rendering data returned by scheduleReducer
 class Schedule extends Component {
@@ -11,7 +20,7 @@ class Schedule extends Component {
     super(props);
   }
 
-  scheduleCard = schedule => {
+  makeScheduleCard = schedule => {
     return (
       <CardItem>
         <Body>
@@ -23,27 +32,19 @@ class Schedule extends Component {
           <Text>{schedule.poster.contact}</Text>
           <Text>{schedule.remarks}</Text>
         </Body>
+        <Right>
+          <Text>EDIT BUTTON HERE</Text>
+        </Right>
       </CardItem>
     )
   }
     
-    render() {
-        return(          
-            <View>
-                <FlatList
-                data={ this.props.schedule } //data that is to be rendered
-                renderItem={ this.renderItem }
-                keyExtractor={ } //generate key for each item in the list
-                />
-            </View>
-        );
-    }
+  render() {
+    const postedCards = this.props.postedSchedules.map((schedule, index) => this.makeScheduleCard(schedule))
+    return(          
+      postedCards
+    );
+  }
 }
 
-const mapStateToProps = state => {
-    return {
-        schedule: state.postedSchedules
-    };
-}
-
-export default connect(mapStateToProps, { SchedulesFetch })(Schedule);
+export default connect(mapStateToProps)(Schedule);

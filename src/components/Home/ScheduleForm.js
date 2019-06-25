@@ -27,7 +27,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      handleSignup: scheduleCreate
+      handleSignup: scheduleCreate,
+      handleChangeScreen: changeScreen,
     },
     dispatch
   );
@@ -52,20 +53,37 @@ class ScheduleForm extends Component {
 
   submitForm = () => {
     const { name, contact, time, location, services, price, remarks } = this.props;
-    this.props.scheduleCreate({
-      name,
-      contact,
-      time,
-      location,
-      services,
-      price,
-      remarks
-    });
+    console.log("schedule format is wrong")
+    // this.props.scheduleCreate({
+    //   name,
+    //   contact,
+    //   time,
+    //   location,
+    //   services,
+    //   price,
+    //   remarks
+    // });
+  };
+
+  navigate = screen => () => {
+    this.props.handleChangeScreen(screen);
   };
 
   render() {
     return (
       <Container>
+        <Header>
+          <Left />
+          <Body>
+            <Title>Create Schedule</Title>
+          </Body>
+          <Right>
+            <Button onPress={navigate("Home")}>
+              <Text>Discard Changes</Text>
+            </Button>
+          </Right>
+        </Header>
+
         <Content>
           <Card>
             <CardItem>

@@ -11,7 +11,9 @@ import {
   SCHEDULE_CREATE,
   SCHEDULE_CREATE_SUCCESS,
   SCHEDULE_FETCH_HOME,
-  SCHEDULE_FETCH_HOME_SUCCESS
+  SCHEDULE_FETCH_HOME_SUCCESS,
+  UPDATE_USER_INFO,
+  UPDATE_USER_INFO_SUCCESS
 } from '../actions/actionTypes';
 import * as actionTypes from "../actions/actionTypes";
 
@@ -21,6 +23,24 @@ const mockUser = {
   email: "test@test.com",
   profilePic: "https://i.stack.imgur.com/l60Hf.png"
 };
+
+const publicUserInfo = {
+  uid: 'id',
+  name: 'somebody',
+  profilePic: 'https://i.stack.imgur.com/l60Hf.png',
+  contact: '',
+}
+
+const mockSchedule = {
+  id: 1, // id in firestore database
+  poster: publicUserInfo,
+  booker: publicUserInfo,
+  location: 'Rainbow',
+  time: 'today',
+  price: '1 million',
+  services: 'play',
+  remarks: 'Its joke',
+}
 
 function* mockBackendSaga() {
   yield takeEvery(SIGNUP_INITIALIZE, function*(action) {
@@ -57,7 +77,7 @@ function* mockBackendSaga() {
   yield takeEvery(SCHEDULE_CREATE, function*(action){
     try {
       // trainer_schedules have users(trainers), users can post schedules
-      yield put({ type: SCHEDULE_CREATE_SUCCESS, schedule: action.payload }) // need to navigate back to home page/search page
+      yield put({ type: SCHEDULE_CREATE_SUCCESS, payload: action.payload }) 
     } catch (error) {
       const error_message = { code: error.code, message: error.message };
       // yield put({ type: SCHEDULE_CREATE_FAIL, error: error_message });
@@ -69,10 +89,22 @@ function* mockBackendSaga() {
   yield takeEvery(SCHEDULE_FETCH_HOME, function*(action){
     try {
       // trainer_schedules have users(trainers), users can post schedules
-      yield put({ type: SCHEDULE_FETCH_HOME_SUCCESS, booked: [], posted: [] }) // need to navigate back to home page/search page
+      yield put({ type: SCHEDULE_FETCH_HOME_SUCCESS, 
+        booked: [mockSchedule, mockSchedule], 
+        posted: [mockSchedule, mockSchedule] 
+      }) 
     } catch (error) {
       const error_message = { code: error.code, message: error.message };
-      // yield put({ type: SCHEDULE_CREATE_FAIL, error: error_message });
+      yield call([displayErrorMessage], error)
+    }
+  })
+
+  yield takeEvery(UPDATE_USER_INFO, function*(action){
+    try {
+      yield put({ type: UPDATE_USER_INFO_SUCCESS, payload: action.userInfo })
+      yield call([displayErrorMessage], "User Info Updated");
+    } catch (error) {
+      const error_message = { code: error.code, message: error.message };
       yield call([displayErrorMessage], error)
     }
   })
@@ -80,6 +112,10 @@ function* mockBackendSaga() {
 
 const displayErrorMessage = (error) => {
   Toast.show({ text: "Error " + error.code + ": " + error.message })
+}
+
+const displayMessage = (message) => {
+  Toast.show({ text: message })
 }
 
 export default mockBackendSaga;

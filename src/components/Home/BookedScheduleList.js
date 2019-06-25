@@ -1,17 +1,23 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 import { FlatList } from 'react-native'; //responsible for rendering a subset of data
 import { ListItem, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { SchedulesFetch } from '../../actions/ScheduleFormActions';
 import { View } from 'native-base';
 
+const mapStateToProps = state => ({
+  bookedSchedules: state.bookedSchedules
+});
+
 //component responsible for rendering data returned by scheduleReducer
-class Schedule extends Component {
+class BookedSchedule extends Component {
   constructor(props) {
     super(props);
   }
 
-  scheduleCard = schedule => {
+  makeScheduleCard = schedule => {
     return (
       <CardItem>
         <Left>
@@ -30,24 +36,12 @@ class Schedule extends Component {
     )
   }
     
-    
-    render() {
-        return(          
-            <View>
-                <FlatList
-                data={ this.props.schedule } //data that is to be rendered
-                renderItem={ this.renderItem }
-                keyExtractor={ } //generate key for each item in the list
-                />
-            </View>
-        );
-    }
+  render() {
+    const bookedCards = this.props.bookedSchedules.map((schedule, index) => this.makeScheduleCard(schedule))
+    return(          
+      bookedCards
+    );
+  }
 }
 
-const mapStateToProps = state => {
-    return {
-        schedule: state.bookedSchedules
-    };
-}
-
-export default connect(mapStateToProps, { SchedulesFetch })(Schedule);
+export default connect(mapStateToProps)(Schedule);

@@ -14,6 +14,7 @@ export default initialState = {
 };
 
 const scheduleExample = {
+	id: 1, // id in firestore database
 	poster: publicUserInfo,
 	booker: publicUserInfo,
 	location: '',

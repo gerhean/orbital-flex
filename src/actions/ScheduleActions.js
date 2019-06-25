@@ -29,23 +29,22 @@ export const scheduleUpdate = ({ prop, value }) => {
 //     };
 // }
 
-export const scheduleCreate = (schedule, successCallback) => {
+export const scheduleCreate = (schedule) => {
   return {
     type: SCHEDULE_CREATE,
-    payload: schedule,
-    successCallback
+    payload: schedule
   };
 };
 
 // asynchronous action again, need to use redux thunk
-export const schedulesFetch = () => {
-  return dispatch => {
-    db.collection("trainer_schedules")
-      .get()
-      .onSnapshot(
-        querySnapshot => {
-          dispatch({ type: SCHEDULE_FETCH, payload: querySnapshot.data() });
-        } // not sure what .data() gives, needs to console log, then use it in Schedules.js
-      );
-  };
-};
+// export const schedulesFetch = () => {
+//   return dispatch => {
+//     db.collection("trainer_schedules")
+//       .get()
+//       .onSnapshot(
+//         querySnapshot => {
+//           dispatch({ type: SCHEDULE_FETCH, payload: querySnapshot.data() });
+//         } // not sure what .data() gives, needs to console log, then use it in Schedules.js
+//       );
+//   };
+// };

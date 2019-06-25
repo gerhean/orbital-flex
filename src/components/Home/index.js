@@ -17,9 +17,6 @@ import {
   CardItem,
   Thumbnail
 } from "native-base";
-import Expo from "expo";
-import * as Font from "expo-font";
-import firebase from "firebase";
 import { changeScreen, logout } from "../../actions";
 
 const mapStateToProps = state => ({
@@ -30,6 +27,7 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       handleLogout: logout,
+      handleChangeScreen: changeScreen,
     },
     dispatch
   );
@@ -69,14 +67,15 @@ class Home extends Component {
         </Header>
 
         <Content>
-          <Text>{user.username}</Text>
           <Card>
             <CardItem>
               <Left>
                 <Thumbnail source={{ uri: user.profilePic }} />
               </Left>
               <Body>
+                <Text>{user.username}</Text>
                 <Text>{user.about}</Text>
+                <Text>EDIT INFO BUTTON HERE</Text>
               </Body>
             </CardItem>
           </Card>
@@ -85,6 +84,11 @@ class Home extends Component {
           </Card>
           <Card>
             <Text>Posted Schedules</Text>
+          </Card>
+          <Card>
+            <Button onPress={this.navigate("ScheduleForm")}>
+              <Text>Create Schedule</Text>
+            </Button>
           </Card>
         </Content>
       </Container>
