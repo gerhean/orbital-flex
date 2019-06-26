@@ -59,8 +59,6 @@ function* mockBackendSaga() {
     try {
       yield put({ type: LOGIN_SUCCESS, user: mockUser });
     } catch (error) {
-      console.log(error.message);
-      const error_message = { code: error.code, message: error.message };
       yield put({ type: LOGIN_FAIL, error: error_message });
       yield call([displayErrorMessage], error)
     }
@@ -88,8 +86,7 @@ function* mockBackendSaga() {
     } catch (error) {
       const error_message = { code: error.code, message: error.message };
       // yield put({ type: SCHEDULE_CREATE_FAIL, error: error_message });
-      console.log(error.message);
-      yield call([displayErrorMessage], error)
+      yield call(displayErrorMessage, error)
     }
   })
 
@@ -118,7 +115,8 @@ function* mockBackendSaga() {
 }
 
 const displayErrorMessage = (error) => {
-  Toast.show({ text: "Error " + error.code + ": " + error.message })
+  Toast.show({ text: "Error " + error.code + ": " + error.message });
+  console.log(error.message);
 }
 
 const displayMessage = (message) => {

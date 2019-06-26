@@ -27,7 +27,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      handleSignup: scheduleCreate,
+      handleScheduleCreate: scheduleCreate,
       handleChangeScreen: changeScreen,
     },
     dispatch
@@ -51,7 +51,7 @@ class ScheduleForm extends Component {
 
   submitForm = () => {
     const { time, location, services, price, remarks } = this.state;
-    this.props.scheduleCreate({
+    this.props.handleScheduleCreate({
       location,
       time,
       price,

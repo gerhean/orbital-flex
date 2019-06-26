@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { FlatList } from 'react-native'; //responsible for rendering a subset of data
 import { ListItem, Button } from 'react-native-elements';
 // import { SchedulesFetch } from '../../actions/ScheduleActions';
-import { View, CardItem, Body, Text, Right, Left, Thumbnail } from 'native-base';
+import { View, Card, CardItem, Body, Text, Right, Left, Thumbnail } from 'native-base';
 import profilePictureDisplay from '../profilePictureDisplay';
 
 const mapStateToProps = state => ({

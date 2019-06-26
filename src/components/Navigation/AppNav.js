@@ -7,6 +7,7 @@ import Home from "../Home";
 import Search from "../Search";
 import Chat from "../Chat";
 import ScheduleForm from "../Home/ScheduleForm"
+import EditUserInfoForm from "../Home/EditUserInfo"
 
 // export default createBottomTabNavigator({
 //   HomeStack,
@@ -43,6 +44,8 @@ export class AppNav extends Component {
         return <Home />;
       case "ScheduleForm":
         return <ScheduleForm />;
+      case "EditUserInfoForm":
+        return <EditUserInfoForm />;
       case "Search":
         return <Search />;
       case "Chat":

@@ -1,4 +1,5 @@
-import firebase from 'react-native-firebase';
+// import firebase from 'react-native-firebase';
+import firebase from 'firebase';
 import { Toast } from 'native-base';
 // import db from '../firebase';
 import { takeLatest, takeEvery, put, call, select } from 'redux-saga/effects';
@@ -19,8 +20,8 @@ import {
 	UPDATE_USER_INFO_SUCCESS
 } from '../actions/actionTypes';
 
-const arrayUnion = firebase.firestore.FieldValue.arrayUnion;
-const db = firebase.firestore();
+// const arrayUnion = firebase.firestore.FieldValue.arrayUnion;
+// const db = firebase.firestore();
 
 function* backendSaga() {
   yield takeEvery(SIGNUP_INITIALIZE, function*(action){

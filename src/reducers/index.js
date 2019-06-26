@@ -17,7 +17,6 @@ export default mainReducer = (state = initialState, action) => {
   switch (action.type) {
 
     case actionTypes.LOGIN_SUCCESS:
-      console.log(action.user);
       return {
         ...state,
         auth: {
@@ -57,11 +56,8 @@ export default mainReducer = (state = initialState, action) => {
     case actionTypes.SCHEDULE_FETCH_HOME_SUCCESS:
       return {
         ...state,
-        user: {
-          ...state.user,
-          postedSchedules: action.posted,
-          bookedSchedules: action.booked
-        }
+        postedSchedules: action.posted,
+        bookedSchedules: action.booked
       };
 
     case actionTypes.SCHEDULE_CREATE_SUCCESS:

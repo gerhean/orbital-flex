@@ -79,6 +79,7 @@ class UserInfoForm extends Component {
         <Content>
           <Card>
             <CardItem>
+              <Text>Username</Text>
               <Input
                 placeholder="Username"
                 value={this.state.username}
@@ -90,6 +91,7 @@ class UserInfoForm extends Component {
               />
             </CardItem>
             <CardItem>
+              <Text>Profile Picture URL</Text>
               <Input
                 placeholder="Profile Picture URL"
                 value={this.state.profilePic}
@@ -101,6 +103,7 @@ class UserInfoForm extends Component {
               />
             </CardItem>
             <CardItem>
+              <Text>Contact</Text>
               <Input
                 placeholder="Contact"
                 value={this.state.contact}
@@ -112,6 +115,7 @@ class UserInfoForm extends Component {
               />
             </CardItem>
             <CardItem>
+              <Text>About</Text>
               <Input
                 placeholder="About"
                 value={this.state.about}
@@ -123,6 +127,7 @@ class UserInfoForm extends Component {
               />
             </CardItem>
             <CardItem>
+              <Text>Gender</Text>
               <Input
                 placeholder="Gender"
                 value={this.state.gender}

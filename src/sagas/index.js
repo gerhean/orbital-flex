@@ -11,6 +11,13 @@ import {
 import backendSaga from "./backendSaga";
 import mockBackendSaga from "./mockBackendSaga";
 
+import "firebase/auth";
+
+import firebase from 'firebase'
+import { firebaseConfig } from "../../env.js";
+
+firebase.initializeApp(firebaseConfig);
+
 function* mainSaga() {
   yield* USE_BACKEND ? backendSaga() : mockBackendSaga();
 }

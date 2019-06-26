@@ -4,12 +4,12 @@ import { connect } from "react-redux";
 import { FlatList } from 'react-native'; //responsible for rendering a subset of data
 import { ListItem, Button } from 'react-native-elements';
 // import { SchedulesFetch } from '../../actions/ScheduleFormActions';
-import { View, CardItem, Body, Text, Right } from 'native-base';
+import { View, Card, CardItem, Body, Text, Right } from 'native-base';
 
 
 const mapStateToProps = state => {
   return {
-    schedule: state.postedSchedules
+    postedSchedules: state.postedSchedules
   };
 }
 
@@ -17,6 +17,7 @@ const mapStateToProps = state => {
 class Schedule extends Component {
   constructor(props) {
     super(props);
+    console.log("hi");
   }
 
   makeScheduleCard = schedule => {

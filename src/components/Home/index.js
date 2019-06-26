@@ -80,7 +80,9 @@ class Home extends Component {
               <Body>
                 <Text>{user.username}</Text>
                 <Text>{user.about}</Text>
-                <Text>EDIT INFO BUTTON HERE</Text>
+                <Button onPress={this.navigate("EditUserInfoForm")}>
+                  <Text>Edit Personal Info</Text>
+                </Button>
               </Body>
             </CardItem>
           </Card>
