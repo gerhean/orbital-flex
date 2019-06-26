@@ -1,4 +1,4 @@
-import { SCHEDULE_UPDATE, SCHEDULE_RESET, SCHEDULE_FETCH, SCHEDULE_FETCH_HOME } from "./actionTypes";
+import { SCHEDULE_UPDATE, SCHEDULE_RESET, SCHEDULE_FETCH, SCHEDULE_FETCH_HOME, SCHEDULE_UPDATE } from "./actionTypes";
 // import firebase from "firebase";
 // import db from "../firebase";
 
@@ -28,6 +28,13 @@ export const scheduleCreate = (schedule) => {
     payload: schedule
   };
 };
+
+export const scheduleUpdate = schedule => {
+	return {
+		type: SCHEDULE_UPDATE,
+		schedule
+	}
+}
 
 export const scheduleFetchHome = () => {
 	return {

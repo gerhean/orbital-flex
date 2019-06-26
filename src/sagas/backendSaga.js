@@ -16,6 +16,8 @@ import {
 	SCHEDULE_CREATE_SUCCESS,
 	SCHEDULE_FETCH_HOME,
 	SCHEDULE_FETCH_HOME_SUCCESS,
+	SCHEDULE_UPDATE,
+	SCHEDULE_UPDATE_SUCCESS,
 	UPDATE_USER_INFO,
 	UPDATE_USER_INFO_SUCCESS
 } from '../actions/actionTypes';
@@ -106,6 +108,22 @@ function* backendSaga() {
 	    yield call(displayErrorMessage, error);
 	  }
 	})
+
+	yield takeEvery(SCHEDULE_UPDATE, function*(action){
+    try {
+    	const scheduleId = "SOME NUMBER"
+    	const ref = db.collection('trainer_schedules').doc(scheduleId) 
+	    yield call(
+	    	[ref, ref.update], 
+	    	{ ...action.schedule }
+	    )
+      yield put({ type: SCHEDULE_UPDATE_SUCCESS, schedule: action.schedule })
+      yield call([displayMessage], "Schedule Updated");
+    } catch (error) {
+      const error_message = { code: error.code, message: error.message };
+      yield call(displayErrorMessage, error);
+    }
+  })
 
 	yield takeEvery(SCHEDULE_FETCH_HOME, function*(action){
     try {
