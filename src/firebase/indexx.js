@@ -7,4 +7,3 @@ export { FirebaseContext, withFirebase };
 import { firebaseConfig } from "../../env.js";
 
 firebase.initializeApp(firebaseConfig);
-export const db = firebase.firestore();

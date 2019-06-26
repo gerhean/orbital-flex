@@ -30,7 +30,6 @@ const mapDispatchToProps = dispatch =>
 
 export class AppNav extends Component {
   constructor(props) {
-    console.log("appnav up")
     super(props);
   };
 

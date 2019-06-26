@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+const window = undefined;
 // import firebase from 'firebase';
 // import { View } from 'react-native'
 // import Login from './src/components/Auth/Login';
@@ -42,10 +43,10 @@ import { StyleSheet, Text, View } from 'react-native';
 //     }
 // }
 
-import Root from "./src/index.js";
+import AppWrapper from "./src/index.js";
 
 export default App = () => {
   return (
-    <Root />
+    <AppWrapper />
   );
 }

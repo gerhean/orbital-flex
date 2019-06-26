@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Root } from "native-base";
 // this will be used to make your Android hardware Back Button work
 import { Platform, BackHandler } from "react-native";
 import { Provider, connect } from "react-redux";
@@ -10,7 +11,7 @@ import store, { persistor } from "./store";
 import { PersistGate } from 'redux-persist/lib/integration/react';
 import { FirebaseContext } from "./firebase";
 
-class Root extends Component {
+class AppWrapper extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -33,13 +34,15 @@ class Root extends Component {
 
     // the loading and persistor props are both required!
     return (
-      <Provider store={store}>
-        <PersistGate loading={<AppLoading />} persistor={persistor}>
-          <AuthNavigator />
-        </PersistGate>
-      </Provider>
+      <Root>
+        <Provider store={store}>
+          <PersistGate loading={<AppLoading />} persistor={persistor}>
+            <AuthNavigator />
+          </PersistGate>
+        </Provider>
+      </Root>
     );
   }
 }
 
-export default Root;
+export default AppWrapper;

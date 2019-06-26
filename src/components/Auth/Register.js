@@ -46,7 +46,7 @@ class SignUpForm extends Component {
       email,
       password: passwordOne
     };
-    handleSignup(user);
+    this.props.handleSignup(user);
   };
 
   render() {

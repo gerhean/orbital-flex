@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from "redux";
 import { View } from "react-native";
 import { connect } from "react-redux";
-import firebase from 'firebase';
+import firebase from 'react-native-firebase';
 
 import { logout } from "../../actions";
 import Register from "../Auth/Register";
@@ -30,6 +30,7 @@ export class AuthNav extends Component {
   componentDidMount() {
     const user = firebase.auth().currentUser;
     if (!user) {
+      console.log(user);
       this.props.handleLogout();
     }
   }

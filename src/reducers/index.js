@@ -3,17 +3,15 @@ import { combineReducers } from "redux";
 // this is a standard reducer, same as you've been using since kindergarten
 // with action types like LOGIN_SUCCESS, LOGIN_FAIL
 import * as actionTypes from "../actions/actionTypes";
-import loginReducer from "./loginReducer";
-import ScheduleReducer from "./scheduleReducer";
 import initialState from './state';
 
 export { initialState };
 
-const initialAuth = () => {
+const initialAuth = () => ({
   error: "",
   isLoading: false,
   isAuthenticated: false
-};
+});
 
 export default mainReducer = (state = initialState, action) => {
   switch (action.type) {

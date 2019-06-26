@@ -1,4 +1,3 @@
-import firebase from "firebase";
 import { takeLatest, takeEvery, put, call } from "redux-saga/effects";
 import { USE_BACKEND } from "../../env.js";
 import {
