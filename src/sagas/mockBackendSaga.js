@@ -108,7 +108,7 @@ function* mockBackendSaga() {
 
   yield takeEvery(UPDATE_USER_INFO, function*(action){
     try {
-      yield put({ type: UPDATE_USER_INFO_SUCCESS, payload: action.userInfo })
+      yield put({ type: UPDATE_USER_INFO_SUCCESS, userInfo: action.userInfo })
       yield call([displayErrorMessage], "User Info Updated");
     } catch (error) {
       const error_message = { code: error.code, message: error.message };

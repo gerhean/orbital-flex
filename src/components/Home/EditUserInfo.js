@@ -16,10 +16,9 @@ import {
   Thumbnail,
   Input
 } from "native-base";
-import firebase from "firebase";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { scheduleCreate, changeScreen } from "../../actions";
+import { updateUserInfo, changeScreen } from "../../actions";
 
 const mapStateToProps = state => ({
   user: state.user
@@ -29,29 +28,33 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       handleUpdateInfo: updateUserInfo,
+      handleChangeScreen: changeScreen,
     },
     dispatch
   );
 
-class ScheduleForm extends Component {
+class UserInfoForm extends Component {
   constructor(props) {
     super(props);
     const { username, contact, about, profilePic, gender } = this.props.user;
     this.state = {
-      ...initialState
+      username,
+      contact, 
+      about, 
+      profilePic, 
+      gender
     };
   }
 
   submitForm = () => {
-    const { time, location, services, price, remarks } = this.props;
-    console.log("schedule format is wrong")
-    // this.props.scheduleCreate({
-    //   time,
-    //   location,
-    //   services,
-    //   price,
-    //   remarks
-    // });
+    const { username, contact, about, profilePic, gender } = this.state;
+    this.props.handleUpdateInfo({
+      username,
+      contact, 
+      about, 
+      profilePic, 
+      gender
+    });
   };
 
   navigate = screen => () => {
@@ -64,7 +67,7 @@ class ScheduleForm extends Component {
         <Header>
           <Left />
           <Body>
-            <Title>Create Schedule</Title>
+            <Title>Edit User Info</Title>
           </Body>
           <Right>
             <Button onPress={this.navigate("Home")}>
@@ -77,55 +80,55 @@ class ScheduleForm extends Component {
           <Card>
             <CardItem>
               <Input
-                placeholder="Time"
-                value={this.props.time}
+                placeholder="Username"
+                value={this.state.username}
                 onChangeText={text =>
                   this.setState({
-                    time: text
+                    username: text
                   })
                 }
               />
             </CardItem>
             <CardItem>
               <Input
-                placeholder="Location"
-                value={this.props.location}
+                placeholder="Profile Picture URL"
+                value={this.state.profilePic}
                 onChangeText={text =>
                   this.setState({
-                    location: text
+                    profilePic: text
                   })
                 }
               />
             </CardItem>
             <CardItem>
               <Input
-                placeholder="Specialty"
-                value={this.props.services}
+                placeholder="Contact"
+                value={this.state.contact}
                 onChangeText={text =>
                   this.setState({
-                    services: text
+                    contact: text
                   })
                 }
               />
             </CardItem>
             <CardItem>
               <Input
-                placeholder="Price"
-                value={this.props.price}
+                placeholder="About"
+                value={this.state.about}
                 onChangeText={text =>
                   this.setState({
-                    price: text
+                    about: text
                   })
                 }
               />
             </CardItem>
             <CardItem>
               <Input
-                placeholder="Remarks"
-                value={this.props.remarks}
+                placeholder="Gender"
+                value={this.state.gender}
                 onChangeText={text =>
                   this.setState({
-                    remarks: text
+                    gender: text
                   })
                 }
               />
@@ -143,4 +146,4 @@ class ScheduleForm extends Component {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ScheduleForm);
+)(UserInfoForm);

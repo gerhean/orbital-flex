@@ -16,7 +16,6 @@ import {
   Thumbnail,
   Input
 } from "native-base";
-import firebase from "firebase";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { scheduleCreate, changeScreen } from "../../actions";
@@ -51,8 +50,7 @@ class ScheduleForm extends Component {
   }
 
   submitForm = () => {
-    const { time, location, services, price, remarks } = this.props;
-    console.log("schedule format is wrong")
+    const { time, location, services, price, remarks } = this.state;
     this.props.scheduleCreate({
       location,
       time,
@@ -86,7 +84,7 @@ class ScheduleForm extends Component {
             <CardItem>
               <Input
                 placeholder="Time"
-                value={this.props.time}
+                value={this.state.time}
                 onChangeText={text =>
                   this.setState({
                     time: text
@@ -97,7 +95,7 @@ class ScheduleForm extends Component {
             <CardItem>
               <Input
                 placeholder="Location"
-                value={this.props.location}
+                value={this.state.location}
                 onChangeText={text =>
                   this.setState({
                     location: text
@@ -108,7 +106,7 @@ class ScheduleForm extends Component {
             <CardItem>
               <Input
                 placeholder="Specialty"
-                value={this.props.services}
+                value={this.state.services}
                 onChangeText={text =>
                   this.setState({
                     services: text
@@ -119,7 +117,7 @@ class ScheduleForm extends Component {
             <CardItem>
               <Input
                 placeholder="Price"
-                value={this.props.price}
+                value={this.state.price}
                 onChangeText={text =>
                   this.setState({
                     price: text
@@ -130,7 +128,7 @@ class ScheduleForm extends Component {
             <CardItem>
               <Input
                 placeholder="Remarks"
-                value={this.props.remarks}
+                value={this.state.remarks}
                 onChangeText={text =>
                   this.setState({
                     remarks: text

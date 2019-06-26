@@ -136,21 +136,12 @@ function* backendSaga() {
 
   yield takeEvery(UPDATE_USER_INFO, function*(action){
     try {
-    	let username, contact, about, profilePic, gender;
-
     	const userRef = db.collection('users').doc(uid) 
 	    yield call(
-	    	[userRef.update], 
-	    	{
-	    		about,
-	    		contact,
-	    		gender,
-	    		profilePic,
-	    		username,
-	    	}
+	    	[userRef, userRef.update], 
+	    	{ ...action.userInfo }
 	    )
-
-      yield put({ type: UPDATE_USER_INFO_SUCCESS, payload: action.userInfo })
+      yield put({ type: UPDATE_USER_INFO_SUCCESS, userInfo: action.userInfo })
       yield call([displayMessage], "User Info Updated");
     } catch (error) {
       const error_message = { code: error.code, message: error.message };

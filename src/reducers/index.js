@@ -77,7 +77,10 @@ export default mainReducer = (state = initialState, action) => {
     case actionTypes.UPDATE_USER_INFO_SUCCESS:
       return {
         ...state,
-        user: action.payload
+        user: {
+          ...state.user,
+          ...action.userInfo
+        }
       };
 
     case actionTypes.CHANGE_SCREEN:

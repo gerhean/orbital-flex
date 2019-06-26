@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { bindActionCreators } from "redux";
 import { View } from "react-native";
 import { connect } from "react-redux";
-import firebase from 'react-native-firebase';
+// import firebase from 'react-native-firebase';
+import firebase from 'firebase';
 
 import { logout } from "../../actions";
 import Register from "../Auth/Register";
