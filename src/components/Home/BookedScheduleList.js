@@ -5,6 +5,7 @@ import { FlatList } from 'react-native'; //responsible for rendering a subset of
 import { ListItem, Button } from 'react-native-elements';
 // import { SchedulesFetch } from '../../actions/ScheduleActions';
 import { View, CardItem, Body, Text, Right, Left, Thumbnail } from 'native-base';
+import profilePictureDisplay from '../profilePictureDisplay';
 
 const mapStateToProps = state => ({
   bookedSchedules: state.bookedSchedules
@@ -20,7 +21,7 @@ class BookedSchedule extends Component {
     return (
       <CardItem>
         <Left>
-          <Thumbnail source={{ uri: schedule.poster.profilePic }} />
+          {profilePictureDisplay(schedule.poster.profilePic)}
         </Left>
         <Body>
           <Text>{schedule.poster.name}</Text>

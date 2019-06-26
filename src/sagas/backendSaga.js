@@ -96,7 +96,7 @@ function* backendSaga() {
 	    const ref = yield call(db.collection("trainer_schedules").add, schedule);
 
 	    const userRef = db.collection('users').doc(uid) 
-	    yield call(userRef.update, {postedSchedules: arrayUnion(ref.id)})
+	    yield call([userRef, userRef.update], {postedSchedules: arrayUnion(ref.id)})
 	    yield put({ type: SCHEDULE_CREATE_SUCCESS, schedule, scheduleId: ref.id }) // need to navigate back to home page/search page
 	  
 	  } catch (error) {

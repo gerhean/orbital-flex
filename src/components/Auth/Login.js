@@ -3,8 +3,6 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { View, StyleSheet, Text } from "react-native";
 import { Icon, Button, Input } from "react-native-elements";
-import firebase from "firebase";
-import { withFirebase } from "../../firebase";
 
 import { loginMock, loginInitialize, changeScreen } from "../../actions";
 
@@ -133,4 +131,4 @@ const styles = StyleSheet.create({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withFirebase(LoginBase));
+)(LoginBase);

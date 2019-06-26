@@ -79,7 +79,12 @@ function* mockBackendSaga() {
   yield takeEvery(SCHEDULE_CREATE, function*(action){
     try {
       // trainer_schedules have users(trainers), users can post schedules
-      yield put({ type: SCHEDULE_CREATE_SUCCESS, schedule: action.payload, scheduleId: 0}) 
+      const schedule = {
+        ...action.payload,
+        poster: 0, 
+        bookers: []
+      }
+      yield put({ type: SCHEDULE_CREATE_SUCCESS, schedule, scheduleId: 0}) 
     } catch (error) {
       const error_message = { code: error.code, message: error.message };
       // yield put({ type: SCHEDULE_CREATE_FAIL, error: error_message });

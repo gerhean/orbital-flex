@@ -28,23 +28,15 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      handleSignup: scheduleCreate,
-      handleChangeScreen: changeScreen,
+      handleUpdateInfo: updateUserInfo,
     },
     dispatch
   );
 
-const initialState = {
-  time: "",
-  location: "",
-  services: "",
-  price: "",
-  remarks: ""
-};
-
 class ScheduleForm extends Component {
   constructor(props) {
     super(props);
+    const { username, contact, about, profilePic, gender } = this.props.user;
     this.state = {
       ...initialState
     };
@@ -53,13 +45,13 @@ class ScheduleForm extends Component {
   submitForm = () => {
     const { time, location, services, price, remarks } = this.props;
     console.log("schedule format is wrong")
-    this.props.scheduleCreate({
-      location,
-      time,
-      price,
-      services,
-      remarks
-    });
+    // this.props.scheduleCreate({
+    //   time,
+    //   location,
+    //   services,
+    //   price,
+    //   remarks
+    // });
   };
 
   navigate = screen => () => {

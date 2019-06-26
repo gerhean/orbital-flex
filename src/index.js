@@ -9,7 +9,6 @@ import * as Font from "expo-font";
 import AuthNavigator from "./components/Navigation/AuthNav";
 import store, { persistor } from "./store";
 import { PersistGate } from 'redux-persist/lib/integration/react';
-import { FirebaseContext } from "./firebase";
 
 class AppWrapper extends Component {
   constructor(props) {

@@ -1,6 +1,6 @@
 import { SCHEDULE_UPDATE, SCHEDULE_RESET, SCHEDULE_FETCH, SCHEDULE_FETCH_HOME } from "./actionTypes";
-import firebase from "firebase";
-import db from "../firebase";
+// import firebase from "firebase";
+// import db from "../firebase";
 
 // asynchronous action?
 // export const scheduleCreate = ({ name, contact, time, location, specialty, price }) => {
