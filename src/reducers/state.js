@@ -19,19 +19,20 @@ const mockUser = {
   about: "I'm just a random person",
   profilePic: "https://i.stack.imgur.com/l60Hf.png",
   gender: 0,
-  bookedScheduleIds: [],
-  postedScheduleIds: [],
+  bookedScheduleIds: {},
+  postedScheduleIds: {},
 };
 
 const scheduleExample = {
 	id: 1, // id in firestore database
 	poster: publicUserInfo,
-	booker: publicUserInfo,
+	booker: {},
 	location: '',
 	time: '',
 	price: '',
 	services: '',
 	remarks: '',
+  timeCreated: '',
 }
 
 const publicUserInfo = {

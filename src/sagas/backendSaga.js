@@ -1,5 +1,6 @@
 // import firebase from 'react-native-firebase';
 import firebase from 'firebase';
+import '@firebase/firestore'
 import { Toast } from 'native-base';
 // import db from '../firebase';
 import { takeLatest, takeEvery, put, call, select } from 'redux-saga/effects';
@@ -22,10 +23,12 @@ import {
 	UPDATE_USER_INFO_SUCCESS
 } from '../actions/actionTypes';
 
-// const arrayUnion = firebase.firestore.FieldValue.arrayUnion;
-// const db = firebase.firestore();
+const arrayUnion = firebase.firestore.FieldValue.arrayUnion;
+const serverTimestamp = firebase.firestore.FieldValue.serverTimestamp;
+const db = firebase.firestore();
 
 function* backendSaga() {
+
   yield takeEvery(SIGNUP_INITIALIZE, function*(action){
 	  try {
 	    const auth = firebase.auth()
@@ -36,11 +39,11 @@ function* backendSaga() {
 	    )
 	    const uid = result.user.uid;
 	    let user = {
-	    	gender: 0,
+	    	gender: 0, // means unspecified gender
 	    	profilePic: '',
 			  username: uid,
-			  postedSchedules: [],
-			  bookedSchedules: [], // might be violate privacy but lets leave it for now
+			  postedSchedules: {},
+			  bookedSchedules: {}, // might be violate privacy but lets leave it for now
 			};
 			const userDocRef = db.collection('users').doc(uid);
 			yield call([userDocRef, userDocRef.set], user);
@@ -95,11 +98,11 @@ function* backendSaga() {
 	yield takeEvery(SCHEDULE_CREATE, function*(action){
 	  try {
 			const uid = firebase.auth().uid;
-			const schedule = { ...action.payload, poster:uid, bookers: [], }
+			const schedule = { ...action.payload, poster: uid, bookers: [], timeCreated: serverTimestamp() }
 	    const ref = yield call(db.collection("trainer_schedules").add, schedule);
 
 	    const userRef = db.collection('users').doc(uid) 
-	    yield call([userRef, userRef.update], {postedSchedules: arrayUnion(ref.id)})
+	    yield call([userRef, userRef.update], {[`postedSchedules.${ref.id}`]: true})
 	    yield put({ type: SCHEDULE_CREATE_SUCCESS, schedule, scheduleId: ref.id }) // need to navigate back to home page/search page
 	  
 	  } catch (error) {
@@ -133,12 +136,12 @@ function* backendSaga() {
     	const booked = [];
     	const posted = [];
 
-    	for (const id of bookedIds) {
+    	for (const id in bookedIds) {
     		const data = yield call([scheduleCollection.doc(id).get]);
     		booked.push(data.data());
     	};
 
-    	for (const id of postedIds) {
+    	for (const id in postedIds) {
     		const data = yield call([scheduleCollection.doc(id).get]);
     		posted.push(data.data());
     	};

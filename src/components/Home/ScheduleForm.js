@@ -6,18 +6,22 @@ import {
   Body,
   Title,
   Button,
-  Card,
   Content,
   Footer,
   FooterTab,
   Right,
   Left,
-  CardItem,
+  Form,
+  Item,
   Thumbnail,
-  Input
+  Label,
+  Input,
+  Picker,
+  Icon
 } from "native-base";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import DateTimePicker from "react-native-modal-datetime-picker";
 import { scheduleCreate, changeScreen } from "../../actions";
 
 const mapStateToProps = state => ({
@@ -34,31 +38,51 @@ const mapDispatchToProps = dispatch =>
   );
 
 const initialState = {
-  time: "",
+  name: "",
+  day: 0,
+  timeStart: 0,
+  timeEnd: 0,
   location: "",
   services: "",
-  price: "",
-  remarks: ""
+  price: 0,
+  remarks: "",
+  timePickerVisible: ""
 };
 
 class ScheduleForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      ...initialState
+      ...initialState,
+
     };
   }
 
   submitForm = () => {
-    const { time, location, services, price, remarks } = this.state;
+    const { name, day, timeStart, timeEnd, location, services, price} = this.state
     this.props.handleScheduleCreate({
-      location,
-      time,
-      price,
-      services,
-      remarks
+      ...this.state
     });
   };
+
+  setValue = key => value => {
+    this.setState({
+      [key]: text
+    })
+  };
+
+  changeTimePickerState = (visible) => () => {
+    this.setState({
+      timePickerVisible: visible
+    })
+  }
+
+  handleTimePicked = time => {
+    console.log(time);
+    this.setState({
+      [this.state.timePickerVisible]: time
+    })
+  }
 
   navigate = screen => () => {
     this.props.handleChangeScreen(screen);
@@ -74,69 +98,94 @@ class ScheduleForm extends Component {
           </Body>
           <Right>
             <Button onPress={this.navigate("Home")}>
-              <Text>Discard Changes</Text>
+              <Text>Cancel</Text>
             </Button>
           </Right>
         </Header>
 
         <Content>
-          <Card>
-            <CardItem>
+          <Form>
+            <Item floatingLabel>
+              <Label>Name of Schedule</Label>
               <Input
-                placeholder="Time"
-                value={this.state.time}
-                onChangeText={text =>
-                  this.setState({
-                    time: text
-                  })
-                }
+                value={this.state.name}
+                onChangeText={this.setValue("name")}
               />
-            </CardItem>
-            <CardItem>
+            </Item>
+
+            <Item picker>
+              <Picker
+                mode="dropdown"
+                iosIcon={<Icon name="arrow-down" />}
+                style={{ width: undefined }}
+                placeholder="Day of the week"
+                placeholderStyle={{ color: "#bfc6ea" }}
+                placeholderIconColor="#007aff"
+                selectedValue={this.state.day}
+                onValueChange={this.setValue("day")}
+              >
+                <Picker.Item label="Monday" value={1} />
+                <Picker.Item label="Tuesday" value={2} />
+                <Picker.Item label="Wednesday" value={3} />
+                <Picker.Item label="Thursday" value={4} />
+                <Picker.Item label="Friday" value={5} />
+                <Picker.Item label="Saturday" value={6} />
+                <Picker.Item label="Sunday" value={7} />
+              </Picker>
+            </Item>
+
+            <Item>
+              <Text>Time</Text>
+              <Button onPress={this.changeTimePickerState("timeStart")}>
+                <Text>{this.state.timeStart.toString()}</Text>
+              </Button>
+              <Text> to </Text>
+              <Button onPress={this.changeTimePickerState("timeEnd")}>
+                <Text>{this.state.timeEnd.toString()}</Text>
+              </Button>
+
+              <DateTimePicker
+                isVisible={this.state.timePickerVisible}
+                onConfirm={this.handleTimePicked}
+                onCancel={this.changeTimePickerState("")}
+                mode="time"
+              />
+            </Item>
+
+            <Item floatingLabel>
               <Input
                 placeholder="Location"
                 value={this.state.location}
-                onChangeText={text =>
-                  this.setState({
-                    location: text
-                  })
-                }
+                onChangeText={this.setValue("location")}
               />
-            </CardItem>
-            <CardItem>
+            </Item>
+
+            <Item>
               <Input
-                placeholder="Specialty"
+                placeholder="Type"
                 value={this.state.services}
-                onChangeText={text =>
-                  this.setState({
-                    services: text
-                  })
-                }
+                onChangeText={this.setValue("services")}
               />
-            </CardItem>
-            <CardItem>
+            </Item>
+
+            <Item>
               <Input
                 placeholder="Price"
                 value={this.state.price}
-                onChangeText={text =>
-                  this.setState({
-                    price: text
-                  })
-                }
+                onChangeText={this.setValue("price")}
+                keyboardType={'numeric'}
               />
-            </CardItem>
-            <CardItem>
+            </Item>
+
+            <Item>
               <Input
                 placeholder="Remarks"
                 value={this.state.remarks}
-                onChangeText={text =>
-                  this.setState({
-                    remarks: text
-                  })
-                }
+                onChangeText={this.setValue("remarks")}
               />
-            </CardItem>
-          </Card>
+            </Item>
+
+          </Form>
           <Button onPress={this.submitForm}>
             <Text>Submit</Text>
           </Button>

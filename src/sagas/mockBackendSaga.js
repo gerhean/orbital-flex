@@ -35,12 +35,13 @@ const publicUserInfo = {
 
 const mockSchedule = {
   id: 1, // id in firestore database
+  name: "Fantastic Gym!",
   poster: publicUserInfo,
   booker: publicUserInfo,
   location: 'Rainbow',
   time: 'today',
   price: '1 million',
-  services: 'play',
+  services: 'Gym',
   remarks: 'Its joke',
 }
 
@@ -82,7 +83,7 @@ function* mockBackendSaga() {
         poster: 0, 
         bookers: []
       }
-      yield put({ type: SCHEDULE_CREATE_SUCCESS, schedule, scheduleId: 0}) 
+      yield put({ type: SCHEDULE_CREATE_SUCCESS, schedule, scheduleId: "someId"}) 
     } catch (error) {
       const error_message = { code: error.code, message: error.message };
       // yield put({ type: SCHEDULE_CREATE_FAIL, error: error_message });

@@ -52,8 +52,8 @@ class Home extends Component {
 
   render() {
     const scheduleArray = [
-      { title: "Booked Schedules", renderContent: <BookedSchedule/> },
-      { title: "Posted Schedules", renderContent: <PostedSchedule/> },
+      { title: "Booked Schedules", content: <BookedSchedule/> },
+      { title: "Posted Schedules", content: <PostedSchedule/> },
     ]
     const user = this.props.user;
 
@@ -86,7 +86,7 @@ class Home extends Component {
               </Body>
             </CardItem>
           </Card>
-            <Accordion dataArray={scheduleArray} />
+            <Accordion dataArray={scheduleArray} renderContent={item => {item.content}} />
           <Card>
             <CardItem>
               <Button onPress={this.navigate("ScheduleForm")}>

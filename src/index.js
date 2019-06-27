@@ -6,6 +6,7 @@ import { Provider, connect } from "react-redux";
 import { AppLoading } from "expo";
 import * as Font from "expo-font";
 
+import firebaseApp from './firebase';
 import AuthNavigator from "./components/Navigation/AuthNav";
 import store, { persistor } from "./store";
 import { PersistGate } from 'redux-persist/lib/integration/react';

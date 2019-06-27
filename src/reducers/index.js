@@ -66,7 +66,7 @@ export default mainReducer = (state = initialState, action) => {
         postedSchedules: state.postedSchedules.concat([action.schedule]),
         user: {
           ...state.user,
-          postedScheduleIds: state.user.postedScheduleIds.concat([action.scheduleId])
+          postedScheduleIds: state.user.postedScheduleIds[action.scheduleId] = true,
         }
       };
 

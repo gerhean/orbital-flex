@@ -1,4 +1,4 @@
-import { SCHEDULE_UPDATE, SCHEDULE_RESET, SCHEDULE_FETCH, SCHEDULE_FETCH_HOME, SCHEDULE_UPDATE } from "./actionTypes";
+import { SCHEDULE_UPDATE, SCHEDULE_RESET, SCHEDULE_FETCH, SCHEDULE_FETCH_HOME, SCHEDULE_CREATE } from "./actionTypes";
 // import firebase from "firebase";
 // import db from "../firebase";
 
