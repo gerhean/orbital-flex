@@ -9,6 +9,7 @@ export default initialState = {
   initializingApp: true,
   screen: 'Login',
   user: undefined,
+  users: {},
   bookedSchedules: [],
   postedSchedules: [],
 };

@@ -36,7 +36,8 @@ export default mainReducer = (state = initialState, action) => {
     case actionTypes.LOGOUT_SUCCESS:
       return {
         ...initialState,
-        auth: initialAuth(),
+        initializingApp: false,
+        screen: "Login"
       };
 
     case actionTypes.SIGNUP_SUCCESS:

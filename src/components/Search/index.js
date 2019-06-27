@@ -11,7 +11,8 @@ import {
   Content,
   Footer,
   FooterTab,
-  Right
+  Right,
+  Icon
 } from "native-base";
 import Expo from "expo";
 import firebase from "firebase";
@@ -23,15 +24,15 @@ class Home extends Component {
   render() {
     return (
       <Container>
-        <Header>
-          <Body>
-            <Title>Search bar</Title>
-          </Body>
-          <Right>
-            <Button onPress={() => firebase.auth().signOut()}>
-              <Text>Log out</Text>
-            </Button>
-          </Right>
+        <Header searchBar rounded>
+          <Item>
+            <Icon name="ios-search" />
+            <Input placeholder="Search" />
+            <Icon name="ios-people" />
+          </Item>
+          <Button transparent>
+            <Text>Search</Text>
+          </Button>
         </Header>
 
       </Container>
