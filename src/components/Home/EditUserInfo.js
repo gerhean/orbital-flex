@@ -6,15 +6,15 @@ import {
   Body,
   Title,
   Button,
-  Card,
   Content,
   Footer,
   FooterTab,
   Right,
   Left,
-  CardItem,
   Thumbnail,
-  Input
+  Input,
+  Form,
+  Item
 } from "native-base";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -57,6 +57,12 @@ class UserInfoForm extends Component {
     });
   };
 
+  setValue = key => value => {
+    this.setState({
+      [key]: text
+    })
+  };
+
   navigate = screen => () => {
     this.props.handleChangeScreen(screen);
   };
@@ -77,11 +83,10 @@ class UserInfoForm extends Component {
         </Header>
 
         <Content>
-          <Card>
-            <CardItem>
+          <Form>
+            <Item floatingLabel>
               <Text>Username</Text>
               <Input
-                placeholder="Username"
                 value={this.state.username}
                 onChangeText={text =>
                   this.setState({
@@ -89,11 +94,10 @@ class UserInfoForm extends Component {
                   })
                 }
               />
-            </CardItem>
-            <CardItem>
+            </Item>
+            <Item floatingLabel>
               <Text>Profile Picture URL</Text>
               <Input
-                placeholder="Profile Picture URL"
                 value={this.state.profilePic}
                 onChangeText={text =>
                   this.setState({
@@ -101,8 +105,8 @@ class UserInfoForm extends Component {
                   })
                 }
               />
-            </CardItem>
-            <CardItem>
+            </Item>
+            <Item floatingLabel>
               <Text>Contact</Text>
               <Input
                 placeholder="Contact"
@@ -113,8 +117,8 @@ class UserInfoForm extends Component {
                   })
                 }
               />
-            </CardItem>
-            <CardItem>
+            </Item>
+            <Item floatingLabel>
               <Text>About</Text>
               <Input
                 placeholder="About"
@@ -125,8 +129,8 @@ class UserInfoForm extends Component {
                   })
                 }
               />
-            </CardItem>
-            <CardItem>
+            </Item>
+            <Item floatingLabel>
               <Text>Gender</Text>
               <Input
                 placeholder="Gender"
@@ -137,8 +141,8 @@ class UserInfoForm extends Component {
                   })
                 }
               />
-            </CardItem>
-          </Card>
+            </Item>
+          </Form>
           <Button onPress={this.submitForm}>
             <Text>Submit</Text>
           </Button>

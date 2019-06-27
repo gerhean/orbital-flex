@@ -44,7 +44,7 @@ const initialState = {
   timeEnd: 0,
   location: "",
   services: "",
-  price: 0,
+  price: "",
   remarks: "",
   timePickerVisible: ""
 };
@@ -77,11 +77,18 @@ class ScheduleForm extends Component {
     })
   }
 
-  handleTimePicked = time => {
+  handleTimePicked = date => {
+    const time = date.getHours() * 60 + date.getMinutes();
     console.log(time);
     this.setState({
       [this.state.timePickerVisible]: time
     })
+  }
+
+  timeToString = (time) => {
+    const minute = time%60;
+    const hour = (time - minute) / 60
+    return "" + hour + ":" + minute 
   }
 
   navigate = screen => () => {
@@ -137,11 +144,11 @@ class ScheduleForm extends Component {
             <Item>
               <Text>Time</Text>
               <Button onPress={this.changeTimePickerState("timeStart")}>
-                <Text>{this.state.timeStart.toString()}</Text>
+                <Text>{timeToString(this.state.timeStart)}</Text>
               </Button>
               <Text> to </Text>
               <Button onPress={this.changeTimePickerState("timeEnd")}>
-                <Text>{this.state.timeEnd.toString()}</Text>
+                <Text>{timeToString(this.state.timeEnd)}</Text>
               </Button>
 
               <DateTimePicker

@@ -31,7 +31,6 @@ export class AuthNav extends Component {
   componentDidMount() {
     const user = firebase.auth().currentUser;
     if (!user) {
-      console.log(user);
       this.props.handleLogout();
     }
   }

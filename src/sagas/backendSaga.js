@@ -32,6 +32,7 @@ function* backendSaga() {
   yield takeEvery(SIGNUP_INITIALIZE, function*(action){
 	  try {
 	    const auth = firebase.auth()
+	    yield call([auth, auth.setPersistence], firebase.auth.Auth.Persistence.LOCAL)
 	    const result = yield call(
 	      [auth, auth.createUserWithEmailAndPassword],
 	      action.user.email,
@@ -55,7 +56,7 @@ function* backendSaga() {
 	  } catch (error) {
 	    const error_message = { code: error.code, message: error.message };
 	    yield put({ type: SIGNUP_FAIL, error: error_message });
-	    yield call(displayErrorMessage, error);
+	    yield call(displayErrorMessage, error, SIGNUP_INITIALIZE);
 	  }
 	})
 
@@ -79,7 +80,7 @@ function* backendSaga() {
 	  } catch (error) {
 	    const error_message = { code: error.code, message: error.message };
 	    yield put({ type: LOGIN_FAIL, error: error_message });
-	    yield call(displayErrorMessage, error);
+	    yield call(displayErrorMessage, error, LOGIN_INITIALIZE);
 	  }
 	})
 
@@ -91,7 +92,7 @@ function* backendSaga() {
 	  } catch (error) {
 	    const error_message = { code: error.code, message: error.message };
 	    // yield put({ type: SIGNUP_FAIL, error: error_message });
-	    yield call(displayErrorMessage, error);
+	    yield call(displayErrorMessage, error, LOGOUT);
 	  }
 	})
 
@@ -108,7 +109,7 @@ function* backendSaga() {
 	  } catch (error) {
 	    const error_message = { code: error.code, message: error.message };
 	    // yield put({ type: SCHEDULE_CREATE_FAIL, error: error_message });
-	    yield call(displayErrorMessage, error);
+	    yield call(displayErrorMessage, error, SCHEDULE_CREATE);
 	  }
 	})
 
@@ -124,7 +125,7 @@ function* backendSaga() {
       yield call([displayMessage], "Schedule Updated");
     } catch (error) {
       const error_message = { code: error.code, message: error.message };
-      yield call(displayErrorMessage, error);
+      yield call(displayErrorMessage, error, SCHEDULE_UPDATE);
     }
   })
 
@@ -137,12 +138,14 @@ function* backendSaga() {
     	const posted = [];
 
     	for (const id in bookedIds) {
-    		const data = yield call([scheduleCollection.doc(id).get]);
+    		const docRef = scheduleCollection.doc(id);
+    		const data = yield call([docRef, docRef.get]);
     		booked.push(data.data());
     	};
 
     	for (const id in postedIds) {
-    		const data = yield call([scheduleCollection.doc(id).get]);
+    		const docRef = scheduleCollection.doc(id);
+    		const data = yield call([docRef, docRef.get]);
     		posted.push(data.data());
     	};
 
@@ -152,7 +155,7 @@ function* backendSaga() {
       }) 
     } catch (error) {
       const error_message = { code: error.code, message: error.message };
-      yield call(displayErrorMessage, error)
+      yield call(displayErrorMessage, error, SCHEDULE_FETCH_HOME)
     }
   })
 
@@ -167,13 +170,13 @@ function* backendSaga() {
       yield call([displayMessage], "User Info Updated");
     } catch (error) {
       const error_message = { code: error.code, message: error.message };
-      yield call(displayErrorMessage, error);
+      yield call(displayErrorMessage, error, UPDATE_USER_INFO);
     }
   })
 }
 
-const displayErrorMessage = (error) => {
-	console.log(error.message);
+const displayErrorMessage = (error, location = '') => {
+	console.log(error.message + ". Error at: " + location);
   Toast.show({ text: "Error " + error.code + ": " + error.message, duration: 4000 });
 }
 
