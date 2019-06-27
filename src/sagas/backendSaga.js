@@ -22,7 +22,9 @@ import {
 	SCHEDULE_UPDATE,
 	SCHEDULE_UPDATE_SUCCESS,
 	UPDATE_USER_INFO,
-	UPDATE_USER_INFO_SUCCESS
+	UPDATE_USER_INFO_SUCCESS,
+	FETCH_USER_INFO,
+	FETCH_USER_INFO_SUCCESS
 } from '../actions/actionTypes';
 
 const arrayUnion = firebase.firestore.FieldValue.arrayUnion;
@@ -188,6 +190,24 @@ function* backendSaga() {
     } catch (error) {
       const error_message = { code: error.code, message: error.message };
       yield call(displayErrorMessage, error, UPDATE_USER_INFO);
+    }
+  })
+
+  yield takeEvery(FETCH_USER_INFO, function*(action){
+    try {
+    	const uid = action.uid;
+	    const userDocRef = db.collection('users').doc(uid);
+	   	const userData = yield call([userDocRef, userDocRef.get]);
+	   	const user = {
+	   		...userData.data(),
+	   		uid,
+	   		timeFetched: Date().getTime()
+	   	}
+	   	console.log(userData.data());
+	    yield put({ type: FETCH_USER_INFO_SUCCESS, uid, user });
+    } catch (error) {
+      const error_message = { code: error.code, message: error.message };
+      yield call(displayErrorMessage, error, FETCH_USER_INFO);
     }
   })
 }

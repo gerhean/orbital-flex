@@ -12,7 +12,8 @@ import {
   Footer,
   FooterTab,
   Right,
-  Icon
+  Icon,
+  Input
 } from "native-base";
 import Expo from "expo";
 import firebase from "firebase";
@@ -20,15 +21,14 @@ import firebase from "firebase";
 
 //needs log out button
 
-class Home extends Component {
+class Search extends Component {
   render() {
     return (
       <Container>
         <Header searchBar rounded>
           <Item>
-            <Icon name="ios-search" />
+            <Icon name="search" />
             <Input placeholder="Search" />
-            <Icon name="ios-people" />
           </Item>
           <Button transparent>
             <Text>Search</Text>
@@ -40,4 +40,4 @@ class Home extends Component {
   }
 }
 
-export default Home;
+export default Search;

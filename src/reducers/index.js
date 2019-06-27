@@ -86,6 +86,20 @@ export default mainReducer = (state = initialState, action) => {
         }
       };
 
+    case actionTypes.FETCH_USER_INFO_SUCCESS:
+      let users = state.users;
+      if (Object.keys(state.users).length > 15) {
+        users = {}
+      }
+      users =  {
+        ...users,
+        [action.uid]: action.user
+      } 
+      return {
+        ...state,
+        users
+      };
+
     case actionTypes.CHANGE_SCREEN:
       return {
         ...state,
