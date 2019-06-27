@@ -1,26 +1,9 @@
-import { SCHEDULE_UPDATE, SCHEDULE_RESET, SCHEDULE_FETCH, SCHEDULE_FETCH_HOME, SCHEDULE_CREATE } from "./actionTypes";
-// import firebase from "firebase";
-// import db from "../firebase";
-
-// asynchronous action?
-// export const scheduleCreate = ({ name, contact, time, location, specialty, price }) => {
-//     const currentUserUid = firebase.auth().uid;
-//     return (dispatch) => {
-//         //trainer_schedules have users(trainers), users can post schedules
-//         db.collection("trainer_schedules").add({
-//             name : name,
-//             contact: contact,
-//             time: time,
-//             location: location,
-//             specialty: specialty,
-//             price: price,
-//             userIdentification: currentUserUid // possibly used later on to track whoever posted this
-//         }).then(
-//             () => dispatch({ type: SCHEDULE_RESET })
-//             // need to navigate back to home page/search page     !
-//             )
-//     };
-// }
+import { 
+	SCHEDULE_CREATE, 
+	SET_SCHEDULE_EDIT_INDEX,
+	SCHEDULE_UPDATE, 
+	SCHEDULE_FETCH_HOME, 
+} from "./actionTypes";
 
 export const scheduleCreate = (schedule) => {
   return {
@@ -29,7 +12,14 @@ export const scheduleCreate = (schedule) => {
   };
 };
 
-export const scheduleUpdate = schedule => {
+export const setScheduleEditIndex = index => {
+  return {
+    type: SET_SCHEDULE_EDIT_INDEX,
+    payload: index
+  };
+};
+
+export const scheduleUpdate = schedule => { 
 	return {
 		type: SCHEDULE_UPDATE,
 		schedule
@@ -54,3 +44,26 @@ export const scheduleFetchHome = () => {
 //       );
 //   };
 // };
+
+// import firebase from "firebase";
+// import db from "../firebase";
+
+// asynchronous action?
+// export const scheduleCreate = ({ name, contact, time, location, specialty, price }) => {
+//     const currentUserUid = firebase.auth().uid;
+//     return (dispatch) => {
+//         //trainer_schedules have users(trainers), users can post schedules
+//         db.collection("trainer_schedules").add({
+//             name : name,
+//             contact: contact,
+//             time: time,
+//             location: location,
+//             specialty: specialty,
+//             price: price,
+//             userIdentification: currentUserUid // possibly used later on to track whoever posted this
+//         }).then(
+//             () => dispatch({ type: SCHEDULE_RESET })
+//             // need to navigate back to home page/search page     !
+//             )
+//     };
+// }

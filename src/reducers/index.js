@@ -77,6 +77,21 @@ export default mainReducer = (state = initialState, action) => {
         }
       };
 
+    case actionTypes.SET_SCHEDULE_EDIT_INDEX:
+      return {
+        ...state,
+        editScheduleIndex: action.payload
+      };
+
+    case actionTypes.SCHEDULE_UPDATE_SUCCESS:
+      const postedSchedules = state.postedSchedules;
+      postedSchedules[state.editScheduleIndex] = action.schedule; 
+      return {
+        ...state,
+        postedSchedules,
+        editScheduleIndex: -1,
+      };
+
     case actionTypes.UPDATE_USER_INFO_SUCCESS:
       return {
         ...state,

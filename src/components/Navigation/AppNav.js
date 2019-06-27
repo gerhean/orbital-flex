@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { changeScreen } from "../../actions";
 
+import { changeScreen, scheduleCreate, scheduleUpdate } from "../../actions";
 import Home from "../Home";
 import Search from "../Search";
 import Chat from "../Chat";
@@ -18,13 +18,15 @@ import EditUserInfoForm from "../Home/EditUserInfo"
 import { Container, Button, Text, Icon, Footer, FooterTab } from "native-base";
 
 const mapStateToProps = state => ({
-  screen: state.screen
+  screen: state.screen,
 });
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       handleChangeScreen: changeScreen,
+      handleScheduleCreate: scheduleCreate,
+      handleScheduleUpdate: scheduleUpdate
     },
     dispatch
   );
@@ -42,8 +44,15 @@ export class AppNav extends Component {
     switch (this.props.screen) {
       case "Home":
         return <Home />;
-      case "ScheduleForm":
-        return <ScheduleForm />;
+      case "CreateSchedule":
+        return <ScheduleForm 
+          handleSubmitSchedule={this.props.handleScheduleCreate}
+        />;
+      case "EditSchedule":
+        return <ScheduleForm 
+          handleSubmitSchedule={this.props.handleScheduleUpdate}
+          isEditForm={true}
+        />;
       case "EditUserInfoForm":
         return <EditUserInfoForm />;
       case "Search":

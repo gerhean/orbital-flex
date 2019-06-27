@@ -12,6 +12,7 @@ export default initialState = {
   users: {},
   bookedSchedules: [],
   postedSchedules: [],
+  editScheduleIndex: -1,
 };
 
 const mockUser = {

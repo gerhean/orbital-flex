@@ -134,7 +134,7 @@ function* backendSaga() {
 
 	yield takeEvery(SCHEDULE_UPDATE, function*(action){
     try {
-    	const scheduleId = "SOME NUMBER"
+    	const scheduleId = action.schedule.scheduleId;
     	const ref = db.collection('trainer_schedules').doc(scheduleId) 
 	    yield call(
 	    	[ref, ref.update], 
@@ -159,13 +159,17 @@ function* backendSaga() {
     	for (const id in bookedIds) {
     		const docRef = scheduleCollection.doc(id);
     		const data = yield call([docRef, docRef.get]);
-    		booked.push(data.data());
+    		const schedule = data.data() 
+    		schedule["scheduleId"] = id;
+    		booked.push(schedule);
     	};
 
     	for (const id in postedIds) {
     		const docRef = scheduleCollection.doc(id);
     		const data = yield call([docRef, docRef.get]);
-    		posted.push(data.data());
+    		const schedule = data.data() 
+    		schedule["scheduleId"] = id;
+    		booked.push(schedule);
     	};
 
       yield put({ type: SCHEDULE_FETCH_HOME_SUCCESS, 

@@ -32,7 +32,8 @@ const mapDispatchToProps = dispatch =>
     {
       handleLogout: logout,
       handleChangeScreen: changeScreen,
-      handleScheduleFetch: scheduleFetchHome
+      handleScheduleFetch: scheduleFetchHome,
+      handleScheduleCreate: scheduleCreate
     },
     dispatch
   );
@@ -89,7 +90,7 @@ class Home extends Component {
             <Accordion dataArray={scheduleArray} renderContent={item => {item.content}} />
           <Card>
             <CardItem>
-              <Button onPress={this.navigate("ScheduleForm")}>
+              <Button onPress={this.navigate("CreateSchedule")}>
                 <Text>Create Schedule</Text>
               </Button>
             </CardItem>

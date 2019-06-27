@@ -1,7 +1,8 @@
 import * as actionTypes from "./actionTypes";
 
 export * from "./loginActions";
-export * from "./ScheduleActions";
+export * from "./scheduleActions";
+export * from "./searchActions";
 
 export const initializeApp = () => ({
   type: actionTypes.INITIALIZE_APP,

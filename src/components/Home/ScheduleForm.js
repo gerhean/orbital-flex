@@ -1,3 +1,4 @@
+import { PropTypes } from 'prop-types';
 import React, { Component } from "react";
 import {
   Text,
@@ -26,19 +27,20 @@ import DateTimePicker from "react-native-modal-datetime-picker";
 import { scheduleCreate, changeScreen } from "../../actions";
 
 const mapStateToProps = state => ({
-  user: state.user
+  user: state.user,
+  scheduleIndex: state.editScheduleIndex,
+  postedSchedules: state.postedSchedules,
 });
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      handleScheduleCreate: scheduleCreate,
       handleChangeScreen: changeScreen,
     },
     dispatch
   );
 
-const initialState = {
+const initialSchedule = {
   name: "",
   day: 0,
   timeStart: 0,
@@ -47,26 +49,34 @@ const initialState = {
   services: "",
   price: "",
   remarks: "",
-  timePickerVisible: ""
 };
 
 class ScheduleForm extends Component {
+  static propTypes = {
+    isEditForm: PropTypes.bool,
+    // Is schedule for editing?
+    handleSubmitSchedule: PropTypes.func.isRequired,
+    // Function to pass edited schedule into
+  }
+
   constructor(props) {
     super(props);
+    let schedule = initialSchedule;
+    if (this.props.isEditForm) {
+      schedule = this.props.postedSchedules[this.props.scheduleIndex];
+    } 
     this.state = {
-      ...initialState,
-
+      ...schedule,
+      timePickerVisible: ""
     };
   }
 
   submitForm = () => {
     const { name, day, timeStart, timeEnd, location, services, price, remarks} = this.state
-    
     if (!name || day === 0 || !location) {
       Toast.show({ text: "missing fields" })
     }
-    
-    this.props.handleScheduleCreate({
+    const schedule = {
       name,
       day,
       timeStart,
@@ -75,7 +85,12 @@ class ScheduleForm extends Component {
       services,
       price,
       remarks
-    });
+    }
+    if (this.props.isEditForm) {
+      schedule["scheduleId"] = this.state.scheduleId;
+    }
+    
+    this.props.handleSubmitSchedule(schedule);
   };
 
   setValue = key => value => {
