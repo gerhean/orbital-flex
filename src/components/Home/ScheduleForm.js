@@ -17,7 +17,8 @@ import {
   Label,
   Input,
   Picker,
-  Icon
+  Icon,
+  Toast
 } from "native-base";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -59,9 +60,21 @@ class ScheduleForm extends Component {
   }
 
   submitForm = () => {
-    const { name, day, timeStart, timeEnd, location, services, price} = this.state
+    const { name, day, timeStart, timeEnd, location, services, price, remarks} = this.state
+    
+    if (!name || day === 0 || !location) {
+      Toast.show({ text: "missing fields" })
+    }
+    
     this.props.handleScheduleCreate({
-      ...this.state
+      name,
+      day,
+      timeStart,
+      timeEnd,
+      location,
+      services,
+      price,
+      remarks
     });
   };
 

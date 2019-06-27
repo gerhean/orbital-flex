@@ -5,6 +5,8 @@ import { Toast } from 'native-base';
 // import db from '../firebase';
 import { takeLatest, takeEvery, put, call, select } from 'redux-saga/effects';
 import { 
+	INITIALIZE_APP,
+	INITIALIZE_APP_SUCCESS,
 	LOGIN_INITIALIZE,
 	LOGIN_SUCCESS,
 	LOGIN_FAIL,
@@ -28,6 +30,21 @@ const serverTimestamp = firebase.firestore.FieldValue.serverTimestamp;
 const db = firebase.firestore();
 
 function* backendSaga() {
+
+	yield takeEvery(INITIALIZE_APP, function*(action){
+	  try {
+	    const auth = firebase.auth()
+	    const user = auth.currentUser;
+	    if (!user) {
+	       yield put({ type: LOGOUT });
+	    }
+	    yield put({ type: INITIALIZE_APP_SUCCESS });
+	  } catch (error) {
+	    const error_message = { code: error.code, message: error.message };
+	    yield put({ type: SIGNUP_FAIL, error: error_message });
+	    yield call(displayErrorMessage, error, INITIALIZE_APP);
+	  }
+	})
 
   yield takeEvery(SIGNUP_INITIALIZE, function*(action){
 	  try {

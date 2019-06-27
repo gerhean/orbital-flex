@@ -6,7 +6,7 @@ const initialAuth = {
 
 export default initialState = {
   auth: initialAuth,
-  lastUpdateTime: 0,
+  initializingApp: true,
   screen: 'Login',
   user: undefined,
   bookedSchedules: [],

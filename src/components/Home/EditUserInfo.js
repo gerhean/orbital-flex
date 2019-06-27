@@ -14,7 +14,10 @@ import {
   Thumbnail,
   Input,
   Form,
-  Item
+  Item,
+  Label,
+  Picker,
+  Icon
 } from "native-base";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -85,63 +88,56 @@ class UserInfoForm extends Component {
         <Content>
           <Form>
             <Item floatingLabel>
-              <Text>Username</Text>
+              <Label>Username</Label>
               <Input
                 value={this.state.username}
-                onChangeText={text =>
-                  this.setState({
-                    username: text
-                  })
+                onChangeText={this.setValue("username")})
                 }
               />
             </Item>
             <Item floatingLabel>
-              <Text>Profile Picture URL</Text>
+              <Label>Profile Picture URL</Label>
               <Input
                 value={this.state.profilePic}
-                onChangeText={text =>
-                  this.setState({
-                    profilePic: text
-                  })
+                onChangeText={this.setValue("profilePic"))
                 }
               />
             </Item>
-            <Item floatingLabel>
-              <Text>Contact</Text>
-              <Input
-                placeholder="Contact"
-                value={this.state.contact}
-                onChangeText={text =>
-                  this.setState({
-                    contact: text
-                  })
-                }
-              />
-            </Item>
-            <Item floatingLabel>
-              <Text>About</Text>
-              <Input
-                placeholder="About"
-                value={this.state.about}
-                onChangeText={text =>
-                  this.setState({
-                    about: text
-                  })
-                }
-              />
-            </Item>
-            <Item floatingLabel>
-              <Text>Gender</Text>
-              <Input
+
+            <Item picker>
+              <Picker
+                mode="dropdown"
+                iosIcon={<Icon name="arrow-down" />}
+                style={{ width: undefined }}
                 placeholder="Gender"
-                value={this.state.gender}
-                onChangeText={text =>
-                  this.setState({
-                    gender: text
-                  })
+                placeholderStyle={{ color: "#bfc6ea" }}
+                placeholderIconColor="#007aff"
+                selectedValue={this.state.gender}
+                onValueChange={this.setValue("gender")}
+              >
+                <Picker.Item label="Prefer not to say" value={0} />
+                <Picker.Item label="Male" value={1} />
+                <Picker.Item label="Female" value={2} />
+              </Picker>
+            </Item>
+
+            <Item floatingLabel>
+              <Label>Contact</Label>
+              <Input
+                value={this.state.contact}
+                onChangeText={this.setValue("contact")}
+              />
+            </Item>
+
+            <Item floatingLabel>
+              <Label>About</Label>
+              <Input
+                value={this.state.about}
+                onChangeText={this.setValue("about"))
                 }
               />
             </Item>
+            
           </Form>
           <Button onPress={this.submitForm}>
             <Text>Submit</Text>
