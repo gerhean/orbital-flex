@@ -13,7 +13,8 @@ import {
   FooterTab,
   Right,
   Icon,
-  Input
+  Input,
+  Item
 } from "native-base";
 import Expo from "expo";
 import firebase from "firebase";

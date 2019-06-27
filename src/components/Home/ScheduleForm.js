@@ -42,12 +42,13 @@ const mapDispatchToProps = dispatch =>
 
 const initialSchedule = {
   name: "",
-  day: 0,
+  image: "",
+  day: 1,
   timeStart: 0,
   timeEnd: 0,
   location: "",
   services: "",
-  price: "",
+  price: 0,
   remarks: "",
 };
 
@@ -67,17 +68,29 @@ class ScheduleForm extends Component {
     } 
     this.state = {
       ...schedule,
+      price: schedule.price.toString(),
       timePickerVisible: ""
     };
-  }
+  };
 
   submitForm = () => {
-    const { name, day, timeStart, timeEnd, location, services, price, remarks} = this.state
-    if (!name || day === 0 || !location) {
-      Toast.show({ text: "missing fields" })
+    const { name, day, timeStart, timeEnd, location, services, remarks} = this.state;
+    let { price, image } = this.state;
+    if (!name || !location) {
+      Toast.show({ text: "Missing fields" })
+      return;
+    }
+    price = parseFloat(price);
+    if (price === NaN) {
+      Toast.show({ text: "Price is not a number" })
+      return;
+    }
+    if (!image) {
+      image = this.props.user.profilePic;
     }
     const schedule = {
       name,
+      image,
       day,
       timeStart,
       timeEnd,
@@ -95,7 +108,7 @@ class ScheduleForm extends Component {
 
   setValue = key => value => {
     this.setState({
-      [key]: text
+      [key]: value
     })
   };
 
@@ -103,7 +116,7 @@ class ScheduleForm extends Component {
     this.setState({
       timePickerVisible: visible
     })
-  }
+  };
 
   handleTimePicked = date => {
     const time = date.getHours() * 60 + date.getMinutes();
@@ -111,13 +124,7 @@ class ScheduleForm extends Component {
     this.setState({
       [this.state.timePickerVisible]: time
     })
-  }
-
-  timeToString = (time) => {
-    const minute = time%60;
-    const hour = (time - minute) / 60
-    return "" + hour + ":" + minute 
-  }
+  };
 
   navigate = screen => () => {
     this.props.handleChangeScreen(screen);
@@ -140,15 +147,24 @@ class ScheduleForm extends Component {
 
         <Content>
           <Form>
-            <Item floatingLabel>
-              <Label>Name of Schedule</Label>
+            <Item stackedLabel>
+              <Label>Name of Schedule*</Label>
               <Input
                 value={this.state.name}
                 onChangeText={this.setValue("name")}
               />
             </Item>
 
-            <Item picker>
+            <Item stackedLabel>
+              <Label>Image URL (current profile picture used if blank)</Label>
+              <Input
+                value={this.state.image}
+                onChangeText={this.setValue("image")}
+              />
+            </Item>
+
+            <Item picker fixedLabel>
+              <Label>Day of the week</Label>
               <Picker
                 mode="dropdown"
                 iosIcon={<Icon name="arrow-down" />}
@@ -169,65 +185,73 @@ class ScheduleForm extends Component {
               </Picker>
             </Item>
 
-            <Item>
-              <Text>Time</Text>
-              <Button onPress={this.changeTimePickerState("timeStart")}>
+            <Item fixedLabel>
+              <Label>Time</Label>
+              <Button rounded bordered onPress={this.changeTimePickerState("timeStart")}>
                 <Text>{timeToString(this.state.timeStart)}</Text>
               </Button>
               <Text> to </Text>
-              <Button onPress={this.changeTimePickerState("timeEnd")}>
+              <Button rounded bordered onPress={this.changeTimePickerState("timeEnd")}>
                 <Text>{timeToString(this.state.timeEnd)}</Text>
               </Button>
 
               <DateTimePicker
-                isVisible={this.state.timePickerVisible}
+                isVisible={this.state.timePickerVisible !== ""}
                 onConfirm={this.handleTimePicked}
                 onCancel={this.changeTimePickerState("")}
                 mode="time"
               />
             </Item>
 
-            <Item floatingLabel>
+            <Item stackedLabel>
+              <Label>Location*</Label>
               <Input
-                placeholder="Location"
                 value={this.state.location}
                 onChangeText={this.setValue("location")}
               />
             </Item>
 
-            <Item>
+            <Item stackedLabel>
+              <Label>Type</Label>
               <Input
-                placeholder="Type"
                 value={this.state.services}
                 onChangeText={this.setValue("services")}
               />
             </Item>
 
-            <Item>
+            <Item stackedLabel>
+              <Label>Price</Label>
               <Input
-                placeholder="Price"
                 value={this.state.price}
                 onChangeText={this.setValue("price")}
                 keyboardType={'numeric'}
               />
             </Item>
 
-            <Item>
+            <Item stackedLabel>
+              <Label>Remarks</Label>
               <Input
-                placeholder="Remarks"
                 value={this.state.remarks}
                 onChangeText={this.setValue("remarks")}
               />
             </Item>
 
           </Form>
-          <Button onPress={this.submitForm}>
+          <Button rounded block bordered onPress={this.submitForm}>
             <Text>Submit</Text>
           </Button>
         </Content>
       </Container>
     );
   }
+}
+
+const timeToString = time => {
+  const minute = time%60;
+  const hour = (time - minute) / 60
+  const frontZero = hour < 10 ? '0' : '';
+  const backZero = minute < 10 ? '0' : '';
+  return frontZero + hour + ":" + minute + backZero
 }
 
 export default connect(

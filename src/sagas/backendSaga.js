@@ -42,8 +42,6 @@ function* backendSaga() {
 	    }
 	    yield put({ type: INITIALIZE_APP_SUCCESS });
 	  } catch (error) {
-	    const error_message = { code: error.code, message: error.message };
-	    yield put({ type: SIGNUP_FAIL, error: error_message });
 	    yield call(displayErrorMessage, error, INITIALIZE_APP);
 	  }
 	})
@@ -141,7 +139,7 @@ function* backendSaga() {
 	    	{ ...action.schedule }
 	    )
       yield put({ type: SCHEDULE_UPDATE_SUCCESS, schedule: action.schedule })
-      yield call([displayMessage], "Schedule Updated");
+      yield call(displayMessage, "Schedule Updated");
     } catch (error) {
       const error_message = { code: error.code, message: error.message };
       yield call(displayErrorMessage, error, SCHEDULE_UPDATE);

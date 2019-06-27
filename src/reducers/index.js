@@ -34,6 +34,7 @@ export default mainReducer = (state = initialState, action) => {
       };
 
     case actionTypes.LOGOUT_SUCCESS:
+      // console.log("LOGOUT_SUCCESS" + " called");
       return {
         ...initialState,
         initializingApp: false,

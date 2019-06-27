@@ -35,7 +35,7 @@ export class AuthNav extends Component {
   }
 
   renderContent = () => {
-    if (!this.props.loading) {
+    if (this.props.loading) {
       return <AppLoading onError={console.warn} />;
     } else if (this.props.isAuthenticated) {
       return <AppNav />;

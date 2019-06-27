@@ -62,7 +62,7 @@ class UserInfoForm extends Component {
 
   setValue = key => value => {
     this.setState({
-      [key]: text
+      [key]: value
     })
   };
 
@@ -80,35 +80,33 @@ class UserInfoForm extends Component {
           </Body>
           <Right>
             <Button onPress={this.navigate("Home")}>
-              <Text>Discard Changes</Text>
+              <Text>Cancel</Text>
             </Button>
           </Right>
         </Header>
 
         <Content>
           <Form>
-            <Item floatingLabel>
+            <Item stackedLabel>
               <Label>Username</Label>
               <Input
                 value={this.state.username}
-                onChangeText={this.setValue("username")})
-                }
+                onChangeText={this.setValue("username")}
               />
             </Item>
-            <Item floatingLabel>
+            <Item stackedLabel>
               <Label>Profile Picture URL</Label>
               <Input
                 value={this.state.profilePic}
-                onChangeText={this.setValue("profilePic"))
-                }
+                onChangeText={this.setValue("profilePic")}
               />
             </Item>
 
-            <Item picker>
+            <Item picker fixedLabel>
+              <Label>Gender</Label>
               <Picker
                 mode="dropdown"
                 iosIcon={<Icon name="arrow-down" />}
-                style={{ width: undefined }}
                 placeholder="Gender"
                 placeholderStyle={{ color: "#bfc6ea" }}
                 placeholderIconColor="#007aff"
@@ -121,7 +119,7 @@ class UserInfoForm extends Component {
               </Picker>
             </Item>
 
-            <Item floatingLabel>
+            <Item stackedLabel>
               <Label>Contact</Label>
               <Input
                 value={this.state.contact}
@@ -129,17 +127,16 @@ class UserInfoForm extends Component {
               />
             </Item>
 
-            <Item floatingLabel>
+            <Item stackedLabel>
               <Label>About</Label>
               <Input
                 value={this.state.about}
-                onChangeText={this.setValue("about"))
-                }
+                onChangeText={this.setValue("about")}
               />
             </Item>
             
           </Form>
-          <Button onPress={this.submitForm}>
+          <Button rounded block bordered onPress={this.submitForm}>
             <Text>Submit</Text>
           </Button>
         </Content>

@@ -17,12 +17,11 @@ const mapStateToProps = state => {
 class Schedule extends Component {
   constructor(props) {
     super(props);
-    console.log("hi");
   }
 
-  makeScheduleCard = schedule => {
+  makeScheduleCard = (schedule, index) => {
     return (
-      <CardItem>
+      <CardItem key={index}>
         <Body>
           <Text>{schedule.poster.name}</Text>
           <Text>{schedule.location}</Text>
@@ -40,7 +39,7 @@ class Schedule extends Component {
   }
     
   render() {
-    const postedCards = this.props.postedSchedules.map((schedule, index) => this.makeScheduleCard(schedule))
+    const postedCards = this.props.postedSchedules.map((schedule, index) => this.makeScheduleCard(schedule, index))
     return(   
       <Card>       
         { postedCards }

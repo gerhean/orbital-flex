@@ -16,7 +16,8 @@ import {
   Right,
   Left,
   CardItem,
-  Thumbnail
+  Thumbnail,
+  View
 } from "native-base";
 import { changeScreen, logout, scheduleFetchHome } from "../../actions";
 import profilePictureDisplay from '../profilePictureDisplay';
@@ -33,7 +34,6 @@ const mapDispatchToProps = dispatch =>
       handleLogout: logout,
       handleChangeScreen: changeScreen,
       handleScheduleFetch: scheduleFetchHome,
-      handleScheduleCreate: scheduleCreate
     },
     dispatch
   );
@@ -87,7 +87,7 @@ class Home extends Component {
               </Body>
             </CardItem>
           </Card>
-            <Accordion dataArray={scheduleArray} renderContent={item => {item.content}} />
+            <Accordion dataArray={scheduleArray} renderContent={item => <View>{item.content}</View>} />
           <Card>
             <CardItem>
               <Button onPress={this.navigate("CreateSchedule")}>

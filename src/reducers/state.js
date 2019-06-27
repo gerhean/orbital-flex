@@ -27,10 +27,13 @@ const mockUser = {
 
 const scheduleExample = {
 	id: 1, // id in firestore database
-	poster: publicUserInfo,
+	poster: "some uid",
 	booker: {},
+  image: '',
 	location: '',
-	time: '',
+	day: 0,
+  timeStart: 0,
+  timeEnd: 0,
 	price: '',
 	services: '',
 	remarks: '',

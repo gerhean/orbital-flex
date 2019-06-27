@@ -1,6 +1,8 @@
 import { Toast } from 'native-base';
 import { takeLatest, takeEvery, put, call } from "redux-saga/effects";
 import { 
+  INITIALIZE_APP,
+  INITIALIZE_APP_SUCCESS,
   LOGIN_INITIALIZE,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
@@ -13,8 +15,12 @@ import {
   SCHEDULE_CREATE_SUCCESS,
   SCHEDULE_FETCH_HOME,
   SCHEDULE_FETCH_HOME_SUCCESS,
+  SCHEDULE_UPDATE,
+  SCHEDULE_UPDATE_SUCCESS,
   UPDATE_USER_INFO,
-  UPDATE_USER_INFO_SUCCESS
+  UPDATE_USER_INFO_SUCCESS,
+  FETCH_USER_INFO,
+  FETCH_USER_INFO_SUCCESS
 } from '../actions/actionTypes';
 import * as actionTypes from "../actions/actionTypes";
 
@@ -22,30 +28,44 @@ const mockUser = {
   username: "test",
   contact: "",
   about: "I'm just a random person",
-  profilePic: "https://i.stack.imgur.com/l60Hf.png",
-  gender: 0
+  profilePic: "",
+  gender: 0,
+  bookedScheduleIds: {},
+  postedScheduleIds: {},
 };
 
 const publicUserInfo = {
   uid: 'id',
   name: 'somebody',
-  profilePic: 'https://i.stack.imgur.com/l60Hf.png',
+  profilePic: '',
   contact: '',
 }
 
 const mockSchedule = {
   id: 1, // id in firestore database
-  name: "Fantastic Gym!",
-  poster: publicUserInfo,
-  booker: publicUserInfo,
+  poster: "some uid",
+  booker: {},
+  image: '',
   location: 'Rainbow',
-  time: 'today',
+  day: 0,
+  timeStart: 0,
+  timeEnd: 0,
   price: '1 million',
   services: 'Gym',
   remarks: 'Its joke',
+  timeCreated: '1111',
 }
 
 function* mockBackendSaga() {
+
+  yield takeEvery(INITIALIZE_APP, function*(action){
+    try {
+      yield put({ type: INITIALIZE_APP_SUCCESS });
+    } catch (error) {
+      yield call(displayErrorMessage, error, INITIALIZE_APP);
+    }
+  })
+
   yield takeEvery(SIGNUP_INITIALIZE, function*(action) {
     try {
       yield put({ type: SIGNUP_SUCCESS, user: mockUser });
@@ -87,7 +107,17 @@ function* mockBackendSaga() {
     } catch (error) {
       const error_message = { code: error.code, message: error.message };
       // yield put({ type: SCHEDULE_CREATE_FAIL, error: error_message });
-      yield call(displayErrorMessage, error)
+      yield call(displayErrorMessage, error, SCHEDULE_CREATE)
+    }
+  })
+
+  yield takeEvery(SCHEDULE_UPDATE, function*(action){
+    try {
+      yield put({ type: SCHEDULE_UPDATE_SUCCESS, schedule: action.schedule })
+      yield call(displayMessage, "Schedule Updated");
+    } catch (error) {
+      const error_message = { code: error.code, message: error.message };
+      yield call(displayErrorMessage, error, SCHEDULE_UPDATE);
     }
   })
 
@@ -115,9 +145,9 @@ function* mockBackendSaga() {
   })
 }
 
-const displayErrorMessage = (error) => {
-  Toast.show({ text: "Error " + error.code + ": " + error.message });
-  console.log(error.message);
+const displayErrorMessage = (error, location = '') => {
+  console.log(error.message + ". Error at: " + location);
+  Toast.show({ text: "Error " + error.code + ": " + error.message, duration: 4000 });
 }
 
 const displayMessage = (message) => {

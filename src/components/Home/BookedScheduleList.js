@@ -17,9 +17,9 @@ class BookedSchedule extends Component {
     super(props);
   }
 
-  makeScheduleCard = schedule => {
+  makeScheduleCard = (schedule, index) => {
     return (
-      <CardItem>
+      <CardItem key={index}>
         <Left>
           {profilePictureDisplay(schedule.poster.profilePic)}
         </Left>
@@ -37,7 +37,7 @@ class BookedSchedule extends Component {
   }
     
   render() {
-    const bookedCards = this.props.bookedSchedules.map((schedule, index) => this.makeScheduleCard(schedule))
+    const bookedCards = this.props.bookedSchedules.map((schedule, index) => this.makeScheduleCard(schedule, index))
     return(          
       bookedCards
     );
