@@ -43,14 +43,15 @@ const publicUserInfo = {
 
 const mockSchedule = {
   id: 1, // id in firestore database
+  name: "some random schedule",
   poster: "some uid",
   posterName: "some name",
   booker: {},
   image: '',
   location: 'Rainbow',
   day: 0,
-  timeStart: 0,
-  timeEnd: 0,
+  timeStart: 723,
+  timeEnd: 812,
   price: '1 million',
   services: 'Gym',
   remarks: 'Its joke',

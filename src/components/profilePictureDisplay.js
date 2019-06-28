@@ -3,10 +3,10 @@ import {
   Thumbnail
 } from "native-base";
 
-export default profilePictureDisplay = uri => {
+export default profilePictureDisplay = (uri, options = {}) => {
   if (uri) {
-    return <Thumbnail source={{ uri }} />
+    return <Thumbnail {...options} source={{ uri }} />
   } else {
-    return <Thumbnail source={require('../../assets/blankProfile.jpg')} />
+    return <Thumbnail {...options} source={require('../../assets/blankProfile.jpg')} />
   }
 };

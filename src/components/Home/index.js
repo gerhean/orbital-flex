@@ -76,7 +76,7 @@ class Home extends Component {
           <Card>
             <CardItem>
               <Left>
-                {profilePictureDisplay(user.profilePic)}
+                {profilePictureDisplay(user.profilePic, {large: true})}
               </Left>
               <Body>
                 <Text>{user.username}</Text>
