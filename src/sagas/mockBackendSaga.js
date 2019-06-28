@@ -44,6 +44,7 @@ const publicUserInfo = {
 const mockSchedule = {
   id: 1, // id in firestore database
   poster: "some uid",
+  posterName: "some name",
   booker: {},
   image: '',
   location: 'Rainbow',

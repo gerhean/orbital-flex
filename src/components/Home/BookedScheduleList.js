@@ -19,29 +19,63 @@ class BookedSchedule extends Component {
 
   makeScheduleCard = (schedule, index) => {
     return (
-      <CardItem key={index}>
+      <CardItem bordered key={index}>
         <Left>
-          {profilePictureDisplay(schedule.poster.profilePic)}
+          {profilePictureDisplay(schedule.image)}
         </Left>
         <Body>
-          <Text>{schedule.poster.name}</Text>
-          <Text>{schedule.location}</Text>
-          <Text>{schedule.time}</Text>
-          <Text>{schedule.price}</Text>
-          <Text>{schedule.services}</Text>
-          <Text>{schedule.poster.contact}</Text>
-          <Text>{schedule.remarks}</Text>
+          <Card>
+            <CardItem header>
+              <Text>{schedule.name}</Text>
+            </CardItem>
+
+            <CardItem>
+              <Text note>Location</Text>
+              <Text>{schedule.location}</Text>
+            </CardItem>
+
+            <CardItem>
+              <Text note>Time</Text>
+              <Text>{timeToString(schedule.timeStart)} - {timeToString(schedule.timeEnd)}</Text>
+            </CardItem>
+      
+            <CardItem>
+              <Text note>Price</Text>
+              <Text>${schedule.price}</Text>
+            </CardItem>
+    
+            <CardItem>
+              <Text note>Type</Text>
+              <Text>{schedule.services}</Text>
+            </CardItem>
+    
+            <CardItem>
+              <Text note>Remarks</Text>
+              <Text>{schedule.remarks}</Text>
+            </CardItem>
+          </Card>
         </Body>
+        <Right />
       </CardItem>
     )
   }
     
   render() {
-    const bookedCards = this.props.bookedSchedules.map((schedule, index) => this.makeScheduleCard(schedule, index))
-    return(          
-      bookedCards
+    const bookedCards = this.props.bookedSchedules.map((schedule, index) => this.makeScheduleCard(schedule, index));
+    return(      
+      <Card>    
+        {bookedCards}
+      </Card>
     );
   }
+}
+
+const timeToString = time => {
+  const minute = time%60;
+  const hour = (time - minute) / 60
+  const frontZero = hour < 10 ? '0' : '';
+  const backZero = minute < 10 ? '0' : '';
+  return frontZero + hour + ":" + minute + backZero
 }
 
 export default connect(mapStateToProps)(BookedSchedule);
