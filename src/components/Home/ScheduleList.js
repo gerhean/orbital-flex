@@ -7,6 +7,19 @@ import { FlatList } from 'react-native'; //responsible for rendering a subset of
 import { View, Card, Body, Text, Right, Left, Thumbnail, SwipeRow, Icon, List, ListItem, Button,
 Grid, Row, Col, H2 } from 'native-base';
 import profilePictureDisplay from '../profilePictureDisplay';
+import { viewUserProfile } from "../../actions";
+
+const mapStateToProps = state => ({
+  user: state.user,
+});
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      handleViewUserProfile: viewUserProfile
+    },
+    dispatch
+  );
 
 //component responsible for rendering data returned by scheduleReducer
 class ScheduleList extends Component {
@@ -17,7 +30,7 @@ class ScheduleList extends Component {
     // Text displayed on button
     onButtonPress: PropTypes.func.isRequired,
     // Function to call when button is pressed
-    // onButtonPress: (index) => () => null
+    // onButtonPress: (index) => () => void
   }
 
   constructor(props) {
@@ -41,7 +54,9 @@ class ScheduleList extends Component {
                 <Text note>Poster:</Text>
               </Row>
               <Row>
-                <Button block rounded bordered >
+                <Button 
+                  block rounded bordered 
+                  onPress={this.props.handleViewUserProfile(schedule.poster)}>
                   <Text>{schedule.posterName}</Text>
                 </Button>
               </Row>
@@ -110,4 +125,4 @@ const timeToString = time => {
   return frontZero + hour + ":" + minute + backZero
 }
 
-export default ScheduleList;
+export default connect(mapStateToProps, mapDispatchToProps)(ScheduleList);

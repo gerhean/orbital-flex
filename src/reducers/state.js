@@ -13,6 +13,7 @@ export default initialState = {
   bookedSchedules: [],
   postedSchedules: [],
   editScheduleIndex: -1,
+  userProfileToView: ""
 };
 
 const mockUser = {

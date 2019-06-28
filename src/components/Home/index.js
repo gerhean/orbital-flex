@@ -19,7 +19,7 @@ import {
   Thumbnail,
   View
 } from "native-base";
-import { changeScreen, logout, scheduleFetchHome } from "../../actions";
+import { changeScreen, logout, scheduleFetchHome, setScheduleEditIndex } from "../../actions";
 import profilePictureDisplay from '../profilePictureDisplay';
 import ScheduleList from "./ScheduleList";
 
@@ -35,6 +35,7 @@ const mapDispatchToProps = dispatch =>
       handleLogout: logout,
       handleChangeScreen: changeScreen,
       handleScheduleFetch: scheduleFetchHome,
+      handleSetScheduleEdit: setScheduleEditIndex
     },
     dispatch
   );
@@ -61,7 +62,10 @@ class Home extends Component {
     const postedScheduleList = <ScheduleList 
       scheduleArr={this.props.postedSchedules}
       buttonText="Edit Schedule"
-      onButtonPress={(index) => () => {}}
+      onButtonPress={(index) => () => {
+        this.props.handleSetScheduleEdit(index);
+        navigate("EditSchedule")();
+      }}
     />
     const scheduleArray = [
       { title: "Booked Schedules", content: bookedScheduleList },

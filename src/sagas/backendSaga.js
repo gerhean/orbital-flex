@@ -199,15 +199,22 @@ function* backendSaga() {
   yield takeEvery(FETCH_USER_INFO, function*(action){
     try {
     	const uid = action.uid;
-	    const userDocRef = db.collection('users').doc(uid);
-	   	const userData = yield call([userDocRef, userDocRef.get]);
-	   	const user = {
-	   		...userData.data(),
-	   		uid,
-	   		timeFetched: Date().getTime()
-	   	}
-	   	console.log(userData.data());
-	    yield put({ type: FETCH_USER_INFO_SUCCESS, uid, user });
+    	const storedUser = select(state => state.users[uid]);
+    	if (storedUser && (Date().getTime() - storedUser.timeFetched < 600000)) { // reduce api calls
+    		yield put({ type: FETCH_USER_INFO_SUCCESS, uid, storedUser });
+
+    	} else {
+		    const userDocRef = db.collection('users').doc(uid);
+		   	const userData = yield call([userDocRef, userDocRef.get]);
+		   	const user = {
+		   		...userData.data(),
+		   		uid,
+		   		timeFetched: Date().getTime()
+		   	}
+		   	console.log(userData.data());
+		    yield put({ type: FETCH_USER_INFO_SUCCESS, uid, user });
+    	}
+
     } catch (error) {
       const error_message = { code: error.code, message: error.message };
       yield call(displayErrorMessage, error, FETCH_USER_INFO);

@@ -116,6 +116,13 @@ export default mainReducer = (state = initialState, action) => {
         users
       };
 
+    case actionTypes.VIEW_USER_PROFILE:
+      return {
+        ...state,
+        screen: "UserProfile",
+        userProfileToView: action.uid
+      }
+
     case actionTypes.CHANGE_SCREEN:
       return {
         ...state,

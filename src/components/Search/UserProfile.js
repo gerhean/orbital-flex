@@ -16,13 +16,14 @@ import {
   CardItem,
   Thumbnail
 } from "native-base";
-import { changeScreen, logout, scheduleFetchHome } from "../../actions";
+import { changeScreen, logout, scheduleFetchHome, fetchUserInfo } from "../../actions";
 import profilePictureDisplay from '../profilePictureDisplay';
 // import BookedSchedule from "./BookedScheduleList";
 // import PostedSchedule from "./PostedScheduleList";
 
 const mapStateToProps = state => ({
-  users: state.users
+  users: state.users,
+  uid: userProfileToView
 });
 
 const mapDispatchToProps = dispatch =>
@@ -30,17 +31,19 @@ const mapDispatchToProps = dispatch =>
     {
       handleLogout: logout,
       handleChangeScreen: changeScreen,
-      handleScheduleFetch: scheduleFetchHome
+      handleScheduleFetch: scheduleFetchHome,
+      handleFetchUserInfo: fetchUserInfo,
     },
     dispatch
   );
 
-class Home extends Component {
+class UserProfile extends Component {
   constructor(props) {
     super(props);
   }
 
   componentDidMount() {
+    this.props.handleFetchUserInfo(this.props.uid);
     // this.props.handleScheduleFetch();
   }
 
@@ -57,6 +60,11 @@ class Home extends Component {
     const scheduleArray = [
       { title: "PostedSchedules", content: <BookedSchedule/> },
     ]
+          // <Right>
+          //   <Button onPress={() => {}}>
+          //     <Text>Back</Text>
+          //   </Button>
+          // </Right>
 
     return (
       <Container>
@@ -65,11 +73,6 @@ class Home extends Component {
           <Body>
             <Title>User Profile</Title>
           </Body>
-          <Right>
-            <Button onPress={() => {}}>
-              <Text>Back</Text>
-            </Button>
-          </Right>
         </Header>
 
         <Content>
@@ -97,4 +100,4 @@ class Home extends Component {
 
 // export default Home;
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);
