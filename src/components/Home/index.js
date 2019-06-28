@@ -21,11 +21,12 @@ import {
 } from "native-base";
 import { changeScreen, logout, scheduleFetchHome } from "../../actions";
 import profilePictureDisplay from '../profilePictureDisplay';
-import BookedSchedule from "./BookedScheduleList";
-import PostedSchedule from "./PostedScheduleList";
+import ScheduleList from "./ScheduleList";
 
 const mapStateToProps = state => ({
-  user: state.user
+  user: state.user,
+  bookedSchedules: state.bookedSchedules,
+  postedSchedules: state.postedSchedules,
 });
 
 const mapDispatchToProps = dispatch =>
@@ -52,9 +53,19 @@ class Home extends Component {
   };
 
   render() {
+    const bookedScheduleList = <ScheduleList 
+      scheduleArr={this.props.bookedSchedules}
+      buttonText="Unbook"
+      onButtonPress={(index) => () => {}}
+    />
+    const postedScheduleList = <ScheduleList 
+      scheduleArr={this.props.postedSchedules}
+      buttonText="Edit Schedule"
+      onButtonPress={(index) => () => {}}
+    />
     const scheduleArray = [
-      { title: "Booked Schedules", content: <BookedSchedule/> },
-      { title: "Posted Schedules", content: <PostedSchedule/> },
+      { title: "Booked Schedules", content: bookedScheduleList },
+      { title: "Posted Schedules", content: postedScheduleList },
     ]
     const user = this.props.user;
 
