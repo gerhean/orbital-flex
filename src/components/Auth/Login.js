@@ -92,7 +92,6 @@ class LoginBase extends Component {
           <Button
             buttonStyle={styles.buttonStyle}
             onPress={this.navigate("Register")}
-            type="outline"
             title="Create new account"
           />
         </View>
