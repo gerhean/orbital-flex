@@ -116,7 +116,7 @@ function* backendSaga() {
 	yield takeEvery(SCHEDULE_CREATE, function*(action){
 	  try {
 			const uid = firebase.auth().uid;
-			const posterName = select(state => state.user.username);
+			const posterName = yield select(state => state.user.username);
 			const schedule = { ...action.payload, poster: uid, posterName, bookers: {}, timeCreated: serverTimestamp() }
 	    const ref = yield call(db.collection("trainer_schedules").add, schedule);
 
@@ -150,11 +150,12 @@ function* backendSaga() {
 	yield takeEvery(SCHEDULE_FETCH_HOME, function*(action){
     try {
     	const scheduleCollection = db.collection('trainer_schedules');
-    	const bookedIds = select(state => state.user.bookedScheduleIds);
-	    const postedIds = select(state => state.user.postedScheduleIds);
+    	const bookedIds = yield select(state => state.user.bookedSchedules);
+	    const postedIds = yield select(state => state.user.postedSchedules);
     	const booked = [];
     	const posted = [];
 
+    	console.log(bookedIds);
     	for (const id in bookedIds) {
     		const docRef = scheduleCollection.doc(id);
     		const data = yield call([docRef, docRef.get]);
@@ -183,13 +184,16 @@ function* backendSaga() {
 
   yield takeEvery(UPDATE_USER_INFO, function*(action){
     try {
-    	const userRef = db.collection('users').doc(uid) 
+    	const uid = firebase.auth().currentUser.uid;
+    	console.log(uid);
+    	const userRef = db.collection('users').doc(uid)
+    	console.log(action.userInfo); 
 	    yield call(
 	    	[userRef, userRef.update], 
-	    	{ ...action.userInfo }
+	    	action.userInfo
 	    )
       yield put({ type: UPDATE_USER_INFO_SUCCESS, userInfo: action.userInfo })
-      yield call([displayMessage], "User Info Updated");
+      yield call(displayMessage, "User Info Updated");
     } catch (error) {
       const error_message = { code: error.code, message: error.message };
       yield call(displayErrorMessage, error, UPDATE_USER_INFO);
@@ -199,7 +203,7 @@ function* backendSaga() {
   yield takeEvery(FETCH_USER_INFO, function*(action){
     try {
     	const uid = action.uid;
-    	const storedUser = select(state => state.users[uid]);
+    	const storedUser = yield select(state => state.users[uid]);
     	if (storedUser && (Date().getTime() - storedUser.timeFetched < 600000)) { // reduce api calls
     		yield put({ type: FETCH_USER_INFO_SUCCESS, uid, storedUser });
 
