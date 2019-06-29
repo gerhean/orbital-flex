@@ -79,7 +79,8 @@ export default mainReducer = (state = initialState, action) => {
     case actionTypes.SET_SCHEDULE_EDIT_INDEX:
       return {
         ...state,
-        editScheduleIndex: action.payload
+        editScheduleIndex: action.payload,
+        screen: "EditSchedule"
       };
 
     case actionTypes.SCHEDULE_UPDATE_SUCCESS:
@@ -89,6 +90,7 @@ export default mainReducer = (state = initialState, action) => {
         ...state,
         postedSchedules,
         editScheduleIndex: -1,
+        screen: "Home"
       };
 
     case actionTypes.UPDATE_USER_INFO_SUCCESS:

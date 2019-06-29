@@ -59,7 +59,6 @@ class Home extends Component {
       buttonText="Edit Schedule"
       onButtonPress={(index) => () => {
         this.props.handleSetScheduleEdit(index);
-        navigate("EditSchedule")();
       }}
     />
     const scheduleArray = [
