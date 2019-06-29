@@ -44,7 +44,7 @@ class UserProfile extends Component {
 
   componentDidMount() {
     this.props.handleFetchUserInfo(this.props.uid);
-    console.log(users);
+    console.log(this.props.users);
     // this.props.handleScheduleFetch();
   }
 

@@ -103,7 +103,6 @@ export default mainReducer = (state = initialState, action) => {
       if (Object.keys(state.users).length > 15) {
         users = {}
       }
-      console.log(user);
       users =  {
         ...users,
         [action.uid]: action.user

@@ -209,16 +209,15 @@ function* backendSaga() {
     	const uid = action.uid;
     	const storedUser = yield select(state => state.users[uid]);
     	if (storedUser && (Date.now() - storedUser.timeFetched < 600000)) { // reduce api calls
-    		yield put({ type: FETCH_USER_INFO_SUCCESS, uid, user: storedUser });
+    		yield put({ type: FETCH_USER_INFO_SUCCESS, user: storedUser, uid });
     	} else {
 		    const userDocRef = db.collection('users').doc(uid);
 		   	const userData = yield call([userDocRef, userDocRef.get]);
-		   	const user = {
+		   	const user = yield {
 		   		...userData.data(),
 		   		uid,
 		   		timeFetched: Date.now()
 		   	}
-		   	console.log(userData.data());
 		    yield put({ type: FETCH_USER_INFO_SUCCESS, uid, user });
     	}
 
