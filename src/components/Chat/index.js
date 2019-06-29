@@ -18,14 +18,14 @@ import firebase from "firebase";
 
 //needs log out button
 
-class Home extends Component {
+class Chat extends Component {
   render() {
 
     return (
       <Container>
         <Header>
           <Body>
-            <Title>Profile</Title>
+            <Title>Chat</Title>
           </Body>
           <Right>
             <Button onPress={() => firebase.auth().signOut()}>
@@ -54,4 +54,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Home;
+export default Chat;
