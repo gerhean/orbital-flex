@@ -122,10 +122,11 @@ function* backendSaga() {
 
 	yield takeEvery(SCHEDULE_CREATE, function*(action){
 	  try {
-			const uid = firebase.auth().uid;
+			const uid = firebase.auth().currentUser.uid;
 			const posterName = yield select(state => state.user.username);
 			const schedule = { ...action.payload, poster: uid, posterName, bookers: {}, timeCreated: serverTimestamp() }
-	    const ref = yield call(db.collection("trainer_schedules").add, schedule);
+			const collectionRef = db.collection("trainer_schedules")
+	    const ref = yield call([collectionRef, collectionRef.add], schedule);
 
 	    const userRef = db.collection('users').doc(uid) 
 	    yield call([userRef, userRef.update], {[`postedSchedules.${ref.id}`]: true})
