@@ -1,7 +1,7 @@
 import React, { Component } from "react";
+import { View, StyleSheet, Text } from "react-native";
 //import { FlatList } from 'react-native';
 import {
-  Text,
   Container,
   Header,
   Body,
@@ -34,13 +34,24 @@ class Home extends Component {
           </Right>
         </Header>
         <Content>
-          <Card>
-            <Text>Placeholder for list</Text>
-          </Card>
+            <Body style={styles.bodyStyle}>
+              <Text>Implementation in progress</Text>
+            </Body>
         </Content>
       </Container>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  textStyle: {
+    color: '#696969',
+    fontSize: 25
+  },
+  bodyStyle: {
+    flex: 1,
+    justifyContent: 'center'
+  }
+});
 
 export default Home;
