@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
-import { changeScreen, scheduleCreate, scheduleUpdate } from "../../actions";
+import { changeScreen, scheduleCreate, scheduleUpdate, scheduleFetchHome } from "../../actions";
 import Home from "../Home";
 import Search from "../Search";
 import Chat from "../Chat";

@@ -215,6 +215,10 @@ function* backendSaga() {
 		   		uid,
 		   		timeFetched: Date.now()
 		   	}
+		   	for (const scheduleId of Object.keys(user.postedSchedules)) {
+		   		yield put({ type: FETCH_SCHEDULE, scheduleId });
+		   	}
+
 		    yield put({ type: FETCH_USER_INFO_SUCCESS, uid, user });
     	}
 
@@ -226,7 +230,7 @@ function* backendSaga() {
   yield takeEvery(FETCH_SCHEDULE, function*(action){
     try {
     	const id = action.scheduleId;
-    	const storedSchedule = yield select(state => state.users[id]);
+    	const storedSchedule = yield select(state => state.schedules[id]);
     	if (!storedSchedule || (Date.now() - storedSchedule.timeFetched > 3000000)) { // reduce api calls
 		    const docRef = db.collection('trainer_schedules').doc(id);
 		   	const scheduleData = yield call([docRef, docRef.get]);

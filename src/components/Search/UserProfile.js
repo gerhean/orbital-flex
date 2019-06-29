@@ -14,7 +14,8 @@ import {
   Right,
   Left,
   CardItem,
-  Thumbnail
+  Thumbnail,
+  View
 } from "native-base";
 import { changeScreen, logout, scheduleFetchHome, fetchUserInfo } from "../../actions";
 import profilePictureDisplay from '../profilePictureDisplay';
@@ -43,7 +44,6 @@ class UserProfile extends Component {
 
   componentDidMount() {
     this.props.handleFetchUserInfo(this.props.uid);
-    console.log(this.props.users);
     // this.props.handleScheduleFetch();
   }
 
@@ -56,15 +56,14 @@ class UserProfile extends Component {
     if (!user) {
       return <Text>Loading</Text>
     }
-
     const postedScheduleList = <ScheduleList 
-      scheduleArr={postedSchedules}
-      buttonText="Edit Schedule"
-      onButtonPress={(index) => () => {
-        this.props.handleSetScheduleEdit(index);
-        navigate("EditSchedule")();
-      }}
+      scheduleArr={Object.keys(user.postedSchedules)}
+      refArray={true}
+      onButtonPress={(index) => () => {}}
     />
+    const scheduleArray = [
+      { title: "Posted Schedules", content: postedScheduleList },
+    ]
 
           // <Right>
           //   <Button onPress={() => {}}>
@@ -97,6 +96,9 @@ class UserProfile extends Component {
               </Body>
             </CardItem>
           </Card>
+
+          <Accordion dataArray={scheduleArray} renderContent={item => <View>{item.content}</View>} />
+
         </Content>
       </Container>
     );

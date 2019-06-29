@@ -1,6 +1,6 @@
 import * as actionTypes from "./actionTypes";
 
-export const fetchSchedule = scheduleId = ({
+export const fetchSchedule = scheduleId => ({
   type: actionTypes.FETCH_SCHEDULE,
   scheduleId,
 });

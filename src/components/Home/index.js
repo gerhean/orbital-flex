@@ -19,7 +19,7 @@ import {
   Thumbnail,
   View
 } from "native-base";
-import { changeScreen, logout, scheduleFetchHome, setScheduleEditIndex } from "../../actions";
+import { changeScreen, logout, setScheduleEditIndex } from "../../actions";
 import profilePictureDisplay from '../profilePictureDisplay';
 import ScheduleList from "./ScheduleList";
 
@@ -97,7 +97,9 @@ class Home extends Component {
               </Body>
             </CardItem>
           </Card>
-            <Accordion dataArray={scheduleArray} renderContent={item => <View>{item.content}</View>} />
+          
+          <Accordion dataArray={scheduleArray} renderContent={item => <View>{item.content}</View>} />
+          
           <Card>
             <CardItem>
               <Button onPress={this.navigate("CreateSchedule")}>

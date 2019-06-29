@@ -11,6 +11,7 @@ import { viewUserProfile } from "../../actions";
 
 const mapStateToProps = state => ({
   user: state.user,
+  schedules: state.schedules,
 });
 
 const mapDispatchToProps = dispatch =>
@@ -26,6 +27,8 @@ class ScheduleList extends Component {
   static propTypes = {
     scheduleArr: PropTypes.array.isRequired,
     // array of schedule
+    refArray: PropTypes.bool,
+    // array consist of references
     buttonText: PropTypes.string,
     // Text displayed on button
     onButtonPress: PropTypes.func.isRequired,
@@ -48,6 +51,11 @@ class ScheduleList extends Component {
       } else {
         buttonText = "Book";
       }
+    }
+
+    if (this.props.refArray) {
+      schedule = this.props.schedules[schedule];
+      if (!schedule) return;
     }
 
     return (
