@@ -27,7 +27,8 @@ const mapDispatchToProps = dispatch =>
     {
       handleChangeScreen: changeScreen,
       handleScheduleCreate: scheduleCreate,
-      handleScheduleUpdate: scheduleUpdate
+      handleScheduleUpdate: scheduleUpdate,
+      handleOwnScheduleFetch: scheduleFetchHome,
     },
     dispatch
   );
@@ -36,6 +37,10 @@ export class AppNav extends Component {
   constructor(props) {
     super(props);
   };
+
+  componentDidMount() {
+    this.props.handleOwnScheduleFetch();
+  }
 
   navigate = (screen) => () => {
     this.props.handleChangeScreen(screen)

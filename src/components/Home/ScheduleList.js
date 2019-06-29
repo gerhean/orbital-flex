@@ -26,7 +26,7 @@ class ScheduleList extends Component {
   static propTypes = {
     scheduleArr: PropTypes.array.isRequired,
     // array of schedule
-    buttonText: PropTypes.string.isRequired,
+    buttonText: PropTypes.string,
     // Text displayed on button
     onButtonPress: PropTypes.func.isRequired,
     // Function to call when button is pressed
@@ -38,6 +38,18 @@ class ScheduleList extends Component {
   }
 
   makeScheduleCard = (schedule, index) => {
+    let buttonText = this.props.buttonText;
+
+    if (!buttonText) {
+      const id = schedule.id;
+      const user = this.props.user;
+      if (user.bookedSchedules[schedule]) {
+        buttonText = "Unbook";
+      } else {
+        buttonText = "Book";
+      }
+    }
+
     return (
       <ListItem bordered key={index}>
         <Grid>
@@ -100,7 +112,7 @@ class ScheduleList extends Component {
             </Col>
           </Row>
           <Button block rounded bordered onPress={this.props.onButtonPress(index)}>
-            <Text>{this.props.buttonText}</Text>
+            <Text>{buttonText}</Text>
           </Button>
         </Grid>
       </ListItem>

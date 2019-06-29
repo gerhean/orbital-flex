@@ -30,7 +30,8 @@ class LoginBase extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      ...initialState
+      email: "",
+      password: ""
     };
   }
 

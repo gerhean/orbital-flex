@@ -23,7 +23,9 @@ import {
 	UPDATE_USER_INFO,
 	UPDATE_USER_INFO_SUCCESS,
 	FETCH_USER_INFO,
-	FETCH_USER_INFO_SUCCESS
+	FETCH_USER_INFO_SUCCESS,
+	FETCH_SCHEDULE,
+	FETCH_SCHEDULE_SUCCESS,
 } from '../actions/actionTypes';
 
 const arrayUnion = firebase.firestore.FieldValue.arrayUnion;
@@ -111,7 +113,7 @@ function* backendSaga() {
 	    const result = yield call([auth, auth.signOut])
 	    yield put({ type: LOGOUT_SUCCESS, payload: result });
 	  } catch (error) {
-	    const error_message = { code: error.code, message: error.message };
+	    // const error_message = { code: error.code, message: error.message };
 	    // yield put({ type: SIGNUP_FAIL, error: error_message });
 	    yield call(displayErrorMessage, error, LOGOUT);
 	  }
@@ -130,7 +132,7 @@ function* backendSaga() {
 	    yield put({ type: SCHEDULE_CREATE_SUCCESS, schedule, scheduleId: ref.id }) // need to navigate back to home page/search page
 	  
 	  } catch (error) {
-	    const error_message = { code: error.code, message: error.message };
+	    // const error_message = { code: error.code, message: error.message };
 	    // yield put({ type: SCHEDULE_CREATE_FAIL, error: error_message });
 	    yield call(displayErrorMessage, error, SCHEDULE_CREATE);
 	  }
@@ -146,9 +148,8 @@ function* backendSaga() {
 	    )
       yield put({ type: SCHEDULE_UPDATE_SUCCESS, schedule: action.schedule })
       yield call(displayMessage, "Schedule Updated");
-    } catch (error) {
-      const error_message = { code: error.code, message: error.message };
-      yield call(displayErrorMessage, error, SCHEDULE_UPDATE);
+    } catch (error) {      
+    	yield call(displayErrorMessage, error, SCHEDULE_UPDATE);
     }
   })
 
@@ -181,7 +182,6 @@ function* backendSaga() {
         posted 
       }) 
     } catch (error) {
-      const error_message = { code: error.code, message: error.message };
       yield call(displayErrorMessage, error, SCHEDULE_FETCH_HOME)
     }
   })
@@ -199,7 +199,6 @@ function* backendSaga() {
       yield put({ type: UPDATE_USER_INFO_SUCCESS, userInfo: action.userInfo })
       yield call(displayMessage, "User Info Updated");
     } catch (error) {
-      const error_message = { code: error.code, message: error.message };
       yield call(displayErrorMessage, error, UPDATE_USER_INFO);
     }
   })
@@ -220,8 +219,27 @@ function* backendSaga() {
     	}
 
     } catch (error) {
-      const error_message = { code: error.code, message: error.message };
       yield call(displayErrorMessage, error, FETCH_USER_INFO);
+    }
+  })
+
+  yield takeEvery(FETCH_SCHEDULE, function*(action){
+    try {
+    	const id = action.scheduleId;
+    	const storedSchedule = yield select(state => state.users[id]);
+    	if (!storedSchedule || (Date.now() - storedSchedule.timeFetched > 3000000)) { // reduce api calls
+		    const docRef = db.collection('trainer_schedules').doc(id);
+		   	const scheduleData = yield call([docRef, docRef.get]);
+		   	const schedule = yield {
+		   		...scheduleData.data(),
+		   		id,
+		   		timeFetched: Date.now()
+		   	}
+		    yield put({ type: FETCH_SCHEDULE_SUCCESS, id, schedule });
+    	}
+
+    } catch (error) {
+      yield call(displayErrorMessage, error, FETCH_SCHEDULE);
     }
   })
 }

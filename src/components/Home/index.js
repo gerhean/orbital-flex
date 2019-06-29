@@ -34,7 +34,6 @@ const mapDispatchToProps = dispatch =>
     {
       handleLogout: logout,
       handleChangeScreen: changeScreen,
-      handleScheduleFetch: scheduleFetchHome,
       handleSetScheduleEdit: setScheduleEditIndex
     },
     dispatch
@@ -43,10 +42,6 @@ const mapDispatchToProps = dispatch =>
 class Home extends Component {
   constructor(props) {
     super(props);
-  }
-
-  componentDidMount() {
-    this.props.handleScheduleFetch();
   }
 
   navigate = screen => () => {

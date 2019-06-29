@@ -18,8 +18,7 @@ import {
 } from "native-base";
 import { changeScreen, logout, scheduleFetchHome, fetchUserInfo } from "../../actions";
 import profilePictureDisplay from '../profilePictureDisplay';
-// import BookedSchedule from "./BookedScheduleList";
-// import PostedSchedule from "./PostedScheduleList";
+import ScheduleList from "../Home/ScheduleList";
 
 const mapStateToProps = state => ({
   users: state.users,
@@ -57,6 +56,15 @@ class UserProfile extends Component {
     if (!user) {
       return <Text>Loading</Text>
     }
+
+    const postedScheduleList = <ScheduleList 
+      scheduleArr={postedSchedules}
+      buttonText="Edit Schedule"
+      onButtonPress={(index) => () => {
+        this.props.handleSetScheduleEdit(index);
+        navigate("EditSchedule")();
+      }}
+    />
 
           // <Right>
           //   <Button onPress={() => {}}>

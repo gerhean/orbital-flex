@@ -103,8 +103,7 @@ export default mainReducer = (state = initialState, action) => {
 
     case actionTypes.FETCH_USER_INFO_SUCCESS:
       let users = state.users;
-      const user = action.user;
-      if (Object.keys(state.users).length > 30) {
+      if (Object.keys(users).length > 30) {
         users = {}
       }
       users =  {
@@ -114,6 +113,14 @@ export default mainReducer = (state = initialState, action) => {
       return {
         ...state,
         users
+      };
+
+    case actionTypes.FETCH_SCHEDULE_SUCCESS:
+      let schedules = state.schedules;
+      schedules[action.id] = action.schedule;
+      return {
+        ...state,
+        schedules
       };
 
     case actionTypes.VIEW_USER_PROFILE:

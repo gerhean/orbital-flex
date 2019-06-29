@@ -9,6 +9,7 @@ export default initialState = {
   screen: 'Login',
   user: undefined,
   users: {},
+  schedules: {},
   bookedSchedules: [],
   postedSchedules: [],
   editScheduleIndex: -1,
@@ -21,8 +22,8 @@ const mockUser = {
   about: "I'm just a random person",
   profilePic: "https://i.stack.imgur.com/l60Hf.png",
   gender: 0,
-  bookedScheduleIds: {},
-  postedScheduleIds: {},
+  bookedSchedules: {},
+  postedSchedules: {},
 };
 
 const scheduleExample = {
