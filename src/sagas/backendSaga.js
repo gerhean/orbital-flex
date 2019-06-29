@@ -31,6 +31,16 @@ const arrayUnion = firebase.firestore.FieldValue.arrayUnion;
 const serverTimestamp = firebase.firestore.FieldValue.serverTimestamp;
 const db = firebase.firestore();
 
+const initialUser = {
+  username: "Unnamed user",
+  contact: "",
+  about: "",
+  profilePic: "",
+  gender: 0, // means unspecified gender
+  bookedScheduleIds: {}, // might be violate privacy but lets leave it for now
+  postedScheduleIds: {},
+};
+
 function* backendSaga() {
 
 	yield takeEvery(INITIALIZE_APP, function*(action){
@@ -57,11 +67,7 @@ function* backendSaga() {
 	    )
 	    const uid = result.user.uid;
 	    let user = {
-	    	gender: 0, // means unspecified gender
-	    	profilePic: '',
-			  username: uid,
-			  postedSchedules: {},
-			  bookedSchedules: {}, // might be violate privacy but lets leave it for now
+	    	...initialUser
 			};
 			const userDocRef = db.collection('users').doc(uid);
 			yield call([userDocRef, userDocRef.set], user);
@@ -89,6 +95,7 @@ function* backendSaga() {
 	    const userDocRef = db.collection('users').doc(uid);
 	   	const userData = yield call([userDocRef, userDocRef.get]);
 	   	const user = {
+	   		...initialUser,
 	   		...userData.data(),
 	   		uid,
 	   	}
