@@ -3,10 +3,9 @@ import firebase from 'firebase';
 import '@firebase/firestore'
 import { Toast } from 'native-base';
 // import db from '../firebase';
-import { takeLatest, takeEvery, put, call, select } from 'redux-saga/effects';
+import { takeLatest, takeEvery, takeLeading, put, call, select } from 'redux-saga/effects';
 import { 
-	INITIALIZE_APP,
-	INITIALIZE_APP_SUCCESS,
+	LOGIN_EMAIL,
 	LOGIN_INITIALIZE,
 	LOGIN_SUCCESS,
 	LOGIN_FAIL,
@@ -43,20 +42,7 @@ const initialUser = {
 
 function* backendSaga() {
 
-	yield takeEvery(INITIALIZE_APP, function*(action){
-	  try {
-	    const auth = firebase.auth()
-	    const user = auth.currentUser;
-	    if (!user) {
-	       yield put({ type: LOGOUT });
-	    }
-	    yield put({ type: INITIALIZE_APP_SUCCESS });
-	  } catch (error) {
-	    yield call(displayErrorMessage, error, INITIALIZE_APP);
-	  }
-	})
-
-  yield takeEvery(SIGNUP_INITIALIZE, function*(action){
+  yield takeLeading(SIGNUP_INITIALIZE, function*(action){
 	  try {
 	    const auth = firebase.auth()
 	    yield call([auth, auth.setPersistence], firebase.auth.Auth.Persistence.LOCAL)
@@ -83,7 +69,7 @@ function* backendSaga() {
 	  }
 	})
 
-	yield takeEvery(LOGIN_INITIALIZE, function*(action){
+	yield takeLeading(LOGIN_EMAIL, function*(action){
 	  try {
 	    const auth = firebase.auth()
 	    const result = yield call(
@@ -91,7 +77,17 @@ function* backendSaga() {
 	      action.user.email,
 	      action.user.password
 	    )
-	    const uid = result.user.uid;
+	    yield put({ type: LOGIN_INITIALIZE });
+	  } catch (error) {
+	    const error_message = { code: error.code, message: error.message };
+	    yield put({ type: LOGIN_FAIL, error: error_message });
+	    yield call(displayErrorMessage, error, LOGIN_EMAIL);
+	  }
+	})
+
+	yield takeLeading(LOGIN_INITIALIZE, function*(action){
+	  try {
+	    const uid = firebase.auth().currentUser.uid;
 	    const userDocRef = db.collection('users').doc(uid);
 	   	const userData = yield call([userDocRef, userDocRef.get]);
 	   	const user = {
@@ -99,7 +95,6 @@ function* backendSaga() {
 	   		...userData.data(),
 	   		uid,
 	   	}
-	   	console.log(userData.data());
 	    yield put({ type: LOGIN_SUCCESS, user });
 	  } catch (error) {
 	    const error_message = { code: error.code, message: error.message };
@@ -120,11 +115,11 @@ function* backendSaga() {
 	  }
 	})
 
-	yield takeEvery(SCHEDULE_CREATE, function*(action){
+	yield takeLeading(SCHEDULE_CREATE, function*(action){
 	  try {
 			const uid = firebase.auth().currentUser.uid;
 			const posterName = yield select(state => state.user.username);
-			const schedule = { ...action.payload, poster: uid, posterName, bookers: {}, timeCreated: serverTimestamp() }
+			const schedule = { ...action.payload, poster: uid, posterName, timeCreated: serverTimestamp() }
 			const collectionRef = db.collection("trainer_schedules")
 	    const ref = yield call([collectionRef, collectionRef.add], schedule);
 
@@ -139,7 +134,7 @@ function* backendSaga() {
 	  }
 	})
 
-	yield takeEvery(SCHEDULE_UPDATE, function*(action){
+	yield takeLeading(SCHEDULE_UPDATE, function*(action){
     try {
     	const scheduleId = action.schedule.scheduleId;
     	const ref = db.collection('trainer_schedules').doc(scheduleId) 
@@ -163,7 +158,6 @@ function* backendSaga() {
     	const booked = [];
     	const posted = [];
 
-    	console.log(bookedIds);
     	for (const id in bookedIds) {
     		const docRef = scheduleCollection.doc(id);
     		const data = yield call([docRef, docRef.get]);
@@ -190,7 +184,7 @@ function* backendSaga() {
     }
   })
 
-  yield takeEvery(UPDATE_USER_INFO, function*(action){
+  yield takeLeading(UPDATE_USER_INFO, function*(action){
     try {
     	const uid = firebase.auth().currentUser.uid;
     	console.log(uid);

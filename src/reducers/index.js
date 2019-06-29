@@ -16,12 +16,6 @@ const initialAuth = () => ({
 export default mainReducer = (state = initialState, action) => {
   switch (action.type) {
 
-    case actionTypes.INITIALIZE_APP_SUCCESS:
-      return {
-        ...state,
-        initializingApp: false
-      }
-
     case actionTypes.LOGIN_SUCCESS:
       return {
         ...state,

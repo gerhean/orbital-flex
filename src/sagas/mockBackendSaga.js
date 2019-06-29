@@ -1,8 +1,7 @@
 import { Toast } from 'native-base';
 import { takeLatest, takeEvery, put, call } from "redux-saga/effects";
 import { 
-  INITIALIZE_APP,
-  INITIALIZE_APP_SUCCESS,
+  LOGIN_EMAIL,
   LOGIN_INITIALIZE,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
@@ -30,8 +29,8 @@ const mockUser = {
   about: "I'm just a random person",
   profilePic: "",
   gender: 0,
-  bookedScheduleIds: {},
-  postedScheduleIds: {},
+  bookedSchedules: {},
+  postedSchedules: {},
 };
 
 const publicUserInfo = {
@@ -60,14 +59,6 @@ const mockSchedule = {
 
 function* mockBackendSaga() {
 
-  yield takeEvery(INITIALIZE_APP, function*(action){
-    try {
-      yield put({ type: INITIALIZE_APP_SUCCESS });
-    } catch (error) {
-      yield call(displayErrorMessage, error, INITIALIZE_APP);
-    }
-  })
-
   yield takeEvery(SIGNUP_INITIALIZE, function*(action) {
     try {
       yield put({ type: SIGNUP_SUCCESS, user: mockUser });
@@ -77,6 +68,16 @@ function* mockBackendSaga() {
       yield call([displayErrorMessage], error)
     }
   });
+
+  yield takeLeading(LOGIN_EMAIL, function*(action){
+    try {
+      yield put({ type: LOGIN_INITIALIZE });
+    } catch (error) {
+      const error_message = { code: error.code, message: error.message };
+      yield put({ type: LOGIN_FAIL, error: error_message });
+      yield call(displayErrorMessage, error, LOGIN_EMAIL);
+    }
+  })
 
   yield takeEvery(LOGIN_INITIALIZE, function*(action) {
     try {

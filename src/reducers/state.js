@@ -6,7 +6,6 @@ const initialAuth = {
 
 export default initialState = {
   auth: initialAuth,
-  initializingApp: true,
   screen: 'Login',
   user: undefined,
   users: {},

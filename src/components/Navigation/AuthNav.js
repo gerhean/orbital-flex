@@ -6,38 +6,22 @@ import { connect } from "react-redux";
 import firebase from 'firebase';
 import { AppLoading } from 'expo';
 
-import { initializeApp } from "../../actions";
 import Register from "../Auth/Register";
 import Login from "../Auth/Login";
 import AppNav from "./AppNav";
 
 const mapStateToProps = state => ({
-  loading: state.initializingApp,
   isAuthenticated: state.auth.isAuthenticated,
   screen: state.screen
 });
-
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      handleInitializeApp: initializeApp,
-    },
-    dispatch
-  );
 
 export class AuthNav extends Component {
   constructor(props) {
     super(props);
   }
 
-  componentDidMount() {
-    this.props.handleInitializeApp();
-  }
-
   renderContent = () => {
-    if (this.props.loading) {
-      return <AppLoading onError={console.warn} />;
-    } else if (this.props.isAuthenticated) {
+    if (this.props.isAuthenticated) {
       return <AppNav />;
     } else {
       switch (this.props.screen) {
@@ -59,6 +43,5 @@ export class AuthNav extends Component {
 }
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps
 )(AuthNav);

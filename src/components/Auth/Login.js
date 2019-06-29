@@ -3,8 +3,9 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { View, StyleSheet, Text } from "react-native";
 import { Icon, Button, Input } from "react-native-elements";
+import firebase from 'firebase';
 
-import { loginMock, loginInitialize, changeScreen } from "../../actions";
+import { loginEmail, loginInitialize, changeScreen } from "../../actions";
 
 const mapStateToProps = state => ({
   authError: state.auth.error
@@ -12,9 +13,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
-    {
-      handleLoginMock: loginMock,
+    { 
       handleLogin: loginInitialize,
+      handleEmailLogin: loginEmail,
       handleChangeScreen: changeScreen,
     },
     dispatch
@@ -22,8 +23,7 @@ const mapDispatchToProps = dispatch =>
 
 const initialState = {
   email: "",
-  password: "",
-  error: ""
+  password: ""
 };
 
 class LoginBase extends Component {
@@ -34,9 +34,13 @@ class LoginBase extends Component {
     };
   }
 
-  showError = () => {
-    this.setState({ error: "Failed to log in, email/password incorrect" });
-  };
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.props.handleLogin();
+      } 
+    });
+  }
 
   navigate = screen => () => {
     this.props.handleChangeScreen(screen);
@@ -44,7 +48,7 @@ class LoginBase extends Component {
 
   onButtonPress = () => {
     const { email, password } = this.state;
-    this.props.handleLogin({ email, password });
+    this.props.handleEmailLogin({ email, password });
     // this.navigate("MainTab")();
 
     // const { email, password } = this.state;

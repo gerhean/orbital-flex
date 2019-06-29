@@ -1,11 +1,9 @@
-export const INITIALIZE_APP = "INITIALIZE_APP";
-export const INITIALIZE_APP_SUCCESS = "INITIALIZE_APP_SUCCESS";
 export const CHANGE_SCREEN = "CHANGE_SCREEN";
 
-export const LOGIN_EMAIL = "LOGIN_EMAIL";
 export const LOGOUT = "LOGOUT";
 export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
 
+export const LOGIN_EMAIL = "LOGIN_EMAIL";
 export const LOGIN_INITIALIZE = "LOGIN_INITIALIZE";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAIL = "LOGIN_FAIL";

@@ -4,9 +4,13 @@ import * as actionTypes from "./actionTypes";
 //     type: actionTypes.LOGIN_INITIALIZE
 // });
 
-export const loginInitialize = (user) => ({
-  type: actionTypes.LOGIN_INITIALIZE,
+export const loginEmail = (user) => ({
+  type: actionTypes.LOGIN_EMAIL,
   user,
+});
+
+export const loginInitialize = () => ({
+  type: actionTypes.LOGIN_INITIALIZE,
 });
 
 export const loginSuccess = data => ({
@@ -17,10 +21,6 @@ export const loginSuccess = data => ({
 export const loginFail = error => ({
   type: actionTypes.LOGIN_FAIL,
   error: error
-});
-
-export const loginMock = () => ({
-  type: actionTypes.LOGIN_MOCK
 });
 
 export const signupInitialize = (user) => ({
