@@ -44,6 +44,7 @@ class UserProfile extends Component {
 
   componentDidMount() {
     this.props.handleFetchUserInfo(this.props.uid);
+    console.log(users);
     // this.props.handleScheduleFetch();
   }
 
@@ -57,9 +58,6 @@ class UserProfile extends Component {
       return <Text>Loading</Text>
     }
 
-    const scheduleArray = [
-      { title: "PostedSchedules", content: <BookedSchedule/> },
-    ]
           // <Right>
           //   <Button onPress={() => {}}>
           //     <Text>Back</Text>
@@ -91,7 +89,6 @@ class UserProfile extends Component {
               </Body>
             </CardItem>
           </Card>
-          <Accordion dataArray={scheduleArray} renderContent={item => {item.content}} />
         </Content>
       </Container>
     );
