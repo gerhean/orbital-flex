@@ -30,8 +30,11 @@ export default mainReducer = (state = initialState, action) => {
     case actionTypes.LOGOUT_SUCCESS:
       // console.log("LOGOUT_SUCCESS" + " called");
       return {
-        ...initialState,
-        initializingApp: false,
+        ...state,
+        auth: {
+          ...initialAuth,
+        },
+        user: undefined,
         screen: "Login"
       };
 
@@ -100,7 +103,8 @@ export default mainReducer = (state = initialState, action) => {
 
     case actionTypes.FETCH_USER_INFO_SUCCESS:
       let users = state.users;
-      if (Object.keys(state.users).length > 15) {
+      const user = action.user;
+      if (Object.keys(state.users).length > 30) {
         users = {}
       }
       users =  {
