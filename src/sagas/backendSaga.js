@@ -95,6 +95,8 @@ function* backendSaga() {
 	   		...userData.data(),
 	   		uid,
 	   	}
+	   	console.log(LOGIN_INITIALIZE);
+	   	console.log(user);
 	    yield put({ type: LOGIN_SUCCESS, user });
 	  } catch (error) {
 	    const error_message = { code: error.code, message: error.message };
@@ -171,7 +173,7 @@ function* backendSaga() {
     		const data = yield call([docRef, docRef.get]);
     		const schedule = data.data() 
     		schedule["scheduleId"] = id;
-    		booked.push(schedule);
+    		posted.push(schedule);
     	};
 
       yield put({ type: SCHEDULE_FETCH_HOME_SUCCESS, 

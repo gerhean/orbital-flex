@@ -23,7 +23,7 @@ import profilePictureDisplay from '../profilePictureDisplay';
 
 const mapStateToProps = state => ({
   users: state.users,
-  uid: userProfileToView
+  uid: state.userProfileToView
 });
 
 const mapDispatchToProps = dispatch =>

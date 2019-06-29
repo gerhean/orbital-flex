@@ -56,7 +56,7 @@ class ScheduleList extends Component {
               <Row>
                 <Button 
                   block rounded bordered 
-                  onPress={this.props.handleViewUserProfile(schedule.poster)}>
+                  onPress={() => this.props.handleViewUserProfile(schedule.poster)}>
                   <Text>{schedule.posterName}</Text>
                 </Button>
               </Row>

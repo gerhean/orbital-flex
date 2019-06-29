@@ -47,6 +47,7 @@ class Home extends Component {
 
   componentDidMount() {
     this.props.handleScheduleFetch();
+    console.log(this.props.postedSchedules)
   }
 
   navigate = screen => () => {

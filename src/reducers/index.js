@@ -69,7 +69,8 @@ export default mainReducer = (state = initialState, action) => {
         user: {
           ...state.user,
           postedScheduleIds: state.user.postedScheduleIds[action.scheduleId] = true,
-        }
+        },
+        screen: "Home"
       };
 
     case actionTypes.SET_SCHEDULE_EDIT_INDEX:
@@ -93,7 +94,8 @@ export default mainReducer = (state = initialState, action) => {
         user: {
           ...state.user,
           ...action.userInfo
-        }
+        },
+        screen: "Home"
       };
 
     case actionTypes.FETCH_USER_INFO_SUCCESS:
