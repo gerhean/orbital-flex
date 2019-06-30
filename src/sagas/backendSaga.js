@@ -171,6 +171,7 @@ function* backendSaga() {
     	};
 
     	for (const scheduleId in postedIds) {
+    		console.log(scheduleId);
     		yield put({ type: FETCH_SCHEDULE, scheduleId, isBooked: -1 });
     		posted.push(scheduleId);
     	};
@@ -187,9 +188,7 @@ function* backendSaga() {
   yield takeLeading(UPDATE_USER_INFO, function*(action){
     try {
     	const uid = firebase.auth().currentUser.uid;
-    	console.log(uid);
     	const userRef = db.collection('users').doc(uid)
-    	console.log(action.userInfo); 
 	    yield call(
 	    	[userRef, userRef.update], 
 	    	action.userInfo
@@ -229,10 +228,10 @@ function* backendSaga() {
     try {
     	const id = action.scheduleId;
     	const storedSchedule = yield select(state => state.schedules[id]);
-    	if (!storedSchedule || (Date.now() - storedSchedule.timeFetched > 3000000)) { // reduce api calls
+    	if (!storedSchedule || (Date.now() - storedSchedule.timeFetched > 300000)) { // reduce api calls
 		    const docRef = db.collection('trainer_schedules').doc(id);
 		   	const scheduleData = yield call([docRef, docRef.get]);
-		   	const isBooked = action.isBooked === undefined ? storedSchedule.isBooked || 0 : 0;
+		   	const isBooked = action.isBooked === undefined ? storedSchedule.isBooked || 0 : action.isBooked;
 		   	const schedule = yield {
 		   		...scheduleData.data(),
 		   		id,
