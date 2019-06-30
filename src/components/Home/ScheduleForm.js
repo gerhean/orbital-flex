@@ -30,6 +30,7 @@ const mapStateToProps = state => ({
   user: state.user,
   scheduleIndex: state.editScheduleIndex,
   postedSchedules: state.postedSchedules,
+  schedules: state.schedules
 });
 
 const mapDispatchToProps = dispatch =>
@@ -55,7 +56,7 @@ const initialSchedule = {
 class ScheduleForm extends Component {
   static propTypes = {
     isEditForm: PropTypes.bool,
-    // Is schedule for editing?
+    // Is schedule for editing vs for create?
     handleSubmitSchedule: PropTypes.func.isRequired,
     // Function to pass edited schedule into
   }
@@ -64,7 +65,8 @@ class ScheduleForm extends Component {
     super(props);
     let schedule = initialSchedule;
     if (this.props.isEditForm) {
-      schedule = this.props.postedSchedules[this.props.scheduleIndex];
+      const scheduleId = this.props.postedSchedules[this.props.scheduleIndex];
+      schedule = this.props.schedules[scheduleId];
     } 
     this.state = {
       ...schedule,

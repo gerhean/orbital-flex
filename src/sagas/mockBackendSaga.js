@@ -29,8 +29,8 @@ const mockUser = {
   about: "I'm just a random person",
   profilePic: "",
   gender: 0,
-  bookedSchedules: {},
-  postedSchedules: {},
+  bookedSchedules: {"A": true},
+  postedSchedules: {"B": true},
 };
 
 const publicUserInfo = {
@@ -41,7 +41,7 @@ const publicUserInfo = {
 }
 
 const mockSchedule = {
-  id: 1, // id in firestore database
+  id: "A", // id in firestore database
   name: "some random schedule",
   poster: "some uid",
   posterName: "some name",
@@ -53,6 +53,23 @@ const mockSchedule = {
   timeEnd: 812,
   price: '1 million',
   services: 'Gym',
+  remarks: 'Its joke',
+  timeCreated: '1111',
+}
+
+const mockSchedule2 = {
+  id: "B", // id in firestore database
+  name: "my random schedule",
+  poster: "id",
+  posterName: "my name",
+  booker: {},
+  image: '',
+  location: 'Myself',
+  day: 0,
+  timeStart: 823,
+  timeEnd: 912,
+  price: '-99',
+  services: 'Play',
   remarks: 'Its joke',
   timeCreated: '1111',
 }
@@ -127,14 +144,20 @@ function* mockBackendSaga() {
   yield takeEvery(SCHEDULE_FETCH_HOME, function*(action){
     try {
       // trainer_schedules have users(trainers), users can post schedules
+      put({ type: FETCH_SCHEDULE_SUCCESS, id: "A", schedule: mockSchedule });
+      put({ type: FETCH_SCHEDULE_SUCCESS, id: "B", schedule: mockSchedule2 });
       yield put({ type: SCHEDULE_FETCH_HOME_SUCCESS, 
-        booked: [mockSchedule, mockSchedule], 
-        posted: [mockSchedule, mockSchedule] 
+        booked: ["A"], 
+        posted: ["B"] 
       }) 
     } catch (error) {
       const error_message = { code: error.code, message: error.message };
       yield call([displayErrorMessage], error)
     }
+  })
+
+  yield takeEvery(FETCH_SCHEDULE, function*(action){
+    yield call(displayErrorMessage, {code: "?", message:"mockbackend does not support this function"}, FETCH_SCHEDULE);
   })
 
   yield takeEvery(UPDATE_USER_INFO, function*(action){

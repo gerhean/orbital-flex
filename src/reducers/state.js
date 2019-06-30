@@ -39,6 +39,7 @@ const scheduleExample = {
 	services: '',
 	remarks: '',
   timeCreated: '',
+  isBooked: 0, // -1 means posted, 0 means not booked, 1 means booked
 }
 
 const publicUserInfo = {

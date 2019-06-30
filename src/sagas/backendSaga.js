@@ -131,6 +131,7 @@ function* backendSaga() {
 
 	    const userRef = db.collection('users').doc(uid) 
 	    yield call([userRef, userRef.update], {[`postedSchedules.${ref.id}`]: true})
+	    schedule["isBooked"] = -1;
 	    yield put({ type: SCHEDULE_CREATE_SUCCESS, schedule, scheduleId: ref.id }) // need to navigate back to home page/search page
 	  
 	  } catch (error) {
@@ -142,13 +143,15 @@ function* backendSaga() {
 
 	yield takeLeading(SCHEDULE_UPDATE, function*(action){
     try {
-    	const scheduleId = action.schedule.scheduleId;
+    	const schedule = action.schedule;
+    	const scheduleId = schedule.scheduleId;
+    	delete schedule.scheduleId;
     	const ref = db.collection('trainer_schedules').doc(scheduleId) 
 	    yield call(
 	    	[ref, ref.update], 
-	    	{ ...action.schedule }
+	    	schedule
 	    )
-      yield put({ type: SCHEDULE_UPDATE_SUCCESS, schedule: action.schedule })
+      yield put({ type: SCHEDULE_UPDATE_SUCCESS, schedule: action.schedule, scheduleId })
       yield call(displayMessage, "Schedule Updated");
     } catch (error) {      
     	yield call(displayErrorMessage, error, SCHEDULE_UPDATE);
@@ -157,26 +160,19 @@ function* backendSaga() {
 
 	yield takeEvery(SCHEDULE_FETCH_HOME, function*(action){
     try {
-    	const scheduleCollection = db.collection('trainer_schedules');
     	const bookedIds = yield select(state => state.user.bookedSchedules);
 	    const postedIds = yield select(state => state.user.postedSchedules);
     	const booked = [];
     	const posted = [];
 
-    	for (const id in bookedIds) {
-    		const docRef = scheduleCollection.doc(id);
-    		const data = yield call([docRef, docRef.get]);
-    		const schedule = data.data() 
-    		schedule["scheduleId"] = id;
-    		booked.push(schedule);
+    	for (const scheduleId in bookedIds) {
+    		yield put({ type: FETCH_SCHEDULE, scheduleId, isBooked: 1 });
+    		booked.push(scheduleId);
     	};
 
-    	for (const id in postedIds) {
-    		const docRef = scheduleCollection.doc(id);
-    		const data = yield call([docRef, docRef.get]);
-    		const schedule = data.data() 
-    		schedule["scheduleId"] = id;
-    		posted.push(schedule);
+    	for (const scheduleId in postedIds) {
+    		yield put({ type: FETCH_SCHEDULE, scheduleId, isBooked: -1 });
+    		posted.push(scheduleId);
     	};
 
       yield put({ type: SCHEDULE_FETCH_HOME_SUCCESS, 
@@ -236,10 +232,12 @@ function* backendSaga() {
     	if (!storedSchedule || (Date.now() - storedSchedule.timeFetched > 3000000)) { // reduce api calls
 		    const docRef = db.collection('trainer_schedules').doc(id);
 		   	const scheduleData = yield call([docRef, docRef.get]);
+		   	const isBooked = action.isBooked === undefined ? storedSchedule.isBooked || 0 : 0;
 		   	const schedule = yield {
 		   		...scheduleData.data(),
 		   		id,
-		   		timeFetched: Date.now()
+		   		timeFetched: Date.now(),
+		   		isBooked,
 		   	}
 		    yield put({ type: FETCH_SCHEDULE_SUCCESS, id, schedule });
     	}

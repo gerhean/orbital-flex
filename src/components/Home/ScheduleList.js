@@ -7,7 +7,7 @@ import { FlatList } from 'react-native'; //responsible for rendering a subset of
 import { View, Card, Body, Text, Right, Left, Thumbnail, SwipeRow, Icon, List, ListItem, Button,
 Grid, Row, Col, H2 } from 'native-base';
 import profilePictureDisplay from '../profilePictureDisplay';
-import { viewUserProfile } from "../../actions";
+import { viewUserProfile, setScheduleEditIndex } from "../../actions";
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -17,7 +17,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      handleViewUserProfile: viewUserProfile
+      handleViewUserProfile: viewUserProfile,
+      handleScheduleEdit: setScheduleEditIndex
     },
     dispatch
   );
@@ -26,37 +27,35 @@ const mapDispatchToProps = dispatch =>
 class ScheduleList extends Component {
   static propTypes = {
     scheduleArr: PropTypes.array.isRequired,
-    // array of schedule
-    refArray: PropTypes.bool,
-    // array consist of references
-    buttonText: PropTypes.string,
-    // Text displayed on button
-    onButtonPress: PropTypes.func.isRequired,
-    // Function to call when button is pressed
-    // onButtonPress: (index) => () => void
+    // array of schedule references
   }
 
   constructor(props) {
     super(props);
   }
 
-  makeScheduleCard = (schedule, index) => {
-    let buttonText = this.props.buttonText;
+  makeScheduleCard = (scheduleId, index) => {
+    let buttonText;
+    let onButtonPress = () => {};
 
-    if (!buttonText) {
-      const id = schedule.id;
-      const user = this.props.user;
-      if (user.bookedSchedules[schedule]) {
-        buttonText = "Unbook";
-      } else {
-        buttonText = "Book";
-      }
+    schedule = this.props.schedules[scheduleId];
+    if (!schedule) return;
+
+    if (schedule.isBooked === -1) {
+      buttonText = "Edit Schedule";
+      onButtonPress = () => setScheduleEditIndex(index);
+
+    } else if (schedule.isBooked === 0) {
+      buttonText = "Book";
+
+    } else if (schedule.isBooked === 1) {
+      buttonText = "Unbook";
+
+    } else {
+      console.log("Unable to determine state of schedule");
+      return;
     }
 
-    if (this.props.refArray) {
-      schedule = this.props.schedules[schedule];
-      if (!schedule) return;
-    }
 
     return (
       <ListItem bordered key={index}>
@@ -119,7 +118,7 @@ class ScheduleList extends Component {
               </Row>
             </Col>
           </Row>
-          <Button block rounded bordered onPress={this.props.onButtonPress(index)}>
+          <Button block rounded bordered onPress={onButtonPress}>
             <Text>{buttonText}</Text>
           </Button>
         </Grid>
@@ -128,7 +127,7 @@ class ScheduleList extends Component {
   }
     
   render() {
-    const cards = this.props.scheduleArr.map((schedule, index) => this.makeScheduleCard(schedule, index));
+    const cards = this.props.scheduleArr.map((scheduleId, index) => this.makeScheduleCard(scheduleId, index));
     return(      
       <List>    
         {cards}

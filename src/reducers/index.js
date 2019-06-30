@@ -57,9 +57,10 @@ export default mainReducer = (state = initialState(), action) => {
       };
 
     case actionTypes.SCHEDULE_CREATE_SUCCESS:
+      state.schedules[action.scheduleId] = action.schedule;
       return {
         ...state,
-        postedSchedules: state.postedSchedules.concat([action.schedule]),
+        postedSchedules: state.postedSchedules.concat([action.scheduleId]),
         user: {
           ...state.user,
           postedScheduleIds: state.user.postedScheduleIds[action.scheduleId] = true,
@@ -74,12 +75,10 @@ export default mainReducer = (state = initialState(), action) => {
         screen: "EditSchedule"
       };
 
-    case actionTypes.SCHEDULE_UPDATE_SUCCESS:
-      const postedSchedules = state.postedSchedules;
-      postedSchedules[state.editScheduleIndex] = action.schedule; 
+    case actionTypes.SCHEDULE_UPDATE_SUCCESS: 
+      state.schedules[action.scheduleId] = action.schedule;
       return {
         ...state,
-        postedSchedules,
         editScheduleIndex: -1,
         screen: "Home"
       };
@@ -109,11 +108,9 @@ export default mainReducer = (state = initialState(), action) => {
       };
 
     case actionTypes.FETCH_SCHEDULE_SUCCESS:
-      let schedules = state.schedules;
-      schedules[action.id] = action.schedule;
+      state.schedules[action.id] = action.schedule;
       return {
-        ...state,
-        schedules
+        ...state
       };
 
     case actionTypes.VIEW_USER_PROFILE:

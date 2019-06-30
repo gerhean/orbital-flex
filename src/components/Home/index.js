@@ -51,15 +51,9 @@ class Home extends Component {
   render() {
     const bookedScheduleList = <ScheduleList 
       scheduleArr={this.props.bookedSchedules}
-      buttonText="Unbook"
-      onButtonPress={(index) => () => {}}
     />
     const postedScheduleList = <ScheduleList 
       scheduleArr={this.props.postedSchedules}
-      buttonText="Edit Schedule"
-      onButtonPress={(index) => () => {
-        this.props.handleSetScheduleEdit(index);
-      }}
     />
     const scheduleArray = [
       { title: "Booked Schedules", content: bookedScheduleList },
