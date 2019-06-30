@@ -104,6 +104,7 @@ function* backendSaga() {
 	   		uid,
 	   	}
 	   	console.log(user);
+	   	yield put({ type: SCHEDULE_FETCH_HOME, user });
 	    yield put({ type: LOGIN_SUCCESS, user });
 	  } catch (error) {
 	    const error_message = { code: error.code, message: error.message };
@@ -163,8 +164,13 @@ function* backendSaga() {
 
 	yield takeEvery(SCHEDULE_FETCH_HOME, function*(action){
     try {
-    	const bookedIds = yield select(state => state.user.bookedSchedules);
-	    const postedIds = yield select(state => state.user.postedSchedules);
+    	let bookedIds; let postedIds;
+    	if (action.user) {
+    		bookedIds = user.bookedSchedules; postedIds = user.postedSchedules;
+    	} else {
+	    	bookedIds = yield select(state => state.user.bookedSchedules);
+		    postedIds = yield select(state => state.user.postedSchedules);
+    	}
     	const booked = [];
     	const posted = [];
 

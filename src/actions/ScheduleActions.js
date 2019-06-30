@@ -21,9 +21,10 @@ export const scheduleUpdate = schedule => {
 	}
 }
 
-export const scheduleFetchHome = () => {
+export const scheduleFetchHome = (user = undefined) => {
 	return {
-		type: actionTypes.SCHEDULE_FETCH_HOME
+		type: actionTypes.SCHEDULE_FETCH_HOME,
+		user
 	}
 }
 

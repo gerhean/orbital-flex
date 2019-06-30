@@ -38,10 +38,6 @@ export class AppNav extends Component {
     super(props);
   };
 
-  componentDidMount() {
-    this.props.handleOwnScheduleFetch();
-  }
-
   navigate = (screen) => () => {
     this.props.handleChangeScreen(screen)
   };
