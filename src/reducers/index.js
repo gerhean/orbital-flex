@@ -109,10 +109,11 @@ export default mainReducer = (state = initialState(), action) => {
 
     case actionTypes.FETCH_SCHEDULE_SUCCESS:
       state.schedules[action.id] = action.schedule;
-      console.log(state.schedules);
-      return {
-        ...state
-      };
+      return state;
+
+    case actionTypes.BOOK_SCHEDULE_SUCCESS:
+      state.schedules[action.scheduleId].isBooked = 1;
+      return state;
 
     case actionTypes.VIEW_USER_PROFILE:
       return {

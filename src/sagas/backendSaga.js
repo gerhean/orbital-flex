@@ -26,8 +26,8 @@ import {
 	FETCH_USER_INFO_SUCCESS,
 	FETCH_SCHEDULE,
 	FETCH_SCHEDULE_SUCCESS,
-	TOGGLE_BOOK_SCHEDULE,
-	TOGGLE_BOOK_SCHEDULE_SUCCESS,
+	BOOK_SCHEDULE,
+	BOOK_SCHEDULE_SUCCESS,
 } from '../actions/actionTypes';
 
 const arrayUnion = firebase.firestore.FieldValue.arrayUnion;
@@ -246,23 +246,17 @@ function* backendSaga() {
     }
   })
 
-  yield takeEvery(TOGGLE_BOOK_SCHEDULE, function*(action){
+  yield takeLeading(BOOK_SCHEDULE, function*(action){
     try {
-    	const id = action.scheduleId;
-    	const storedSchedule = yield select(state => state.schedules[id]);
-    	if (!storedSchedule || (Date.now() - storedSchedule.timeFetched > 3000000)) { // reduce api calls
-		    const docRef = db.collection('trainer_schedules').doc(id);
-		   	const scheduleData = yield call([docRef, docRef.get]);
-		   	const schedule = yield {
-		   		...scheduleData.data(),
-		   		id,
-		   		timeFetched: Date.now()
-		   	}
-		    yield put({ type: FETCH_SCHEDULE_SUCCESS, id, schedule });
-    	}
+    	const scheduleId = action.scheduleId;
+    	const offer = action.offer;
+    	const uid = firebase.auth().currentUser.uid;
+		  const bookerRef = db.collection('trainer_schedules').doc(scheduleId).collection('bookers').doc(uid);
+    	yield call([bookerRef, bookerRef.set], schedule);
+	    yield put({ type: BOOK_SCHEDULE_SUCCESS, scheduleId, offer });
 
     } catch (error) {
-      yield call(displayErrorMessage, error, FETCH_SCHEDULE);
+      yield call(displayErrorMessage, error, BOOK_SCHEDULE);
     }
   })
 }

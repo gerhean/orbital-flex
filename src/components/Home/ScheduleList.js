@@ -2,10 +2,10 @@ import { PropTypes } from 'prop-types';
 import React, { Component } from 'react';
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { FlatList } from 'react-native'; //responsible for rendering a subset of data
+import Dialog, { DialogContent } from 'react-native-popup-dialog';
 // import { SchedulesFetch } from '../../actions/ScheduleActions';
 import { View, Card, Body, Text, Right, Left, Thumbnail, SwipeRow, Icon, List, ListItem, Button,
-Grid, Row, Col, H2 } from 'native-base';
+Grid, Row, Col, H2, Form, Item,} from 'native-base';
 import profilePictureDisplay from '../profilePictureDisplay';
 import { viewUserProfile, setScheduleEditIndex } from "../../actions";
 
@@ -32,7 +32,20 @@ class ScheduleList extends Component {
 
   constructor(props) {
     super(props);
-  }
+  };
+
+  // bookSchedulePopup = () => {
+  //   <Dialog
+  //   visible={this.state.visible}
+  //   onTouchOutside={() => {
+  //     this.setState({ visible: false });
+  //   }}
+  // >
+  //   <DialogContent>
+  //     {...}
+  //   </DialogContent>
+  // </Dialog>
+  // }
 
   makeScheduleCard = (scheduleId, index) => {
     let buttonText;
