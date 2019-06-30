@@ -15,7 +15,7 @@ const persistConfig = {
  key: 'root',
  storage: storage,
  stateReconciler: autoMergeLevel2, // see "Merge Process" section for details.
- blacklist: ['screen', 'userProfileToView']
+ blacklist: ['screen', 'userProfileToView', 'auth']
 };
 
 const pReducer = persistReducer(persistConfig, reducers);

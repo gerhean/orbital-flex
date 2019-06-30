@@ -51,9 +51,11 @@ class Home extends Component {
   render() {
     const bookedScheduleList = <ScheduleList 
       scheduleArr={this.props.bookedSchedules}
+      isBooked={1}
     />
     const postedScheduleList = <ScheduleList 
       scheduleArr={this.props.postedSchedules}
+      isBooked={-1}
     />
     const scheduleArray = [
       { title: "Booked Schedules", content: bookedScheduleList },

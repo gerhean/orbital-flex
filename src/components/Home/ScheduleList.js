@@ -38,6 +38,8 @@ class ScheduleList extends Component {
   static propTypes = {
     scheduleArr: PropTypes.array.isRequired,
     // array of schedule references
+    isBooked: PropTypes.number,
+    // check if certain schedules are booked
   };
 
   constructor(props) {
@@ -48,7 +50,7 @@ class ScheduleList extends Component {
   componentDidMount() {
     for (const id of this.props.scheduleArr) {
       if (!this.props.schedules[id]) {
-        this.props.handleFetchSchedule(id);
+        this.props.handleFetchSchedule(id, this.props.isBooked);
       }
     }
   }

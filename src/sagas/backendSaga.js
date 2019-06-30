@@ -104,7 +104,6 @@ function* backendSaga() {
 	   		uid,
 	   	}
 	   	console.log(user);
-	   	yield put({ type: SCHEDULE_FETCH_HOME, user });
 	    yield put({ type: LOGIN_SUCCESS, user });
 	  } catch (error) {
 	    const error_message = { code: error.code, message: error.message };
@@ -162,11 +161,11 @@ function* backendSaga() {
     }
   })
 
-	yield takeEvery(SCHEDULE_FETCH_HOME, function*(action){
+	yield takeLeading(SCHEDULE_FETCH_HOME, function*(action){
     try {
     	let bookedIds; let postedIds;
     	if (action.user) {
-    		bookedIds = user.bookedSchedules; postedIds = user.postedSchedules;
+    		bookedIds = action.user.bookedSchedules; postedIds = action.user.postedSchedules;
     	} else {
 	    	bookedIds = yield select(state => state.user.bookedSchedules);
 		    postedIds = yield select(state => state.user.postedSchedules);
@@ -248,7 +247,6 @@ function* backendSaga() {
 		   		timeFetched: Date.now(),
 		   		isBooked,
 		   	}
-		   	console.log(schedule);
 		    yield put({ type: FETCH_SCHEDULE_SUCCESS, id, schedule });
     	}
 
@@ -263,8 +261,11 @@ function* backendSaga() {
     	const offer = action.offer;
     	const uid = firebase.auth().currentUser.uid;
 		  const bookersRef = db.collection('trainer_schedules').doc(scheduleId);
-		  console.log(`bookers.${uid}`);
     	yield call([bookersRef, bookersRef.update], {[`bookers.${uid}`]: offer});
+
+    	const userRef = db.collection('users').doc(uid) 
+	    yield call([userRef, userRef.update], {[`bookedSchedules.${scheduleId}`]: true})
+
 	    yield put({ type: BOOK_SCHEDULE_SUCCESS, scheduleId, offer });
 
     } catch (error) {
@@ -279,7 +280,10 @@ function* backendSaga() {
     	const uid = firebase.auth().currentUser.uid;
 		  const bookersRef = db.collection('trainer_schedules').doc(scheduleId);
     	yield call([bookersRef, bookersRef.update], {[`bookers.${uid}`]: deleteField()});
-	    yield put({ type: BOOK_SCHEDULE_SUCCESS, scheduleId, offer });
+
+    	const userRef = db.collection('users').doc(uid) 
+	    yield call([userRef, userRef.update], {[`bookedSchedules.${scheduleId}`]: deleteField()})
+	    yield put({ type: UNBOOK_SCHEDULE_SUCCESS, scheduleId });
 
     } catch (error) {
       yield call(displayErrorMessage, error, UNBOOK_SCHEDULE);

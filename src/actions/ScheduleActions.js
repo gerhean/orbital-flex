@@ -28,9 +28,10 @@ export const scheduleFetchHome = (user = undefined) => {
 	}
 }
 
-export const fetchSchedule = scheduleId => ({
+export const fetchSchedule = (scheduleId, isBooked = undefined) => ({
   type: actionTypes.FETCH_SCHEDULE,
   scheduleId,
+  isBooked
 });
 
 export const bookSchedule = (scheduleId, offer) => ({

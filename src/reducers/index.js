@@ -117,6 +117,13 @@ export default mainReducer = (state = initialState(), action) => {
 
     case actionTypes.BOOK_SCHEDULE_SUCCESS:
       state.schedules[action.scheduleId].isBooked = 1;
+      state.bookedSchedules.push(action.scheduleId);
+      state.user.bookedSchedules[action.scheduleId] = true;
+      return state;
+
+    case actionTypes.UNBOOK_SCHEDULE_SUCCESS:
+      state.schedules[action.scheduleId].isBooked = 0;
+      delete state.user.bookedSchedules[action.scheduleId];
       return state;
 
     case actionTypes.VIEW_USER_PROFILE:
