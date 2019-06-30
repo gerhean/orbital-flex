@@ -28,10 +28,13 @@ import {
 	FETCH_SCHEDULE_SUCCESS,
 	BOOK_SCHEDULE,
 	BOOK_SCHEDULE_SUCCESS,
+	UNBOOK_SCHEDULE,
+	UNBOOK_SCHEDULE_SUCCESS
 } from '../actions/actionTypes';
 
 const arrayUnion = firebase.firestore.FieldValue.arrayUnion;
 const serverTimestamp = firebase.firestore.FieldValue.serverTimestamp;
+const deleteField = firebase.firestore.FieldValue.delete;
 const db = firebase.firestore();
 
 const initialUser = {
@@ -40,8 +43,8 @@ const initialUser = {
   about: "",
   profilePic: "",
   gender: 0, // means unspecified gender
-  bookedScheduleIds: {}, // might be violate privacy but lets leave it for now
-  postedScheduleIds: {},
+  bookedSchedules: {}, // might be violate privacy but lets leave it for now
+  postedSchedules: {},
 };
 
 function* backendSaga() {
@@ -91,15 +94,15 @@ function* backendSaga() {
 
 	yield takeLeading(LOGIN_INITIALIZE, function*(action){
 	  try {
+	   	console.log(LOGIN_INITIALIZE);
 	    const uid = firebase.auth().currentUser.uid;
 	    const userDocRef = db.collection('users').doc(uid);
 	   	const userData = yield call([userDocRef, userDocRef.get]);
-	   	const user = {
+	   	const user = yield {
 	   		...initialUser,
 	   		...userData.data(),
 	   		uid,
 	   	}
-	   	console.log(LOGIN_INITIALIZE);
 	   	console.log(user);
 	    yield put({ type: LOGIN_SUCCESS, user });
 	  } catch (error) {
@@ -125,7 +128,7 @@ function* backendSaga() {
 	  try {
 			const uid = firebase.auth().currentUser.uid;
 			const posterName = yield select(state => state.user.username);
-			const schedule = { ...action.payload, poster: uid, posterName, timeCreated: serverTimestamp() }
+			const schedule = { ...action.payload, poster: uid, bookers: {}, posterName, timeCreated: serverTimestamp() }
 			const collectionRef = db.collection("trainer_schedules")
 	    const ref = yield call([collectionRef, collectionRef.add], schedule);
 
@@ -171,7 +174,6 @@ function* backendSaga() {
     	};
 
     	for (const scheduleId in postedIds) {
-    		console.log(scheduleId);
     		yield put({ type: FETCH_SCHEDULE, scheduleId, isBooked: -1 });
     		posted.push(scheduleId);
     	};
@@ -204,7 +206,7 @@ function* backendSaga() {
     try {
     	const uid = action.uid;
     	const storedUser = yield select(state => state.users[uid]);
-    	if (!storedUser || (Date.now() - storedUser.timeFetched > 3000000)) { // reduce api calls
+    	if (!storedUser || (Date.now() - storedUser.timeFetched > 300000)) { // reduce api calls
 		    const userDocRef = db.collection('users').doc(uid);
 		   	const userData = yield call([userDocRef, userDocRef.get]);
 		   	const user = yield {
@@ -228,16 +230,19 @@ function* backendSaga() {
     try {
     	const id = action.scheduleId;
     	const storedSchedule = yield select(state => state.schedules[id]);
+    	const schedules = yield select(state => state.schedules);
     	if (!storedSchedule || (Date.now() - storedSchedule.timeFetched > 300000)) { // reduce api calls
 		    const docRef = db.collection('trainer_schedules').doc(id);
 		   	const scheduleData = yield call([docRef, docRef.get]);
-		   	const isBooked = action.isBooked === undefined ? storedSchedule.isBooked || 0 : action.isBooked;
+		   	const storedBooked = storedSchedule ? storedSchedule.isBooked || 0 : 0
+		   	const isBooked = action.isBooked === undefined ? storedBooked : action.isBooked;
 		   	const schedule = yield {
 		   		...scheduleData.data(),
 		   		id,
 		   		timeFetched: Date.now(),
 		   		isBooked,
 		   	}
+		   	console.log(schedule);
 		    yield put({ type: FETCH_SCHEDULE_SUCCESS, id, schedule });
     	}
 
@@ -251,12 +256,27 @@ function* backendSaga() {
     	const scheduleId = action.scheduleId;
     	const offer = action.offer;
     	const uid = firebase.auth().currentUser.uid;
-		  const bookerRef = db.collection('trainer_schedules').doc(scheduleId).collection('bookers').doc(uid);
-    	yield call([bookerRef, bookerRef.set], schedule);
+		  const bookersRef = db.collection('trainer_schedules').doc(scheduleId);
+		  console.log(`bookers.${uid}`);
+    	yield call([bookersRef, bookersRef.update], {[`bookers.${uid}`]: offer});
 	    yield put({ type: BOOK_SCHEDULE_SUCCESS, scheduleId, offer });
 
     } catch (error) {
       yield call(displayErrorMessage, error, BOOK_SCHEDULE);
+    }
+  })
+
+  yield takeLeading(UNBOOK_SCHEDULE, function*(action){
+    try {
+    	const scheduleId = action.scheduleId;
+    	const offer = action.offer;
+    	const uid = firebase.auth().currentUser.uid;
+		  const bookersRef = db.collection('trainer_schedules').doc(scheduleId);
+    	yield call([bookersRef, bookersRef.update], {[`bookers.${uid}`]: deleteField()});
+	    yield put({ type: BOOK_SCHEDULE_SUCCESS, scheduleId, offer });
+
+    } catch (error) {
+      yield call(displayErrorMessage, error, UNBOOK_SCHEDULE);
     }
   })
 }

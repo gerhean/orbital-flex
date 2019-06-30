@@ -1,36 +1,52 @@
-import { 
-	SCHEDULE_CREATE, 
-	SET_SCHEDULE_EDIT_INDEX,
-	SCHEDULE_UPDATE, 
-	SCHEDULE_FETCH_HOME, 
-} from "./actionTypes";
+import * as actionTypes from "./actionTypes";
 
 export const scheduleCreate = (schedule) => {
   return {
-    type: SCHEDULE_CREATE,
+    type: actionTypes.SCHEDULE_CREATE,
     payload: schedule
   };
 };
 
 export const setScheduleEditIndex = index => {
   return {
-    type: SET_SCHEDULE_EDIT_INDEX,
+    type: actionTypes.SET_SCHEDULE_EDIT_INDEX,
     payload: index
   };
 };
 
 export const scheduleUpdate = schedule => { 
 	return {
-		type: SCHEDULE_UPDATE,
+		type: actionTypes.SCHEDULE_UPDATE,
 		schedule
 	}
 }
 
 export const scheduleFetchHome = () => {
 	return {
-		type: SCHEDULE_FETCH_HOME
+		type: actionTypes.SCHEDULE_FETCH_HOME
 	}
 }
+
+export const fetchSchedule = scheduleId => ({
+  type: actionTypes.FETCH_SCHEDULE,
+  scheduleId,
+});
+
+export const bookSchedule = (scheduleId, offer) => ({
+  type: actionTypes.BOOK_SCHEDULE,
+  scheduleId,
+  offer
+});
+
+export const unbookSchedule = scheduleId => ({
+  type: actionTypes.UNBOOK_SCHEDULE,
+  scheduleId,
+});
+
+export const fetchUserInfo = uid => ({
+  type: actionTypes.FETCH_USER_INFO,
+  uid,
+});
 
 // asynchronous action again, need to use redux thunk
 // export const schedulesFetch = () => {

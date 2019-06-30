@@ -5,7 +5,7 @@ import { View, StyleSheet, Text } from "react-native";
 import { Icon, Button, Input } from "react-native-elements";
 import firebase from 'firebase';
 
-import { loginEmail, loginInitialize, changeScreen } from "../../actions";
+import { loginEmail, loginInitialize, changeScreen, logout } from "../../actions";
 
 const mapStateToProps = state => ({
   authError: state.auth.error
@@ -17,6 +17,7 @@ const mapDispatchToProps = dispatch =>
       handleLogin: loginInitialize,
       handleEmailLogin: loginEmail,
       handleChangeScreen: changeScreen,
+      handleLogout: logout,
     },
     dispatch
   );
@@ -39,7 +40,9 @@ class LoginBase extends Component {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.props.handleLogin();
-      } 
+      } else {
+        this.props.handleLogout();
+      }
     });
   }
 

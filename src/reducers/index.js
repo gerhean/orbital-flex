@@ -76,7 +76,11 @@ export default mainReducer = (state = initialState(), action) => {
       };
 
     case actionTypes.SCHEDULE_UPDATE_SUCCESS: 
-      state.schedules[action.scheduleId] = action.schedule;
+      state.schedules[action.scheduleId] = {
+        ...state.schedules[action.scheduleId],
+        ...action.schedule
+      };
+      console.log(state.schedules)
       return {
         ...state,
         editScheduleIndex: -1,

@@ -64,12 +64,14 @@ class ScheduleForm extends Component {
   constructor(props) {
     super(props);
     let schedule = initialSchedule;
+    let scheduleId = '';
     if (this.props.isEditForm) {
-      const scheduleId = this.props.postedSchedules[this.props.scheduleIndex];
+      scheduleId = this.props.postedSchedules[this.props.scheduleIndex];
       schedule = this.props.schedules[scheduleId];
     } 
     this.state = {
       ...schedule,
+      scheduleId,
       price: schedule.price.toString(),
       timePickerVisible: ""
     };
