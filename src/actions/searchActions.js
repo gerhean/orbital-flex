@@ -5,6 +5,11 @@ export const fetchSchedule = scheduleId => ({
   scheduleId,
 });
 
+export const toggleBookSchedule = scheduleId => ({
+  type: actionTypes.TOGGLE_BOOK_SCHEDULE,
+  scheduleId,
+});
+
 export const fetchUserInfo = uid => ({
   type: actionTypes.FETCH_USER_INFO,
   uid,

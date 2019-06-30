@@ -24,7 +24,7 @@ const sagaMiddleware = createSagaMiddleware();
 
 const store = createStore(
   pReducer,
-  initialState,
+  initialState(),
   applyMiddleware(sagaMiddleware)
   // autoRehydrate()
   // compose(

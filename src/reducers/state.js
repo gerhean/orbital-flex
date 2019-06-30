@@ -1,10 +1,9 @@
 const initialAuth = {
   error: "",
-  isLoading: false,
   isAuthenticated: false
 };
 
-export default initialState = {
+export default initialState = () => ({
   auth: initialAuth,
   screen: 'Login',
   user: undefined,
@@ -14,7 +13,7 @@ export default initialState = {
   postedSchedules: [],
   editScheduleIndex: -1,
   userProfileToView: ""
-};
+});
 
 const mockUser = {
   username: "test",

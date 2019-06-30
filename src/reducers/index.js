@@ -4,16 +4,14 @@ import { combineReducers } from "redux";
 // with action types like LOGIN_SUCCESS, LOGIN_FAIL
 import * as actionTypes from "../actions/actionTypes";
 import initialState from './state';
-
 export { initialState };
 
 const initialAuth = () => ({
   error: "",
-  isLoading: false,
   isAuthenticated: false
 });
 
-export default mainReducer = (state = initialState, action) => {
+export default mainReducer = (state = initialState(), action) => {
   switch (action.type) {
 
     case actionTypes.LOGIN_SUCCESS:
@@ -29,14 +27,7 @@ export default mainReducer = (state = initialState, action) => {
 
     case actionTypes.LOGOUT_SUCCESS:
       // console.log("LOGOUT_SUCCESS" + " called");
-      return {
-        ...state,
-        auth: {
-          ...initialAuth,
-        },
-        user: undefined,
-        screen: "Login"
-      };
+      return initialState();
 
     case actionTypes.SIGNUP_SUCCESS:
       return {
@@ -53,7 +44,7 @@ export default mainReducer = (state = initialState, action) => {
       return {
         ...state,
         auth: {
-          ...initialAuth,
+          ...initialAuth(),
           error: action.error.message
         }
       };

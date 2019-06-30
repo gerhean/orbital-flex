@@ -26,6 +26,8 @@ import {
 	FETCH_USER_INFO_SUCCESS,
 	FETCH_SCHEDULE,
 	FETCH_SCHEDULE_SUCCESS,
+	TOGGLE_BOOK_SCHEDULE,
+	TOGGLE_BOOK_SCHEDULE_SUCCESS,
 } from '../actions/actionTypes';
 
 const arrayUnion = firebase.firestore.FieldValue.arrayUnion;
@@ -228,6 +230,26 @@ function* backendSaga() {
   })
 
   yield takeEvery(FETCH_SCHEDULE, function*(action){
+    try {
+    	const id = action.scheduleId;
+    	const storedSchedule = yield select(state => state.schedules[id]);
+    	if (!storedSchedule || (Date.now() - storedSchedule.timeFetched > 3000000)) { // reduce api calls
+		    const docRef = db.collection('trainer_schedules').doc(id);
+		   	const scheduleData = yield call([docRef, docRef.get]);
+		   	const schedule = yield {
+		   		...scheduleData.data(),
+		   		id,
+		   		timeFetched: Date.now()
+		   	}
+		    yield put({ type: FETCH_SCHEDULE_SUCCESS, id, schedule });
+    	}
+
+    } catch (error) {
+      yield call(displayErrorMessage, error, FETCH_SCHEDULE);
+    }
+  })
+
+  yield takeEvery(TOGGLE_BOOK_SCHEDULE, function*(action){
     try {
     	const id = action.scheduleId;
     	const storedSchedule = yield select(state => state.schedules[id]);
