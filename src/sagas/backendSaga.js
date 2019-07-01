@@ -235,19 +235,23 @@ function* backendSaga() {
     try {
     	const id = action.scheduleId;
     	const storedSchedule = yield select(state => state.schedules[id]);
-    	const schedules = yield select(state => state.schedules);
     	if (!storedSchedule || (Date.now() - storedSchedule.timeFetched > 300000)) { // reduce api calls
 		    const docRef = db.collection('trainer_schedules').doc(id);
 		   	const scheduleData = yield call([docRef, docRef.get]);
 		   	const storedBooked = storedSchedule ? storedSchedule.isBooked || 0 : 0
 		   	const isBooked = action.isBooked === undefined ? storedBooked : action.isBooked;
-		   	const schedule = yield {
-		   		...scheduleData.data(),
-		   		id,
-		   		timeFetched: Date.now(),
-		   		isBooked,
+		   	const data = yield scheduleData.data();
+		   	if (!data) {
+		   		yield call(displayErrorMessage, {code: '', message:'Schedule data not found'}, FETCH_SCHEDULE);
+		   	} else {
+			   	const schedule = yield {
+			   		...data,
+			   		id,
+			   		timeFetched: Date.now(),
+			   		isBooked,
+			   	}
+			    yield put({ type: FETCH_SCHEDULE_SUCCESS, id, schedule });
 		   	}
-		    yield put({ type: FETCH_SCHEDULE_SUCCESS, id, schedule });
     	}
 
     } catch (error) {

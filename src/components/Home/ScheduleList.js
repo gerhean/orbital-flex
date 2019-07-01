@@ -1,3 +1,4 @@
+import { AppLoading } from "expo";
 import { PropTypes } from 'prop-types';
 import React, { Component } from 'react';
 import { bindActionCreators } from "redux";
@@ -6,6 +7,7 @@ import Dialog, { DialogContent, DialogFooter, DialogButton, DialogTitle } from '
 // import { SchedulesFetch } from '../../actions/ScheduleActions';
 import { View, Card, Body, Text, Right, Left, Thumbnail, SwipeRow, Icon, List, ListItem, Button,
 Grid, Row, Col, H2, Form, Item, Label, Input} from 'native-base';
+
 import profilePictureDisplay from '../profilePictureDisplay';
 import { viewUserProfile, setScheduleEditIndex, bookSchedule, unbookSchedule, fetchSchedule } from "../../actions";
 
@@ -44,7 +46,10 @@ class ScheduleList extends Component {
 
   constructor(props) {
     super(props);
-    this.state = initialState();
+    this.state = {
+      ...initialState(),
+      loading: true,
+    };
   };
 
   componentDidMount() {
@@ -53,6 +58,7 @@ class ScheduleList extends Component {
         this.props.handleFetchSchedule(id, this.props.isBooked);
       }
     }
+    this.setState({ loading: false });
   }
 
   setValue = key => value => {
@@ -143,6 +149,7 @@ class ScheduleList extends Component {
     let onButtonPress;
 
     schedule = this.props.schedules[scheduleId];
+    console.log(schedule);
     if (!schedule) return;
     if (schedule.isBooked === -1) {
       buttonText = "Edit Schedule";
@@ -228,6 +235,9 @@ class ScheduleList extends Component {
   }
     
   render() {
+    if (this.state.loading) {
+      return <AppLoading onError={console.warn} />;
+    }
     const cards = this.props.scheduleArr.map((scheduleId, index) => this.makeScheduleCard(scheduleId, index));
     return(   
       <List>   
