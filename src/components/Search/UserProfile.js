@@ -58,8 +58,6 @@ class UserProfile extends Component {
     }
     const postedScheduleList = <ScheduleList 
       scheduleArr={Object.keys(user.postedSchedules)}
-      refArray={true}
-      onButtonPress={(index) => () => {}}
     />
     const scheduleArray = [
       { title: "Posted Schedules", content: postedScheduleList },

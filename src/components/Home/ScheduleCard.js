@@ -15,10 +15,18 @@ const mapStateToProps = state => ({
   schedules: state.schedules,
 });
 
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      handleViewUserProfile: viewUserProfile,
+    },
+    dispatch
+  );
+
 //component responsible for rendering data returned by scheduleReducer
 class ScheduleCard extends Component {
   static propTypes = {
-    scheduleId: PropTypes.object.isRequired,
+    scheduleId: PropTypes.string.isRequired,
     // Id of schedule to be displayed
     index: PropTypes.number.isRequired,
     // Index of schedule in scheduleList
@@ -54,7 +62,7 @@ class ScheduleCard extends Component {
     }
 
     return (
-      <ListItem bordered key={index}>
+      <ListItem bordered>
         <Grid>
           <Row>
             <H2>{schedule.name}</H2>
@@ -131,4 +139,4 @@ const timeToString = time => {
   return frontZero + hour + ":" + minute + backZero
 }
 
-export default connect(mapStateToProps)(ScheduleCard);
+export default connect(mapStateToProps, mapDispatchToProps)(ScheduleCard);

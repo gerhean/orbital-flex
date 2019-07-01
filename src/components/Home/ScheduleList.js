@@ -165,6 +165,7 @@ class ScheduleList extends Component {
       <ScheduleCard 
         scheduleId={scheduleId}
         index={index}
+        key={index}
         onPressScheduleEdit={this.onPressScheduleEdit}
         onPressBook={this.onPressBook}
         onPressUnbook={this.onPressUnbook}
