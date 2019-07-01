@@ -68,7 +68,7 @@ export default mainReducer = (state = initialState(), action) => {
         postedSchedules: state.postedSchedules.concat([action.scheduleId]),
         user: {
           ...state.user,
-          postedScheduleIds: state.user.postedScheduleIds[action.scheduleId] = true,
+          postedScheduleIds: state.user.postedSchedules[action.scheduleId] = true,
         },
         screen: "Home"
       };
