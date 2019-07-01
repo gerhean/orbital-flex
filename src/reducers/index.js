@@ -8,6 +8,7 @@ export { initialState };
 
 const initialAuth = () => ({
   error: "",
+  loading: false,
   isAuthenticated: false
 });
 
@@ -18,7 +19,8 @@ export default mainReducer = (state = initialState(), action) => {
       return {
         ...state,
         auth: {
-          ...state.auth,
+          error: "",
+          loading: false,
           isAuthenticated: true
         },
         user: action.user,
@@ -27,7 +29,10 @@ export default mainReducer = (state = initialState(), action) => {
 
     case actionTypes.LOGOUT_SUCCESS:
       // console.log("LOGOUT_SUCCESS" + " called");
-      return initialState();
+      return {
+        ...initialState(),
+        auth: initialAuth(),
+      };
 
     case actionTypes.SIGNUP_SUCCESS:
       return {
@@ -116,15 +121,24 @@ export default mainReducer = (state = initialState(), action) => {
       return state;
 
     case actionTypes.BOOK_SCHEDULE_SUCCESS:
-      state.schedules[action.scheduleId].isBooked = 1;
+      state.schedules[action.scheduleId] = {
+        ...state.schedules[action.scheduleId],
+        isBooked: 1
+      };
       state.bookedSchedules.push(action.scheduleId);
       state.user.bookedSchedules[action.scheduleId] = true;
       return state;
 
     case actionTypes.UNBOOK_SCHEDULE_SUCCESS:
-      state.schedules[action.scheduleId].isBooked = 0;
+      state.schedules[action.scheduleId] = {
+        ...state.schedules[action.scheduleId],
+        isBooked: -1
+      };
       delete state.user.bookedSchedules[action.scheduleId];
-      return state;
+      return {
+        ...state,
+        bookedSchedules: Object.keys(state.user.bookedSchedules),
+      };
 
     case actionTypes.VIEW_USER_PROFILE:
       return {

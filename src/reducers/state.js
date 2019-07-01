@@ -1,5 +1,6 @@
 const initialAuth = {
   error: "",
+  loading: true,
   isAuthenticated: false
 };
 

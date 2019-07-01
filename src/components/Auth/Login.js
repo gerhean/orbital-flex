@@ -3,12 +3,14 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { View, StyleSheet, Text } from "react-native";
 import { Icon, Button, Input } from "react-native-elements";
+import { AppLoading } from "expo";
 import firebase from 'firebase';
 
 import { loginEmail, loginInitialize, changeScreen, logout } from "../../actions";
 
 const mapStateToProps = state => ({
-  authError: state.auth.error
+  authError: state.auth.error,
+  authLoading: state.auth.loading
 });
 
 const mapDispatchToProps = dispatch =>
@@ -53,23 +55,13 @@ class LoginBase extends Component {
   onButtonPress = () => {
     const { email, password } = this.state;
     this.props.handleEmailLogin({ email, password });
-    // this.navigate("MainTab")();
-
-    // const { email, password } = this.state;
-    // this.props.firebase
-    //   .doSignInWithEmailAndPassword(email, password)
-    //   .then(authUser => {
-    //     this.setState({ ...initialState });
-    //     console.log(authUser);
-    //     this.navigate("MainTab")();
-    //   })
-    //   .catch(error => {
-    //     console.log(error.message);
-    //     this.setState({ error: error.message });
-    //   });
   };
 
   render() {
+    if (this.props.authLoading) {
+      return <AppLoading onError={console.warn} />;
+    }
+
     return (
       <View style={styles.container}>
         <View style={styles.loginContainer}>
