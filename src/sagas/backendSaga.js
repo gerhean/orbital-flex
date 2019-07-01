@@ -25,6 +25,7 @@ import {
 	FETCH_USER_INFO,
 	FETCH_USER_INFO_SUCCESS,
 	FETCH_SCHEDULE,
+	REMOVE_SCHEDULE,
 	FETCH_SCHEDULE_SUCCESS,
 	BOOK_SCHEDULE,
 	BOOK_SCHEDULE_SUCCESS,
@@ -242,7 +243,8 @@ function* backendSaga() {
 		   	const isBooked = action.isBooked === undefined ? storedBooked : action.isBooked;
 		   	const data = yield scheduleData.data();
 		   	if (!data) {
-		   		yield call(displayErrorMessage, {code: '', message:'Schedule data not found'}, FETCH_SCHEDULE);
+		   		yield call(displayErrorMessage, {code: '', message:'Schedule data has been deleted'}, FETCH_SCHEDULE);
+		   		yield put({ type: REMOVE_SCHEDULE, id, isBooked });
 		   	} else {
 			   	const schedule = yield {
 			   		...data,
@@ -256,6 +258,21 @@ function* backendSaga() {
 
     } catch (error) {
       yield call(displayErrorMessage, error, FETCH_SCHEDULE);
+    }
+  })
+
+  yield takeEvery(REMOVE_SCHEDULE, function*(action){
+    try {
+    	const uid = firebase.auth().currentUser.uid;
+    	const scheduleId = action.id;
+	   	const userRef = db.collection('users').doc(uid) 
+    	if (action.isBooked == 1) {
+		    yield call([userRef, userRef.update], {[`bookedSchedules.${scheduleId}`]: deleteField()})
+    	} else if (action.isBooked == -1) {
+    		yield call([userRef, userRef.update], {[`postedSchedules.${scheduleId}`]: deleteField()})
+    	}
+    } catch (error) {
+      yield call(displayErrorMessage, error, REMOVE_SCHEDULE);
     }
   })
 

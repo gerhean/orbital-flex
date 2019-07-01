@@ -120,6 +120,11 @@ export default mainReducer = (state = initialState(), action) => {
       state.schedules[action.id] = action.schedule;
       return state;
 
+    case actionTypes.REMOVE_SCHEDULE:
+      delete state.user.bookedSchedules[action.scheduleId];
+      delete state.user.postedSchedules[action.scheduleId];
+      return state;
+
     case actionTypes.BOOK_SCHEDULE_SUCCESS:
       state.schedules[action.scheduleId] = {
         ...state.schedules[action.scheduleId],
