@@ -1,5 +1,5 @@
 import { Toast } from 'native-base';
-import { takeLatest, takeEvery, put, call } from "redux-saga/effects";
+import { takeLatest, takeEvery, put, call, takeLeading } from "redux-saga/effects";
 import { 
   LOGIN_EMAIL,
   LOGIN_INITIALIZE,
@@ -19,7 +19,9 @@ import {
   UPDATE_USER_INFO,
   UPDATE_USER_INFO_SUCCESS,
   FETCH_USER_INFO,
-  FETCH_USER_INFO_SUCCESS
+  FETCH_USER_INFO_SUCCESS,
+  FETCH_SCHEDULE, 
+  FETCH_SCHEDULE_SUCCESS
 } from '../actions/actionTypes';
 import * as actionTypes from "../actions/actionTypes";
 
@@ -55,6 +57,7 @@ const mockSchedule = {
   services: 'Gym',
   remarks: 'Its joke',
   timeCreated: '1111',
+  isBooked:0,
 }
 
 const mockSchedule2 = {
@@ -72,6 +75,7 @@ const mockSchedule2 = {
   services: 'Play',
   remarks: 'Its joke',
   timeCreated: '1111',
+  isBooked:-1,
 }
 
 function* mockBackendSaga() {
@@ -82,7 +86,7 @@ function* mockBackendSaga() {
     } catch (error) {
       const error_message = { code: error.code, message: error.message };
       yield put({ type: SIGNUP_FAIL, error: error_message });
-      yield call([displayErrorMessage], error)
+      yield call(displayErrorMessage, error)
     }
   });
 
@@ -101,7 +105,7 @@ function* mockBackendSaga() {
       yield put({ type: LOGIN_SUCCESS, user: mockUser });
     } catch (error) {
       yield put({ type: LOGIN_FAIL, error: error_message });
-      yield call([displayErrorMessage], error)
+      yield call(displayErrorMessage, error)
     }
   });
 
@@ -111,7 +115,7 @@ function* mockBackendSaga() {
       yield put({ type: LOGOUT_SUCCESS });
     } catch (error) {
       // yield put({ type: SIGNUP_FAIL, error: error_message });
-      yield call([displayErrorMessage], error)
+      yield call(displayErrorMessage, error)
     }
   })
 
@@ -144,15 +148,16 @@ function* mockBackendSaga() {
   yield takeEvery(SCHEDULE_FETCH_HOME, function*(action){
     try {
       // trainer_schedules have users(trainers), users can post schedules
-      put({ type: FETCH_SCHEDULE_SUCCESS, id: "A", schedule: mockSchedule });
-      put({ type: FETCH_SCHEDULE_SUCCESS, id: "B", schedule: mockSchedule2 });
+      console.log('fetching schedule');
+      yield put({ type: FETCH_SCHEDULE_SUCCESS, id: "A", schedule: mockSchedule });
+      yield put({ type: FETCH_SCHEDULE_SUCCESS, id: "B", schedule: mockSchedule2 });
       yield put({ type: SCHEDULE_FETCH_HOME_SUCCESS, 
         booked: ["A"], 
         posted: ["B"] 
       }) 
     } catch (error) {
       const error_message = { code: error.code, message: error.message };
-      yield call([displayErrorMessage], error)
+      yield call(displayErrorMessage, error)
     }
   })
 
@@ -163,10 +168,10 @@ function* mockBackendSaga() {
   yield takeEvery(UPDATE_USER_INFO, function*(action){
     try {
       yield put({ type: UPDATE_USER_INFO_SUCCESS, userInfo: action.userInfo })
-      yield call([displayErrorMessage], "User Info Updated");
+      yield call(displayMessage, "User Info Updated");
     } catch (error) {
       const error_message = { code: error.code, message: error.message };
-      yield call([displayErrorMessage], error)
+      yield call(displayErrorMessage, error)
     }
   })
 }

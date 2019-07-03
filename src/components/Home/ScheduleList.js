@@ -7,10 +7,12 @@ import Dialog, { DialogContent, DialogFooter, DialogButton, DialogTitle } from '
 
 import { View, Card, Body, Text, Right, Left, Thumbnail, SwipeRow, Icon, List, ListItem, Button,
 Grid, Row, Col, H2, Form, Item, Label, Input} from 'native-base';
+import { FlatList } from 'react-native';
 
 import { viewUserProfile, setScheduleEditIndex, bookSchedule, unbookSchedule, fetchSchedule } from "../../actions";
 import profilePictureDisplay from '../profilePictureDisplay';
 import ScheduleCard from './ScheduleCard';
+import BookSchedulePopup from './BookSchedulePopup';
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -32,8 +34,6 @@ const mapDispatchToProps = dispatch =>
 const initialState = () => ({
   unbookingId: '',
   bookingId: '',
-  price: '0',
-  remarks: '',
 })
 
 //component responsible for rendering data returned by scheduleReducer
@@ -62,64 +62,10 @@ class ScheduleList extends Component {
     this.setState({ loading: false });
   }
 
-  setValue = key => value => {
-    this.setState({
-      [key]: value
-    })
-  };
-
-  submitBooking = () => {
-    const { price, remarks } = this.state;
-    this.props.handleBookSchedule(this.state.bookingId, { price, remarks });
-    this.setState(initialState())
-  };
-
   submitUnbooking = () => {
     this.props.handleUnbookSchedule(this.state.unbookingId);
     this.setState({ unbookingId: '' })
   };
-
-  bookSchedulePopup = () => (
-    <Dialog
-    visible={this.state.bookingId !== ''}
-    onTouchOutside={() => {
-      this.setState(initialState());
-    }}
-    dialogTitle={<DialogTitle title="Book Schedule" />}
-      footer={
-        <DialogFooter>
-          <DialogButton
-            text="Book"
-            onPress={this.submitBooking}
-          />
-          <DialogButton
-            text="Cancel"
-            onPress={() => this.setState(initialState())}
-          />
-        </DialogFooter>
-      }
-  >
-    <DialogContent>
-      <Form>
-        <Item stackedLabel>
-          <Label>Offering Price</Label>
-          <Input
-            value={this.state.price}
-            onChangeText={this.setValue("price")}
-            keyboardType={'numeric'}
-          />
-        </Item>
-        <Item stackedLabel>
-          <Label>Remarks</Label>
-          <Input
-            value={this.state.remarks}
-            onChangeText={this.setValue("remarks")}
-          />
-        </Item>
-      </Form>
-    </DialogContent>
-  </Dialog>
-  );
 
   unbookScheduleWarning = () => (
     <Dialog
@@ -161,19 +107,30 @@ class ScheduleList extends Component {
     if (this.state.loading) {
       return <AppLoading onError={console.warn} />;
     }
-    const cards = this.props.scheduleArr.map((scheduleId, index) => 
-      <ScheduleCard 
-        scheduleId={scheduleId}
-        index={index}
-        key={index}
-        onPressScheduleEdit={this.onPressScheduleEdit}
-        onPressBook={this.onPressBook}
-        onPressUnbook={this.onPressUnbook}
+    
+    const cards = (
+      <FlatList 
+        data={this.props.scheduleArr} 
+        renderItem={({ item, index }) => (
+          <ScheduleCard 
+            scheduleId={item}
+            index={index}
+            onPressScheduleEdit={this.onPressScheduleEdit}
+            onPressBook={this.onPressBook}
+            onPressUnbook={this.onPressUnbook}
+          />
+        )}
+        keyExtractor={item => item}
       />
     );
+
     return(   
       <List>   
-        {this.bookSchedulePopup()} 
+        <BookSchedulePopup 
+          handleBookSchedule={this.props.handleBookSchedule}
+          clearBookingId={() => {this.setState({ bookingId: '' })}}
+          bookingId={this.state.bookingId}
+        />
         {this.unbookScheduleWarning()}
         {cards}
       </List>

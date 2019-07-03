@@ -32,10 +32,10 @@ import {
 } from '../actions/actionTypes';
 import { Algolia_App_ID, Algolia_API_KEY, ALGOLIA_INDEX_NAME } from '../../env';
 
-const algoliasearch = require('algoliasearch');
-const algoliasearch = require('algoliasearch/reactnative');
-const client = algoliasearch(Algolia_App_ID, Algolia_API_KEY);
-const index = client.initIndex(ALGOLIA_INDEX_NAME);
+// const algoliasearch = require('algoliasearch');
+// const algoliasearch = require('algoliasearch/reactnative');
+// const client = algoliasearch(Algolia_App_ID, Algolia_API_KEY);
+// const index = client.initIndex(ALGOLIA_INDEX_NAME);
 
 
 const arrayUnion = firebase.firestore.FieldValue.arrayUnion;
@@ -109,7 +109,6 @@ function* backendSaga() {
 	   		...userData.data(),
 	   		uid,
 	   	}
-	   	console.log(user);
 	    yield put({ type: LOGIN_SUCCESS, user });
 	  } catch (error) {
 	    const error_message = { code: error.code, message: error.message };
@@ -138,11 +137,12 @@ function* backendSaga() {
 			const collectionRef = db.collection("trainer_schedules")
 	    const ref = yield call([collectionRef, collectionRef.add], schedule);
  
+			// index schedule to algolia https://www.algolia.com/doc/api-reference/api-methods/add-objects/
+			yield call([index, index.addObject], { ...schedule, objectID: ref.id })
+			
 	    const userRef = db.collection('users').doc(uid) 
 	    yield call([userRef, userRef.update], {[`postedSchedules.${ref.id}`]: true})
-		schedule["isBooked"] = -1;
-		// index schedule to algolia https://www.algolia.com/doc/api-reference/api-methods/add-objects/
-		yield call([index, index.addObject], { ...schedule, objectID: ref.id })
+			schedule["isBooked"] = -1;
 	    yield put({ type: SCHEDULE_CREATE_SUCCESS, schedule, scheduleId: ref.id }) // need to navigate back to home page/search page
 	} catch (error) {
 	    // const error_message = { code: error.code, message: error.message };
@@ -156,15 +156,15 @@ function* backendSaga() {
     	const schedule = action.schedule;
     	const scheduleId = schedule.scheduleId;
     	delete schedule.scheduleId;
-		const ref = db.collection('trainer_schedules').doc(scheduleId) 
+			const ref = db.collection('trainer_schedules').doc(scheduleId) 
 		
 	    yield call(
 	    	[ref, ref.update], 
 	    	schedule
-		)
-		yield call([index, index.partialUpdateObject], { ...schedule, objectID: scheduleId })
-	  yield put({ type: SCHEDULE_UPDATE_SUCCESS, schedule: action.schedule, scheduleId })
-	  yield call(displayMessage, "Schedule Updated");	  
+			)
+			yield call([index, index.partialUpdateObject], { ...schedule, objectID: scheduleId })
+		  yield put({ type: SCHEDULE_UPDATE_SUCCESS, schedule: action.schedule, scheduleId })
+		  yield call(displayMessage, "Schedule Updated");	  
     } catch (error) {      
     	yield call(displayErrorMessage, error, SCHEDULE_UPDATE);
     }

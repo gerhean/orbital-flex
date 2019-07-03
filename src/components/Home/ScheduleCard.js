@@ -46,19 +46,21 @@ class ScheduleCard extends Component {
 
     let buttonText;
     let onButtonPress;
-    if (!schedule) return;
+    console.log(scheduleId);
+    console.log(this.props.schedules);
+    if (!schedule) return null;
     if (schedule.isBooked === -1) {
       buttonText = "Edit Schedule";
-      onButtonPress = () => this.props.onPressScheduleEdit(index, scheduleId);
+      onButtonPress = () => this.props.onPressScheduleEdit(scheduleId, index);
     } else if (schedule.isBooked === 0) {
       buttonText = "Book";
-      onButtonPress = () => this.props.onPressBook(index, scheduleId);
+      onButtonPress = () => this.props.onPressBook(scheduleId, index);
     } else if (schedule.isBooked === 1) {
       buttonText = "Unbook";
-      onButtonPress = () => this.props.onPressUnbook(index, scheduleId);
+      onButtonPress = () => this.props.onPressUnbook(scheduleId, index);
     } else {
       console.log("Unable to determine state of schedule");
-      return;
+      return null;
     }
 
     return (
