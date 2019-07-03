@@ -92,7 +92,7 @@ class ScheduleList extends Component {
   );
 
   onPressScheduleEdit = (scheduleId, index) => {
-    this.props.handleScheduleEdit(index);
+    this.props.handleScheduleEdit(scheduleId);
   };
 
   onPressBook = (scheduleId, index) => {

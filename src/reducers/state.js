@@ -12,7 +12,7 @@ export default initialState = () => ({
   schedules: {},
   bookedSchedules: [],
   postedSchedules: [],
-  editScheduleIndex: -1,
+  editScheduleId: '',
   userProfileToView: ""
 });
 

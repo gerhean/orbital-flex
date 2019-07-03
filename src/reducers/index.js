@@ -76,7 +76,7 @@ export default mainReducer = (state = initialState(), action) => {
     case actionTypes.SET_SCHEDULE_EDIT_INDEX:
       return {
         ...state,
-        editScheduleIndex: action.payload,
+        editScheduleId: action.payload,
         screen: "EditSchedule"
       };
 
@@ -88,7 +88,7 @@ export default mainReducer = (state = initialState(), action) => {
       console.log(state.schedules)
       return {
         ...state,
-        editScheduleIndex: -1,
+        editScheduleId: '',
         screen: "Home"
       };
 

@@ -28,7 +28,7 @@ import { scheduleCreate, changeScreen } from "../../actions";
 
 const mapStateToProps = state => ({
   user: state.user,
-  scheduleIndex: state.editScheduleIndex,
+  scheduleId: state.editScheduleId,
   postedSchedules: state.postedSchedules,
   schedules: state.schedules
 });
@@ -66,7 +66,7 @@ class ScheduleForm extends Component {
     let schedule = initialSchedule;
     let scheduleId = '';
     if (this.props.isEditForm) {
-      scheduleId = this.props.postedSchedules[this.props.scheduleIndex];
+      scheduleId = this.props.scheduleId;
       schedule = this.props.schedules[scheduleId];
     } 
     this.state = {

@@ -46,8 +46,6 @@ class ScheduleCard extends Component {
 
     let buttonText;
     let onButtonPress;
-    console.log(scheduleId);
-    console.log(this.props.schedules);
     if (!schedule) return null;
     if (schedule.isBooked === -1) {
       buttonText = "Edit Schedule";
