@@ -1,8 +1,6 @@
-// import firebase from 'react-native-firebase';
 import firebase from 'firebase';
 import '@firebase/firestore'
 import { Toast } from 'native-base';
-// import db from '../firebase';
 import { takeLatest, takeEvery, takeLeading, put, call, select } from 'redux-saga/effects';
 import { 
 	LOGIN_EMAIL,
@@ -32,6 +30,13 @@ import {
 	UNBOOK_SCHEDULE,
 	UNBOOK_SCHEDULE_SUCCESS
 } from '../actions/actionTypes';
+import { Algolia_App_ID, Algolia_API_KEY, ALGOLIA_INDEX_NAME } from '../../env';
+
+const algoliasearch = require('algoliasearch');
+const algoliasearch = require('algoliasearch/reactnative');
+const client = algoliasearch(Algolia_App_ID, Algolia_API_KEY);
+const index = client.initIndex(ALGOLIA_INDEX_NAME);
+
 
 const arrayUnion = firebase.firestore.FieldValue.arrayUnion;
 const serverTimestamp = firebase.firestore.FieldValue.serverTimestamp;
@@ -132,13 +137,14 @@ function* backendSaga() {
 			const schedule = { ...action.payload, poster: uid, bookers: {}, posterName, timeCreated: serverTimestamp() }
 			const collectionRef = db.collection("trainer_schedules")
 	    const ref = yield call([collectionRef, collectionRef.add], schedule);
-
+ 
 	    const userRef = db.collection('users').doc(uid) 
 	    yield call([userRef, userRef.update], {[`postedSchedules.${ref.id}`]: true})
-	    schedule["isBooked"] = -1;
+		schedule["isBooked"] = -1;
+		// index schedule to algolia https://www.algolia.com/doc/api-reference/api-methods/add-objects/
+		yield call([index, index.addObject], { ...schedule, objectID: ref.id })
 	    yield put({ type: SCHEDULE_CREATE_SUCCESS, schedule, scheduleId: ref.id }) // need to navigate back to home page/search page
-	  
-	  } catch (error) {
+	} catch (error) {
 	    // const error_message = { code: error.code, message: error.message };
 	    // yield put({ type: SCHEDULE_CREATE_FAIL, error: error_message });
 	    yield call(displayErrorMessage, error, SCHEDULE_CREATE);
@@ -150,13 +156,15 @@ function* backendSaga() {
     	const schedule = action.schedule;
     	const scheduleId = schedule.scheduleId;
     	delete schedule.scheduleId;
-    	const ref = db.collection('trainer_schedules').doc(scheduleId) 
+		const ref = db.collection('trainer_schedules').doc(scheduleId) 
+		
 	    yield call(
 	    	[ref, ref.update], 
 	    	schedule
-	    )
-      yield put({ type: SCHEDULE_UPDATE_SUCCESS, schedule: action.schedule, scheduleId })
-      yield call(displayMessage, "Schedule Updated");
+		)
+		yield call([index, index.partialUpdateObject], { ...schedule, objectID: scheduleId })
+	  yield put({ type: SCHEDULE_UPDATE_SUCCESS, schedule: action.schedule, scheduleId })
+	  yield call(displayMessage, "Schedule Updated");	  
     } catch (error) {      
     	yield call(displayErrorMessage, error, SCHEDULE_UPDATE);
     }
@@ -270,7 +278,8 @@ function* backendSaga() {
 		    yield call([userRef, userRef.update], {[`bookedSchedules.${scheduleId}`]: deleteField()})
     	} else if (action.isBooked == -1) {
     		yield call([userRef, userRef.update], {[`postedSchedules.${scheduleId}`]: deleteField()})
-    	}
+		}
+		yield call([index, index.deleteObject], scheduleId)
     } catch (error) {
       yield call(displayErrorMessage, error, REMOVE_SCHEDULE);
     }

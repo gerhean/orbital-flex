@@ -103,7 +103,7 @@ class LoginBase extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#2c3e50"
+    backgroundColor: "#3F51B5"
   },
   loginContainer: {
     alignItems: "center",
@@ -111,7 +111,8 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   buttonStyle: {
-    margin: 5
+    margin: 5,
+    backgroundColor: '#607D8B'
   },
   textStyle: {
     color: "#c5cae9",

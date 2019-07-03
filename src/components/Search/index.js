@@ -1,4 +1,29 @@
 import React, { Component } from "react";
+
+/*
+import { View, StyleSheet } from 'react-native';
+import ItemList from './ItemList';
+
+export default class Search extends Component {
+  render() {
+    return (
+      <View style={styles.container}>
+        <ItemList />
+      </View>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
+});
+*/
+
 import { View, StyleSheet, Text } from "react-native";
 //import { FlatList } from 'react-native';
 import {
@@ -17,7 +42,6 @@ import {
   Item
 } from "native-base";
 import Expo from "expo";
-import firebase from "firebase";
 // import Schedule from "./Schedule";
 
 //needs log out button
@@ -56,4 +80,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Search;
+

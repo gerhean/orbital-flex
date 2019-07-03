@@ -96,7 +96,7 @@ class SignUpForm extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#2c3e50",
+    backgroundColor: "#3F51B5",
     justifyContent: "center",
     alignItems: "center"
   },
@@ -106,7 +106,8 @@ const styles = StyleSheet.create({
     fontSize: 25
   },
   buttonStyle: {
-    margin: 5
+    margin: 5,
+    backgroundColor: '#607D8B'
   }
 });
 

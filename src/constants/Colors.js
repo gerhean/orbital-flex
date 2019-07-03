@@ -10,5 +10,7 @@ export default {
   warningBackground: "#EAEB5E",
   warningText: "#666804",
   noticeBackground: tintColor,
-  noticeText: "#fff"
+  noticeText: "#fff",
+  newBackground: "#3F51B5",
+  newButton: "#607D8B"
 };
