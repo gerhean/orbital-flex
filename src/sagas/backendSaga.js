@@ -30,12 +30,12 @@ import {
 	UNBOOK_SCHEDULE,
 	UNBOOK_SCHEDULE_SUCCESS
 } from '../actions/actionTypes';
-import { Algolia_App_ID, Algolia_API_KEY, ALGOLIA_INDEX_NAME } from '../../env';
+import { Algolia_App_ID, Algolia_API_KEY } from '../../env';
 
-// const algoliasearch = require('algoliasearch');
-// const algoliasearch = require('algoliasearch/reactnative');
-// const client = algoliasearch(Algolia_App_ID, Algolia_API_KEY);
-// const index = client.initIndex(ALGOLIA_INDEX_NAME);
+const algoliasearch = require('algoliasearch/reactnative');
+const client = algoliasearch(Algolia_App_ID, Algolia_API_KEY);
+const ALGOLIA_INDEX_NAME = 'trainer_schedules';
+const schedule_index = client.initIndex(ALGOLIA_INDEX_NAME);
 
 
 const arrayUnion = firebase.firestore.FieldValue.arrayUnion;
@@ -138,8 +138,8 @@ function* backendSaga() {
 	    const ref = yield call([collectionRef, collectionRef.add], schedule);
  
 			// index schedule to algolia https://www.algolia.com/doc/api-reference/api-methods/add-objects/
-			yield call([index, index.addObject], { ...schedule, objectID: ref.id })
-			
+			yield call([schedule_index, schedule_index.addObject], { ...schedule, objectID: ref.id })
+								
 	    const userRef = db.collection('users').doc(uid) 
 	    yield call([userRef, userRef.update], {[`postedSchedules.${ref.id}`]: true})
 			schedule["isBooked"] = -1;
@@ -162,7 +162,7 @@ function* backendSaga() {
 	    	[ref, ref.update], 
 	    	schedule
 			)
-			yield call([index, index.partialUpdateObject], { ...schedule, objectID: scheduleId })
+			yield call([schedule_index, schedule_index.partialUpdateObject], { ...schedule, objectID: scheduleId })
 		  yield put({ type: SCHEDULE_UPDATE_SUCCESS, schedule: action.schedule, scheduleId })
 		  yield call(displayMessage, "Schedule Updated");	  
     } catch (error) {      
@@ -279,7 +279,7 @@ function* backendSaga() {
     	} else if (action.isBooked == -1) {
     		yield call([userRef, userRef.update], {[`postedSchedules.${scheduleId}`]: deleteField()})
 		}
-		yield call([index, index.deleteObject], scheduleId)
+		yield call([schedule_index, schedule_index.deleteObject], scheduleId)
     } catch (error) {
       yield call(displayErrorMessage, error, REMOVE_SCHEDULE);
     }
