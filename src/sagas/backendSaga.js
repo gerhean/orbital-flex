@@ -33,7 +33,6 @@ import {
 import { ALGOLIA_APP_ID, ALGOLIA_API_Key } from '../../env';
 
 const algoliasearch = require('algoliasearch/reactnative');
-console.log(ALGOLIA_APP_ID);
 const client = algoliasearch(ALGOLIA_APP_ID, ALGOLIA_API_Key);
 const ALGOLIA_INDEX_NAME = 'trainer_schedules';
 const schedule_index = client.initIndex(ALGOLIA_INDEX_NAME);
