@@ -30,10 +30,11 @@ import {
 	UNBOOK_SCHEDULE,
 	UNBOOK_SCHEDULE_SUCCESS
 } from '../actions/actionTypes';
-import { Algolia_App_ID, Algolia_API_KEY } from '../../env';
+import { ALGOLIA_APP_ID, ALGOLIA_API_Key } from '../../env';
 
 const algoliasearch = require('algoliasearch/reactnative');
-const client = algoliasearch(Algolia_App_ID, Algolia_API_KEY);
+console.log(ALGOLIA_APP_ID);
+const client = algoliasearch(ALGOLIA_APP_ID, ALGOLIA_API_Key);
 const ALGOLIA_INDEX_NAME = 'trainer_schedules';
 const schedule_index = client.initIndex(ALGOLIA_INDEX_NAME);
 
