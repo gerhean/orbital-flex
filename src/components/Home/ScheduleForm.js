@@ -124,7 +124,6 @@ class ScheduleForm extends Component {
 
   handleTimePicked = date => {
     const time = date.getHours() * 60 + date.getMinutes();
-    console.log(time);
     this.setState({
       [this.state.timePickerVisible]: time,
       timePickerVisible: '',
