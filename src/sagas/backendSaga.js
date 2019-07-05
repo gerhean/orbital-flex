@@ -37,7 +37,6 @@ const client = algoliasearch(ALGOLIA_APP_ID, ALGOLIA_API_Key);
 const ALGOLIA_INDEX_NAME = 'trainer_schedules';
 const schedule_index = client.initIndex(ALGOLIA_INDEX_NAME);
 
-
 const arrayUnion = firebase.firestore.FieldValue.arrayUnion;
 const serverTimestamp = firebase.firestore.FieldValue.serverTimestamp;
 const deleteField = firebase.firestore.FieldValue.delete;

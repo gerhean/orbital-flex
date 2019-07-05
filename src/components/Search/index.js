@@ -1,14 +1,12 @@
 import React, { Component } from "react";
-
-/*
 import { View, StyleSheet } from 'react-native';
-import ItemList from './ItemList';
+import ScheduleList from './ScheduleList';
 
 export default class Search extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <ItemList />
+        <ScheduleList />
       </View>
     );
   }
@@ -22,8 +20,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   }
 });
-*/
 
+/*
 import { View, StyleSheet, Text } from "react-native";
 //import { FlatList } from 'react-native';
 import {
@@ -43,8 +41,6 @@ import {
 } from "native-base";
 import Expo from "expo";
 // import Schedule from "./Schedule";
-
-//needs log out button
 
 class Search extends Component {
   render() {
@@ -79,5 +75,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   }
 });
-
+*/
 

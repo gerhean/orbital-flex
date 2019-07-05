@@ -1,4 +1,3 @@
-/*
 import React, { Component } from 'react';
 import {
   Image,
@@ -7,40 +6,46 @@ import {
   View,
   Text
 } from 'react-native';
-// import FadeIn from '@expo/react-native-fade-in-image';
+import FadeIn from '@expo/react-native-fade-in-image';
 import layout from './layout';
 
-// needs to change according to our items from the index
+// '../../../assets/ExpoHollow.png'
 
 export default class ListItem extends Component {
   render() {
-    let { name,
-      image,
-      day,
-      timeStart,
-      timeEnd,
-      location,
-      services,
-      price } = this.props.item;
+    let { name, posterName, day,
+       timeStart, timeEnd, remarks,
+       location, services, price, 
+      } = this.props.item;
     return (
-      <View style={styles.mainContainer}>
-          <View style={styles.avatarContainer}>
-              <Image
+      <View style={ styles.mainContainer }>
+        <Image
                 resizeMode="cover"
-                source={require('../../../assets/ExpoHollow.png')}
+                source={image}
                 style={styles.avatar}
-              />
-          </View>
-          <View style={styles.infoContainer}>
-            <Text style={styles.services}>
-              { services }
-            </Text>
-            <Text style={styles.name}>
-              { name }
-            </Text>
-          </View>
-        </View>
-    )
+        />
+        <view style={styles.infoContainer}>
+          <Text style={styles.title}>
+            {name}
+          </Text>
+          <Text style={styles.info}>
+            {posterName}
+          </Text>
+          <Text style={styles.info}>
+            {day}
+          </Text>
+          <Text style={styles.info}>
+            {location}
+          </Text>
+          <Text style={styles.info}>
+            {services}
+          </Text>
+          <Text style={styles.info}>
+            {price}
+          </Text>
+        </view>
+      </View>
+    );
   }
 }
 
@@ -60,10 +65,10 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
   },
-  services: {
+  title: {
     fontSize: 22,
   },
-  name: {
+  info: {
     fontSize: 14,
     color: '#205070'
   },
@@ -79,4 +84,3 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   }
 })
-*/

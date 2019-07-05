@@ -1,4 +1,3 @@
-/*
 import { Dimensions, Platform } from 'react-native';
 import { Constants } from 'expo';
 import { Header } from 'react-navigation';
@@ -20,4 +19,3 @@ export default {
       ? Header.HEIGHT + Constants.statusBarHeight
       : Header.HEIGHT + notchHeight,
 };
-*/
