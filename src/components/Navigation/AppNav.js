@@ -8,7 +8,7 @@ import Search from "../Search";
 import Chat from "../Chat";
 import ScheduleForm from "../Home/ScheduleForm"
 import EditUserInfoForm from "../Home/EditUserInfo"
-import UserProfile from "../Search/UserProfile"
+import UserProfile from "../Users/UserProfile"
 
 // export default createBottomTabNavigator({
 //   HomeStack,
@@ -47,7 +47,8 @@ export class AppNav extends Component {
   };
 
   renderContent = () => {
-    switch (this.props.screen) {
+    const screen = this.props.screen.split('/');
+    switch (screen[0]) {
       case "Home":
         return <Home />;
       case "CreateSchedule":

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { PropTypes } from 'prop-types';
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import {
@@ -22,7 +23,7 @@ import profilePictureDisplay from '../profilePictureDisplay';
 import ScheduleList from "../Home/ScheduleList";
 
 const mapStateToProps = state => ({
-  users: state.users,
+  user: state.users[userProfileToView],
   uid: state.userProfileToView
 });
 
@@ -38,6 +39,10 @@ const mapDispatchToProps = dispatch =>
   );
 
 class UserProfile extends Component {
+  static propTypes = {
+    uid: PropTypes.string.isRequired,
+  };
+
   constructor(props) {
     super(props);
   }
@@ -52,7 +57,7 @@ class UserProfile extends Component {
   };
 
   render() {
-    const user = this.props.users[this.props.uid];
+    const user = this.props.user;
     if (!user) {
       return <Text>Loading</Text>
     }
