@@ -42,9 +42,7 @@ class ScheduleCard extends Component {
   };
 
   componentDidMount() {
-    if (!this.props.schedule) {
-      this.props.handleFetchSchedule(this.props.scheduleId);
-    }
+    this.props.handleFetchSchedule(this.props.scheduleId);
   }
 
   componentDidUpdate() {

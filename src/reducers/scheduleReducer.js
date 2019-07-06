@@ -1,5 +1,10 @@
 import * as actionTypes from "../actions/actionTypes";
 
+const objFilter = (obj, predicate) => 
+    Object.keys(obj)
+          .filter( key => predicate(obj[key]) )
+          .reduce( (res, key) => (res[key] = obj[key], res), {} );
+
 export default scheduleReducer = {
 	[actionTypes.SCHEDULE_FETCH_HOME_SUCCESS]: (state, action) => ({
     ...state,
@@ -40,22 +45,31 @@ export default scheduleReducer = {
     screen: "Home"
   }),
 
-  [actionTypes.FETCH_SCHEDULE_SUCCESS]: (state, action) => ({
-    ...state,
-    schedules: {
-      ...state.schedules,
-      [action.id]: action.schedule
+  [actionTypes.FETCH_SCHEDULE_SUCCESS]: (state, action) => {
+    const now = Date.now();
+    const schedules = objFilter(
+      state.schedules, 
+      schedule => now - schedule.timeFetched < 2000000 
+    )
+    schedules[action.id] = action.schedule;
+    return {
+      ...state,
+      schedules
     }
-  }),
+  },
 
-  [actionTypes.REMOVE_SCHEDULE]: (state, action) => ({
-    ...state,
-    user: {
-      ...state.user,
-      bookedSchedules: state.user.bookedSchedules.filter(item => action.scheduleId !== item),
-      postedSchedules: state.user.postedSchedules.filter(item => action.scheduleId !== item),
+  [actionTypes.REMOVE_SCHEDULE]: (state, action) => {
+    const {[action.scheduleId]: value, ...bookedSchedules} = state.user.bookedSchedules;
+    const {[action.scheduleId]: value2, ...postedSchedules} = state.user.postedSchedules;
+    return {
+      ...state,
+      user: {
+        ...state.user,
+        bookedSchedules,
+        postedSchedules,
+      }
     }
-  }),
+  },
 
   [actionTypes.BOOK_SCHEDULE_SUCCESS]: (state, action) => ({
     ...state,
@@ -76,19 +90,22 @@ export default scheduleReducer = {
     }
   }),
 
-  [actionTypes.UNBOOK_SCHEDULE_SUCCESS]: (state, action) => ({
-    ...state,
-    schedules: {
-      ...state.schedule,
-      [action.scheduleId]: {
-        ...state.schedules[action.scheduleId],
-        isBooked: -1
+  [actionTypes.UNBOOK_SCHEDULE_SUCCESS]: (state, action) => {
+    const {[action.scheduleId]: value, ...bookedSchedules} = state.user.bookedSchedules;
+    return {
+      ...state,
+      schedules: {
+        ...state.schedule,
+        [action.scheduleId]: {
+          ...state.schedules[action.scheduleId],
+          isBooked: 0
+        }
+      },
+      bookedSchedules: Object.keys(state.user.bookedSchedules),
+      user: {
+        ...state.user,
+        bookedSchedules
       }
-    },
-    bookedSchedules: Object.keys(state.user.bookedSchedules),
-    user: {
-      ...state.user,
-      bookedSchedules: state.user.bookedSchedules.filter(item => action.scheduleId !== item),
     }
-  }),
+  },
 }

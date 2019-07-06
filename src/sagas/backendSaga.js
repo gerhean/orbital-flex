@@ -245,8 +245,18 @@ function* backendSaga() {
     	if (!storedSchedule || (Date.now() - storedSchedule.timeFetched > 300000)) { // reduce api calls
 		    const docRef = db.collection('trainer_schedules').doc(id);
 		   	const scheduleData = yield call([docRef, docRef.get]);
-		   	const storedBooked = storedSchedule ? storedSchedule.isBooked || 0 : 0
-		   	const isBooked = action.isBooked === undefined ? storedBooked : action.isBooked;
+		   	
+		   	let isBooked = 0;
+		   	const booked = yield select(state => state.user.bookedSchedules[id]);
+		   	if (booked) {
+		   		isBooked = 1;
+		   	} else {
+		   		const posted = yield select(state => state.user.postedSchedules[id]);
+		   		if (posted) {
+		   			isBooked = -1;
+		   		}
+		   	}
+
 		   	const data = yield scheduleData.data();
 		   	if (!data) {
 		   		yield call(displayErrorMessage, {code: '', message:'Schedule data has been deleted'}, FETCH_SCHEDULE);

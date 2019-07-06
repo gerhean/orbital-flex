@@ -6,6 +6,11 @@ import scheduleReducer from './scheduleReducer';
 
 export { initialState };
 
+export const objFilter = (obj, predicate) => 
+    Object.keys(obj)
+          .filter( key => predicate(obj[key]) )
+          .reduce( (res, key) => (res[key] = obj[key], res), {} );
+
 const miscReducer = {
   [actionTypes.CHANGE_SCREEN]: (state, action) => ({
     ...state,
