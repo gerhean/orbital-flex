@@ -41,6 +41,7 @@ class BookSchedulePopup extends Component {
   submitBooking = () => {
     const { price, remarks } = this.state;
     this.props.handleBookSchedule(this.props.bookingId, { price, remarks });
+    this.props.clearBookingId();
     this.setState(initialState())
   };
 

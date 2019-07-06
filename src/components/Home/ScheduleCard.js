@@ -39,9 +39,6 @@ class ScheduleCard extends Component {
   constructor(props) {
     super(props);
     const scheduleId = this.props.scheduleId;
-    this.state = {
-      scheduleId
-    };
   };
 
   componentDidMount() {

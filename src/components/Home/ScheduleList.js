@@ -47,6 +47,10 @@ class ScheduleList extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      unbookingId: '',
+      bookingId: '',
+    }
   };
 
   submitUnbooking = () => {
@@ -91,7 +95,6 @@ class ScheduleList extends Component {
   };
     
   render() {
-    
     const cards = (
       <FlatList 
         data={this.props.scheduleArr} 
