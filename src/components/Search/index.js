@@ -1,13 +1,33 @@
 import React, { Component } from "react";
 import { View, StyleSheet } from 'react-native';
+import {
+  Container,
+  Header,
+  Body,
+  Title,
+  Content,
+  Footer,
+  FooterTab,
+  Right,
+  Left,
+  Icon,
+  Input,
+} from "native-base";
 import SearchSchedules from './SearchSchedules';
 
 export default class Search extends Component {
   render() {
     return (
-      <View style={styles.container}>
+      <Container>
+        <Header>
+          <Left />
+          <Body>
+            <Title>Search</Title>
+          </Body>
+          <Right/>
+        </Header>
         <SearchSchedules />
-      </View>
+      </Container>
     );
   }
 }

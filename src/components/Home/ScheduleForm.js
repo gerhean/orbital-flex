@@ -30,7 +30,7 @@ const mapStateToProps = state => ({
   user: state.user,
   scheduleId: state.editScheduleId,
   postedSchedules: state.postedSchedules,
-  schedules: state.schedules
+  schedule: state.schedules[state.editScheduleId]
 });
 
 const mapDispatchToProps = dispatch =>
@@ -67,7 +67,7 @@ class ScheduleForm extends Component {
     let scheduleId = '';
     if (this.props.isEditForm) {
       scheduleId = this.props.scheduleId;
-      schedule = this.props.schedules[scheduleId];
+      schedule = this.props.schedule;
     } 
     this.state = {
       ...schedule,

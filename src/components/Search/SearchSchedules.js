@@ -76,7 +76,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     flexDirection: 'column',
-    paddingTop: Constants.statusBarHeight
+    paddingTop: Constants.statusBarHeight,
+    paddingBottom: 40
   },
   searchContainer: {
     width: layout.window.width,
