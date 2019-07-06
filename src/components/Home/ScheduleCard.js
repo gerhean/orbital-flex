@@ -1,10 +1,8 @@
-import { AppLoading } from "expo";
 import { PropTypes } from 'prop-types';
 import React, { Component } from 'react';
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import Dialog, { DialogContent, DialogFooter, DialogButton, DialogTitle } from 'react-native-popup-dialog';
-// import { SchedulesFetch } from '../../actions/ScheduleActions';
+import firebase from 'firebase';
 import { View, Card, Body, Text, Right, Left, Thumbnail, SwipeRow, Icon, List, ListItem, Button,
 Grid, Row, Col, H2, Form, Item, Label, Input} from 'native-base';
 
@@ -29,9 +27,6 @@ class ScheduleCard extends Component {
   static propTypes = {
     scheduleId: PropTypes.string.isRequired,
     // Id of schedule to be displayed
-    index: PropTypes.number.isRequired,
-    // Index of schedule in scheduleList
-    onPressScheduleEdit: PropTypes.func.isRequired,
     onPressBook: PropTypes.func.isRequired,
     onPressUnbook: PropTypes.func.isRequired,
   };
@@ -52,22 +47,31 @@ class ScheduleCard extends Component {
   }
 
   render() {
-    const index = this.props.index;
-    const scheduleId = this.props.scheduleId;
     const schedule = this.props.schedule;
+    if (!schedule) return null;
+    const scheduleId = this.props.scheduleId;
 
     let buttonText;
     let onButtonPress;
-    if (!schedule) return null;
+    let button2Text = "";
+    let onButton2Press = () => {};
+
     if (schedule.isBooked === -1) {
       buttonText = "Edit Schedule";
-      onButtonPress = () => this.props.onPressScheduleEdit(scheduleId);
+      onButtonPress = this.navigate("EditSchedule/" + scheduleId);
+      button2Text = "View Offers";
+
     } else if (schedule.isBooked === 0) {
       buttonText = "Book";
       onButtonPress = () => this.props.onPressBook(scheduleId);
+
     } else if (schedule.isBooked === 1) {
+      const uid = firebase.auth().currentUser.uid;
       buttonText = "Unbook";
       onButtonPress = () => this.props.onPressUnbook(scheduleId);
+      button2Text = "Edit Offer";
+      onButton2Press = () => this.props.onPressBook(scheduleId, schedule.bookers[uid]);
+      
     } else {
       console.log("Unable to determine state of schedule");
       return null;
@@ -91,7 +95,7 @@ class ScheduleCard extends Component {
               <Row>
                 <Button 
                   block rounded bordered 
-                  onPress={() => this.viewUserProfile(schedule.poster)}>
+                  onPress={this.navigate("UserProfile/" + schedule.poster)}>
                   <Text>{schedule.posterName}</Text>
                 </Button>
               </Row>
@@ -134,6 +138,12 @@ class ScheduleCard extends Component {
               </Row>
             </Col>
           </Row>
+          {button2Text ? 
+            <Button block rounded bordered onPress={onButton2Press}>
+              <Text>{button2Text}</Text>
+            </Button>
+            : null
+          }
           <Button block rounded bordered onPress={onButtonPress}>
             <Text>{buttonText}</Text>
           </Button>
@@ -142,9 +152,9 @@ class ScheduleCard extends Component {
     )
   }
 
-  viewUserProfile = (uid) => {
-    this.props.handleChangeScreen("UserProfile/" + uid);
-  }
+  navigate = screen => () => {
+    this.props.handleChangeScreen(screen);
+  };
 }
 
 const timeToString = time => {

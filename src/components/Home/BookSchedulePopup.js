@@ -6,6 +6,7 @@ import { View, Card, Body, Text, Right, Left, Thumbnail, SwipeRow, Icon, List, L
 Grid, Row, Col, H2, Form, Item, Label, Input} from 'native-base';
 
 const initialState = () => ({
+  bookingId: '',
   price: '0',
   remarks: '',
 })
@@ -18,6 +19,8 @@ class BookSchedulePopup extends Component {
     // reset booking id to ''
     bookingId: PropTypes.string.isRequired,
     // schedule id being booked
+    initialOffer: PropTypes.object,
+    // initial offer, if it exists
   };
 
   constructor(props) {
@@ -26,6 +29,22 @@ class BookSchedulePopup extends Component {
       ...initialState()
     };
   };
+
+  componentDidUpdate() {
+    const bookingId = this.props.bookingId; 
+    if (bookingId !== this.state.bookingId) {
+      if (this.props.initialOffer) {
+        this.setState({
+          ...this.props.initialOffer,
+          bookingId
+        });
+      } else {
+        this.setState({
+          bookingId
+        });
+      }
+    }
+  }
 
   cancelPopup = () => {
     this.props.clearBookingId();

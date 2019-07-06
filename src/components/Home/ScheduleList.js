@@ -15,8 +15,6 @@ import ScheduleCard from './ScheduleCard';
 import BookSchedulePopup from './BookSchedulePopup';
 
 const mapStateToProps = state => ({
-  user: state.user,
-  schedules: state.schedules,
 });
 
 const mapDispatchToProps = dispatch =>
@@ -33,6 +31,7 @@ const mapDispatchToProps = dispatch =>
 const initialState = () => ({
   unbookingId: '',
   bookingId: '',
+  bookingOffer: false,
 })
 
 //component responsible for rendering data returned by scheduleReducer
@@ -81,12 +80,8 @@ class ScheduleList extends Component {
     </Dialog>
   );
 
-  onPressScheduleEdit = (scheduleId) => {
-    this.props.handleChangeScreen("EditSchedule/" + scheduleId);
-  };
-
-  onPressBook = (scheduleId) => {
-    this.setState({ bookingId: scheduleId });
+  onPressBook = (scheduleId, bookingOffer = false) => {
+    this.setState({ bookingId: scheduleId, bookingOffer });
   };
 
   onPressUnbook = (scheduleId) => {
@@ -100,8 +95,6 @@ class ScheduleList extends Component {
         renderItem={({ item, index }) => (
           <ScheduleCard 
             scheduleId={item}
-            index={index}
-            onPressScheduleEdit={this.onPressScheduleEdit}
             onPressBook={this.onPressBook}
             onPressUnbook={this.onPressUnbook}
           />
@@ -116,6 +109,7 @@ class ScheduleList extends Component {
           handleBookSchedule={this.props.handleBookSchedule}
           clearBookingId={() => {this.setState({ bookingId: '' })}}
           bookingId={this.state.bookingId}
+          initialOffer={this.state.bookingOffer}
         />
         {this.unbookScheduleWarning()}
         {cards}

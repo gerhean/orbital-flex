@@ -40,7 +40,6 @@ class LoginBase extends Component {
 
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
-      
       if (user) {
         this.props.handleLogin();
       } else {
