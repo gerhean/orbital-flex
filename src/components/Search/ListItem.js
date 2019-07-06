@@ -6,7 +6,7 @@ import {
   View,
   Text
 } from 'react-native';
-import FadeIn from '@expo/react-native-fade-in-image';
+// import FadeIn from '@expo/react-native-fade-in-image';
 import layout from './layout';
 
 // '../../../assets/ExpoHollow.png'
@@ -21,10 +21,10 @@ export default class ListItem extends Component {
       <View style={ styles.mainContainer }>
         <Image
                 resizeMode="cover"
-                source={image}
+                source={require('../../../assets/blankProfile.jpg')}
                 style={styles.avatar}
         />
-        <view style={styles.infoContainer}>
+        <View style={styles.infoContainer}>
           <Text style={styles.title}>
             {name}
           </Text>
@@ -43,7 +43,7 @@ export default class ListItem extends Component {
           <Text style={styles.info}>
             {price}
           </Text>
-        </view>
+        </View>
       </View>
     );
   }

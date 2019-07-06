@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { View, StyleSheet, Text, FlatList, TextInput, Image } from 'react-native';
 import PropTypes from 'prop-types';
-import {InstantSearch} from 'react-instantsearch/native';
-import {connectSearchBox, connectInfiniteHits} from 'react-instantsearch/connectors';
+import {InstantSearch, connectSearchBox, connectInfiniteHits } from 'react-instantsearch-native';
+// import {connectSearchBox, connectInfiniteHits} from 'react-instantsearch/connectors';
 import { Constants } from 'expo';
 import layout from './layout';
 import ListItem from './ListItem';
