@@ -132,23 +132,40 @@ export default mainReducer = (state = initialState(), action) => {
       return state;
 
     case actionTypes.BOOK_SCHEDULE_SUCCESS:
-      state.schedules[action.scheduleId] = {
-        ...state.schedules[action.scheduleId],
-        isBooked: 1
-      };
-      state.bookedSchedules.push(action.scheduleId);
-      state.user.bookedSchedules[action.scheduleId] = true;
-      return state;
-
-    case actionTypes.UNBOOK_SCHEDULE_SUCCESS:
-      state.schedules[action.scheduleId] = {
-        ...state.schedules[action.scheduleId],
-        isBooked: -1
-      };
-      delete state.user.bookedSchedules[action.scheduleId];
       return {
         ...state,
+        schedules: {
+          ...state.schedule,
+          [action.scheduleId]: {
+            ...state.schedules[action.scheduleId],
+            isBooked: 1
+          }
+        },
+        bookedSchedules: state.bookedSchedules.concat([action.scheduleId]),
+        user: {
+          ...state.user,
+          bookedSchedules: {
+            ...state.user.bookedSchedules,
+            [action.scheduleId]: true,
+          }
+        }
+      };
+
+    case actionTypes.UNBOOK_SCHEDULE_SUCCESS:
+      return {
+        ...state,
+        schedules: {
+          ...state.schedule,
+          [action.scheduleId]: {
+            ...state.schedules[action.scheduleId],
+            isBooked: -1
+          }
+        },
         bookedSchedules: Object.keys(state.user.bookedSchedules),
+        user: {
+          ...state.user,
+          bookedSchedules: state.user.bookedSchedules.filter(item => action.scheduleId !== item),
+        }
       };
 
     case actionTypes.VIEW_USER_PROFILE:
