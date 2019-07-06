@@ -108,6 +108,4 @@ class Home extends Component {
   }
 }
 
-// export default Home;
-
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
