@@ -118,7 +118,13 @@ export default mainReducer = (state = initialState(), action) => {
 
     case actionTypes.FETCH_SCHEDULE_SUCCESS:
       state.schedules[action.id] = action.schedule;
-      return state;
+      return {
+        ...state,
+        schedules: {
+          ...state.schedules,
+          [action.id]: action.schedule
+        }
+      };
 
     case actionTypes.REMOVE_SCHEDULE:
       delete state.user.bookedSchedules[action.scheduleId];

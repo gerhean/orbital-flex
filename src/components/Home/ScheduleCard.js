@@ -11,14 +11,15 @@ Grid, Row, Col, H2, Form, Item, Label, Input} from 'native-base';
 import profilePictureDisplay from '../profilePictureDisplay';
 import { viewUserProfile, setScheduleEditIndex, bookSchedule, unbookSchedule, fetchSchedule } from "../../actions";
 
-const mapStateToProps = state => ({
-  schedules: state.schedules,
+const mapStateToProps = (state, ownProps) => ({
+  schedule: state.schedules[ownProps.scheduleId],
 });
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       handleViewUserProfile: viewUserProfile,
+      handleFetchSchedule: fetchSchedule
     },
     dispatch
   );
@@ -37,12 +38,28 @@ class ScheduleCard extends Component {
 
   constructor(props) {
     super(props);
+    const scheduleId = this.props.scheduleId;
+    this.state = {
+      scheduleId
+    };
   };
+
+  componentDidMount() {
+    if (!this.props.schedule) {
+      this.props.handleFetchSchedule(this.props.scheduleId);
+    }
+  }
+
+  componentDidUpdate() {
+    if (!this.props.schedule) {
+      this.props.handleFetchSchedule(this.props.scheduleId);
+    }
+  }
 
   render() {
     const index = this.props.index;
     const scheduleId = this.props.scheduleId;
-    const schedule = this.props.schedules[scheduleId];
+    const schedule = this.props.schedule;
 
     let buttonText;
     let onButtonPress;

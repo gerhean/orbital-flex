@@ -5,8 +5,8 @@ import {InstantSearch, connectSearchBox, connectInfiniteHits } from 'react-insta
 // import {connectSearchBox, connectInfiniteHits} from 'react-instantsearch/connectors';
 import { Constants } from 'expo';
 import layout from './layout';
-import ListItem from './ListItem';
 import { ALOGOLIA_API_KEY, ALGOLIA_APP_ID } from '../../../env';
+import ScheduleList from '../Home/ScheduleList';
 
 export default class UsersList extends Component {
   render() {
@@ -57,19 +57,18 @@ const ConnectedSearchBar = connectSearchBox(SearchBar);
 
 class Hits extends Component {
   render() {
-    const hits = this.props.hits.length > 0 ?
-        <FlatList
-          data={this.props.hits}
-          renderItem={this.renderItem}
-          keyExtractor={item => item.objectID}
-          initialNumToRender={5}
-        /> : null;
-    return hits;
+    // const hits = this.props.hits.length > 0 ?
+    //     <FlatList
+    //       data={this.props.hits}
+    //       renderItem={this.renderItem}
+    //       keyExtractor={item => item.objectID}
+    //       initialNumToRender={5}
+    //     /> : null;
+    const items = this.props.hits.map(item => item.objectID);
+    console.log(items);
+    return <ScheduleList scheduleArr={items}/>;
   };
 
-  renderItem({item}) {
-    return <ListItem item={item} />
-  }
 }
 
 Hits.propTypes = {

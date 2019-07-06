@@ -47,20 +47,7 @@ class ScheduleList extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      ...initialState(),
-      loading: true,
-    };
   };
-
-  componentDidMount() {
-    for (const id of this.props.scheduleArr) {
-      if (!this.props.schedules[id]) {
-        this.props.handleFetchSchedule(id, this.props.isBooked);
-      }
-    }
-    this.setState({ loading: false });
-  }
 
   submitUnbooking = () => {
     this.props.handleUnbookSchedule(this.state.unbookingId);
@@ -104,9 +91,6 @@ class ScheduleList extends Component {
   };
     
   render() {
-    if (this.state.loading) {
-      return <AppLoading onError={console.warn} />;
-    }
     
     const cards = (
       <FlatList 
