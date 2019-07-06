@@ -1,6 +1,5 @@
 import { Dimensions, Platform } from 'react-native';
 import Constants from 'expo-constants';
-import { Header } from 'react-navigation';
 
 const X_WIDTH = 375;
 const X_HEIGHT = 812;
@@ -16,6 +15,6 @@ export default {
   },
   HEADER_HEIGHT:
     Platform.OS === 'android'
-      ? Header.HEIGHT + Constants.statusBarHeight
-      : Header.HEIGHT + notchHeight,
+      ? Constants.statusBarHeight
+      : notchHeight,
 };

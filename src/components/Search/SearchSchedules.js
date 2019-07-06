@@ -3,7 +3,7 @@ import { View, StyleSheet, Text, FlatList, TextInput, Image } from 'react-native
 import PropTypes from 'prop-types';
 import {InstantSearch, connectSearchBox, connectInfiniteHits } from 'react-instantsearch-native';
 // import {connectSearchBox, connectInfiniteHits} from 'react-instantsearch/connectors';
-import { Constants } from 'expo';
+import Constants from 'expo-constants'
 import layout from './layout';
 import { ALOGOLIA_API_KEY, ALGOLIA_APP_ID } from '../../../env';
 import ScheduleList from '../Home/ScheduleList';
@@ -57,15 +57,7 @@ const ConnectedSearchBar = connectSearchBox(SearchBar);
 
 class Hits extends Component {
   render() {
-    // const hits = this.props.hits.length > 0 ?
-    //     <FlatList
-    //       data={this.props.hits}
-    //       renderItem={this.renderItem}
-    //       keyExtractor={item => item.objectID}
-    //       initialNumToRender={5}
-    //     /> : null;
     const items = this.props.hits.map(item => item.objectID);
-    console.log(items);
     return <ScheduleList scheduleArr={items}/>;
   };
 

@@ -99,7 +99,6 @@ function* backendSaga() {
 
 	yield takeLeading(LOGIN_INITIALIZE, function*(action){
 	  try {
-	   	console.log(LOGIN_INITIALIZE);
 	    const uid = firebase.auth().currentUser.uid;
 	    const userDocRef = db.collection('users').doc(uid);
 	   	const userData = yield call([userDocRef, userDocRef.get]);
