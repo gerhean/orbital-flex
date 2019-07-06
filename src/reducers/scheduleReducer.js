@@ -26,12 +26,6 @@ export default scheduleReducer = {
     screen: "Home"
   }),
 
-  [actionTypes.SET_SCHEDULE_EDIT_INDEX]: (state, action) => ({
-    ...state,
-    editScheduleId: action.payload,
-    screen: "EditSchedule"
-  }),
-
   [actionTypes.SCHEDULE_UPDATE_SUCCESS]: (state, action) => ( {
     ...state,
     schedules: {

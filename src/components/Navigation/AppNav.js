@@ -58,12 +58,12 @@ export class AppNav extends Component {
       case "EditSchedule":
         return <ScheduleForm 
           handleSubmitSchedule={this.props.handleScheduleUpdate}
-          isEditForm={true}
+          editFormId={screen[1]}
         />;
       case "EditUserInfoForm":
         return <EditUserInfoForm />;
       case "UserProfile":
-        return <UserProfile />
+        return <UserProfile uid={screen[1]}/>
       case "Search":
         return <Search />;
       case "Chat":

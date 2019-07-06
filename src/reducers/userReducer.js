@@ -25,9 +25,4 @@ export default userReducer = {
     }
   },
 
-  [actionTypes.VIEW_USER_PROFILE]: (state, action) => ({
-    ...state,
-    screen: "UserProfile",
-    userProfileToView: action.uid
-  }),
 }

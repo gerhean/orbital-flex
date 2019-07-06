@@ -9,7 +9,7 @@ import { View, Card, Body, Text, Right, Left, Thumbnail, SwipeRow, Icon, List, L
 Grid, Row, Col, H2, Form, Item, Label, Input} from 'native-base';
 import { FlatList } from 'react-native';
 
-import { viewUserProfile, setScheduleEditIndex, bookSchedule, unbookSchedule, fetchSchedule } from "../../actions";
+import { changeScreen, bookSchedule, unbookSchedule, fetchSchedule } from "../../actions";
 import profilePictureDisplay from '../profilePictureDisplay';
 import ScheduleCard from './ScheduleCard';
 import BookSchedulePopup from './BookSchedulePopup';
@@ -22,11 +22,10 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      handleViewUserProfile: viewUserProfile,
-      handleScheduleEdit: setScheduleEditIndex,
       handleBookSchedule: bookSchedule,
       handleUnbookSchedule: unbookSchedule,
-      handleFetchSchedule: fetchSchedule
+      handleFetchSchedule: fetchSchedule,
+      handleChangeScreen: changeScreen,
     },
     dispatch
   );
@@ -82,15 +81,15 @@ class ScheduleList extends Component {
     </Dialog>
   );
 
-  onPressScheduleEdit = (scheduleId, index) => {
-    this.props.handleScheduleEdit(scheduleId);
+  onPressScheduleEdit = (scheduleId) => {
+    this.props.handleChangeScreen("EditSchedule/" + scheduleId);
   };
 
-  onPressBook = (scheduleId, index) => {
+  onPressBook = (scheduleId) => {
     this.setState({ bookingId: scheduleId });
   };
 
-  onPressUnbook = (scheduleId, index) => {
+  onPressUnbook = (scheduleId) => {
     this.setState({ unbookingId: scheduleId });
   };
     

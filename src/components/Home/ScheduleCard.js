@@ -9,7 +9,7 @@ import { View, Card, Body, Text, Right, Left, Thumbnail, SwipeRow, Icon, List, L
 Grid, Row, Col, H2, Form, Item, Label, Input} from 'native-base';
 
 import profilePictureDisplay from '../profilePictureDisplay';
-import { viewUserProfile, setScheduleEditIndex, bookSchedule, unbookSchedule, fetchSchedule } from "../../actions";
+import { changeScreen, fetchSchedule } from "../../actions";
 
 const mapStateToProps = (state, ownProps) => ({
   schedule: state.schedules[ownProps.scheduleId],
@@ -18,8 +18,8 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      handleViewUserProfile: viewUserProfile,
-      handleFetchSchedule: fetchSchedule
+      handleFetchSchedule: fetchSchedule,
+      handleChangeScreen: changeScreen,
     },
     dispatch
   );
@@ -61,13 +61,13 @@ class ScheduleCard extends Component {
     if (!schedule) return null;
     if (schedule.isBooked === -1) {
       buttonText = "Edit Schedule";
-      onButtonPress = () => this.props.onPressScheduleEdit(scheduleId, index);
+      onButtonPress = () => this.props.onPressScheduleEdit(scheduleId);
     } else if (schedule.isBooked === 0) {
       buttonText = "Book";
-      onButtonPress = () => this.props.onPressBook(scheduleId, index);
+      onButtonPress = () => this.props.onPressBook(scheduleId);
     } else if (schedule.isBooked === 1) {
       buttonText = "Unbook";
-      onButtonPress = () => this.props.onPressUnbook(scheduleId, index);
+      onButtonPress = () => this.props.onPressUnbook(scheduleId);
     } else {
       console.log("Unable to determine state of schedule");
       return null;
@@ -91,7 +91,7 @@ class ScheduleCard extends Component {
               <Row>
                 <Button 
                   block rounded bordered 
-                  onPress={() => this.props.handleViewUserProfile(schedule.poster)}>
+                  onPress={() => this.viewUserProfile(schedule.poster)}>
                   <Text>{schedule.posterName}</Text>
                 </Button>
               </Row>
@@ -140,6 +140,10 @@ class ScheduleCard extends Component {
         </Grid>
       </ListItem>
     )
+  }
+
+  viewUserProfile = (uid) => {
+    this.props.handleChangeScreen("UserProfile/" + uid);
   }
 }
 

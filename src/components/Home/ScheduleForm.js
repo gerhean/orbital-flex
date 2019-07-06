@@ -24,13 +24,11 @@ import {
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import DateTimePicker from "react-native-modal-datetime-picker";
-import { scheduleCreate, changeScreen } from "../../actions";
+import { changeScreen } from "../../actions";
 
 const mapStateToProps = state => ({
   user: state.user,
-  scheduleId: state.editScheduleId,
-  postedSchedules: state.postedSchedules,
-  schedule: state.schedules[state.editScheduleId]
+  schedules: state.schedules
 });
 
 const mapDispatchToProps = dispatch =>
@@ -55,7 +53,7 @@ const initialSchedule = {
 
 class ScheduleForm extends Component {
   static propTypes = {
-    isEditForm: PropTypes.bool,
+    editFormId: PropTypes.string,
     // Is schedule for editing vs for create?
     handleSubmitSchedule: PropTypes.func.isRequired,
     // Function to pass edited schedule into
@@ -65,9 +63,9 @@ class ScheduleForm extends Component {
     super(props);
     let schedule = initialSchedule;
     let scheduleId = '';
-    if (this.props.isEditForm) {
-      scheduleId = this.props.scheduleId;
-      schedule = this.props.schedule;
+    if (this.props.editFormId) {
+      scheduleId = this.props.editFormId;
+      schedule = this.props.schedules[scheduleId];
     } 
     this.state = {
       ...schedule,

@@ -22,9 +22,8 @@ import { changeScreen, logout, scheduleFetchHome, fetchUserInfo } from "../../ac
 import profilePictureDisplay from '../profilePictureDisplay';
 import ScheduleList from "../Home/ScheduleList";
 
-const mapStateToProps = state => ({
-  user: state.users[userProfileToView],
-  uid: state.userProfileToView
+const mapStateToProps = (state, ownProps) => ({
+  user: state.users[ownProps.uid]
 });
 
 const mapDispatchToProps = dispatch =>

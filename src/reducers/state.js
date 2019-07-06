@@ -12,8 +12,6 @@ export default initialState = () => ({
   schedules: {},
   bookedSchedules: [],
   postedSchedules: [],
-  editScheduleId: '',
-  userProfileToView: ""
 });
 
 const mockUser = {
