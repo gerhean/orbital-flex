@@ -6,15 +6,15 @@ import {InstantSearch, connectSearchBox, connectInfiniteHits } from 'react-insta
 import { Constants } from 'expo';
 import layout from './layout';
 import ListItem from './ListItem';
-import { Algolia_API_Key, Algolia_APP_ID } from '../../../env';
+import { ALOGOLIA_API_KEY, ALGOLIA_APP_ID } from '../../../env';
 
 export default class UsersList extends Component {
   render() {
     return (
       <View style={styles.mainContainer}>
         <InstantSearch
-          appId={Algolia_APP_ID}
-          apiKey={Algolia_API_Key}
+          appId={ALGOLIA_APP_ID}
+          apiKey={ALOGOLIA_API_KEY}
           indexName="trainer_schedules"
         >
         <View style={styles.searchContainer}>
