@@ -62,9 +62,12 @@ export default mainReducer = (state = initialState(), action) => {
       };
 
     case actionTypes.SCHEDULE_CREATE_SUCCESS:
-      state.schedules[action.scheduleId] = action.schedule;
       return {
         ...state,
+        schedules: {
+          ...state.schedules,
+          [action.id]: action.schedule
+        },
         postedSchedules: state.postedSchedules.concat([action.scheduleId]),
         user: {
           ...state.user,
@@ -81,13 +84,15 @@ export default mainReducer = (state = initialState(), action) => {
       };
 
     case actionTypes.SCHEDULE_UPDATE_SUCCESS: 
-      state.schedules[action.scheduleId] = {
-        ...state.schedules[action.scheduleId],
-        ...action.schedule
-      };
-      console.log(state.schedules)
       return {
         ...state,
+        schedules: {
+          ...state.schedules,
+          [action.scheduleId]: {
+            ...state.schedules[action.scheduleId],
+            ...action.schedule
+          }
+        },
         editScheduleId: '',
         screen: "Home"
       };
@@ -117,7 +122,6 @@ export default mainReducer = (state = initialState(), action) => {
       };
 
     case actionTypes.FETCH_SCHEDULE_SUCCESS:
-      state.schedules[action.id] = action.schedule;
       return {
         ...state,
         schedules: {
@@ -129,7 +133,14 @@ export default mainReducer = (state = initialState(), action) => {
     case actionTypes.REMOVE_SCHEDULE:
       delete state.user.bookedSchedules[action.scheduleId];
       delete state.user.postedSchedules[action.scheduleId];
-      return state;
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          bookedSchedules: state.user.bookedSchedules.filter(item => action.scheduleId !== item),
+          postedSchedules: state.user.postedSchedules.filter(item => action.scheduleId !== item),
+        }
+      };
 
     case actionTypes.BOOK_SCHEDULE_SUCCESS:
       return {
