@@ -1,4 +1,5 @@
 export const CHANGE_SCREEN = "CHANGE_SCREEN";
+export const CHANGE_PREVIOUS_SCREEN = "CHANGE_PREVIOUS_SCREEN"; 
 
 export const LOGOUT = "LOGOUT";
 export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";

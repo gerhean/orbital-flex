@@ -7,6 +7,7 @@ const initialAuth = {
 export default initialState = () => ({
   auth: initialAuth,
   screen: 'Login',
+  screenHistory: ["Home"],
   user: undefined,
   users: {},
   schedules: {},

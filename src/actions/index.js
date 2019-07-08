@@ -9,6 +9,10 @@ export const changeScreen = (screen) => ({
   screen
 });
 
+export const changePreviousScreen = () => ({
+	type: actionTypes.CHANGE_PREVIOUS_SCREEN,
+})
+
 export const updateUserInfo = (userInfo) => ({
   type: actionTypes.UPDATE_USER_INFO,
   userInfo
