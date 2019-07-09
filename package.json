@@ -21,6 +21,7 @@
     "expo-font": "^5.0.1",
     "expo-web-browser": "^5.0.0",
     "firebase": "^6.0.4",
+    "jsonwebtoken": "^8.5.1",
     "native-base": "^2.12.1",
     "prop-types": "^15.7.2",
     "react": "16.8.3",
@@ -33,10 +34,12 @@
     "react-native-modal-datetime-picker": "^7.4.2",
     "react-native-popup-dialog": "^0.18.2",
     "react-native-web": "^0.11.4",
+    "react-navigation": "^3.11.0",
     "react-redux": "^7.1.0",
     "redux": "^4.0.1",
     "redux-persist": "^5.10.0",
-    "redux-saga": "^1.0.3"
+    "redux-saga": "^1.0.3",
+    "stream-chat": "^0.13.6"
   },
   "devDependencies": {
     "babel-preset-expo": "^5.1.0",

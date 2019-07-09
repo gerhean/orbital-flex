@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { View, StyleSheet, Text } from "react-native";
-//import { FlatList } from 'react-native';
+import chatContainer from './Chat';
 import {
   Container,
   Header,
@@ -20,7 +20,8 @@ import firebase from "firebase";
 
 class Chat extends Component {
   render() {
-
+    return <chatContainer />;
+    /*
     return (
       <Container>
         <Header>
@@ -40,6 +41,7 @@ class Chat extends Component {
         </Content>
       </Container>
     );
+    */
   }
 }
 

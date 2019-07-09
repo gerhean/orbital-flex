@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { View, StyleSheet, Text, FlatList, TextInput, Image } from 'react-native';
 import PropTypes from 'prop-types';
 import {InstantSearch, connectSearchBox, connectInfiniteHits } from 'react-instantsearch-native';
-// import {connectSearchBox, connectInfiniteHits} from 'react-instantsearch/connectors';
 import Constants from 'expo-constants'
 import layout from './layout';
 import { ALOGOLIA_API_KEY, ALGOLIA_APP_ID } from '../../../env';

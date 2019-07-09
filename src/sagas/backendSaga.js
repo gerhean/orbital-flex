@@ -1,5 +1,6 @@
 import firebase from 'firebase';
 import '@firebase/firestore'
+import { StreamChat } from 'stream-chat';
 import { Toast } from 'native-base';
 import { takeLatest, takeEvery, takeLeading, put, call, select } from 'redux-saga/effects';
 import { 
@@ -30,12 +31,14 @@ import {
 	UNBOOK_SCHEDULE,
 	UNBOOK_SCHEDULE_SUCCESS
 } from '../actions/actionTypes';
-import { ALGOLIA_APP_ID, ALOGOLIA_API_KEY } from '../../env';
+import { ALGOLIA_APP_ID, ALOGOLIA_API_KEY, STREAM_API_KEY, STREAM_SECRET, ALOGOLIA_APP_ID } from '../../env';
 
 const algoliasearch = require('algoliasearch/reactnative');
-const client = algoliasearch(ALGOLIA_APP_ID, ALOGOLIA_API_KEY);
+const client = algoliasearch(ALOGOLIA_APP_ID, ALOGOLIA_API_KEY);
 const ALGOLIA_INDEX_NAME = 'trainer_schedules';
 const schedule_index = client.initIndex(ALGOLIA_INDEX_NAME);
+
+export const chatClient = new StreamChat(STREAM_API_KEY, STREAM_SECRET);
 
 const arrayUnion = firebase.firestore.FieldValue.arrayUnion;
 const serverTimestamp = firebase.firestore.FieldValue.serverTimestamp;
@@ -73,6 +76,14 @@ function* backendSaga() {
 				...user,
 				uid
 			}
+		// create a chat token using uid
+		const token = yield call([chatClient, chatClient.createToken], uid);
+		yield call([chatClient, chatClient.setUser], {
+			id: uid,
+			name: user.username,
+			image: user.profilePic
+		}, token);
+		
 	    yield put({ type: SIGNUP_SUCCESS, user });
 	  } catch (error) {
 	    const error_message = { code: error.code, message: error.message };
@@ -106,7 +117,16 @@ function* backendSaga() {
 	   		...initialUser,
 	   		...userData.data(),
 	   		uid,
-	   	}
+		   }
+		const token = yield call([chatClient, chatClient.createToken], uid);
+		yield call([console, console.log], token);
+		yield call([console, console.log], "hi");
+		yield call([chatClient, chatClient.setUser], {
+			id: uid,
+			name: user.username,
+			image: user.profilePic
+		}, token);
+		
 	    yield put({ type: LOGIN_SUCCESS, user });
 	  } catch (error) {
 	    const error_message = { code: error.code, message: error.message };
@@ -118,7 +138,8 @@ function* backendSaga() {
 	yield takeEvery(LOGOUT, function*(action){
 	  try {
 	    const auth = firebase.auth()
-	    const result = yield call([auth, auth.signOut])
+		const result = yield call([auth, auth.signOut])
+		yield call([chatClient, chatClient.disconnect])
 	    yield put({ type: LOGOUT_SUCCESS, payload: result });
 	  } catch (error) {
 	    // const error_message = { code: error.code, message: error.message };
