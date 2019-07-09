@@ -1,6 +1,5 @@
 import firebase from 'firebase';
 import '@firebase/firestore'
-import { StreamChat } from 'stream-chat';
 import { Toast } from 'native-base';
 import { takeLatest, takeEvery, takeLeading, put, call, select } from 'redux-saga/effects';
 import { 
@@ -31,14 +30,15 @@ import {
 	UNBOOK_SCHEDULE,
 	UNBOOK_SCHEDULE_SUCCESS
 } from '../actions/actionTypes';
-import { ALGOLIA_APP_ID, ALOGOLIA_API_KEY, STREAM_API_KEY, STREAM_SECRET, ALOGOLIA_APP_ID } from '../../env';
+import { ALGOLIA_APP_ID, ALOGOLIA_API_KEY, STREAM_API_KEY, STREAM_SECRET, STREAM_APP_ID } from '../../env';
 
 const algoliasearch = require('algoliasearch/reactnative');
-const client = algoliasearch(ALOGOLIA_APP_ID, ALOGOLIA_API_KEY);
+const client = algoliasearch(ALGOLIA_APP_ID, ALOGOLIA_API_KEY);
 const ALGOLIA_INDEX_NAME = 'trainer_schedules';
 const schedule_index = client.initIndex(ALGOLIA_INDEX_NAME);
 
-export const chatClient = new StreamChat(STREAM_API_KEY, STREAM_SECRET);
+const StreamChat = require('stream-chat').StreamChat;
+const chatClient = new StreamChat(STREAM_API_KEY, STREAM_SECRET);
 
 const arrayUnion = firebase.firestore.FieldValue.arrayUnion;
 const serverTimestamp = firebase.firestore.FieldValue.serverTimestamp;
@@ -76,7 +76,7 @@ function* backendSaga() {
 				...user,
 				uid
 			}
-		// create a chat token using uid
+		// create a chat token using uid 
 		const token = yield call([chatClient, chatClient.createToken], uid);
 		yield call([chatClient, chatClient.setUser], {
 			id: uid,
@@ -118,9 +118,9 @@ function* backendSaga() {
 	   		...userData.data(),
 	   		uid,
 		   }
+		yield call([console, console.log], chatClient);
 		const token = yield call([chatClient, chatClient.createToken], uid);
 		yield call([console, console.log], token);
-		yield call([console, console.log], "hi");
 		yield call([chatClient, chatClient.setUser], {
 			id: uid,
 			name: user.username,
