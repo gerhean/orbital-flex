@@ -75,12 +75,6 @@ class UserProfile extends Component {
 
     return (
       <Container>
-        <Header>
-          <Left />
-          <Body>
-            <Title>User Profile</Title>
-          </Body>
-        </Header>
 
         <Content>
           <Card>

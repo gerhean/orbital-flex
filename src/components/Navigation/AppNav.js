@@ -6,9 +6,11 @@ import { changeScreen, scheduleCreate, scheduleUpdate, scheduleFetchHome } from 
 import Home from "../Home";
 import Search from "../Search";
 import Chat from "../Chat";
-import ScheduleForm from "../Home/ScheduleForm"
-import EditUserInfoForm from "../Home/EditUserInfo"
-import UserProfile from "../Users/UserProfile"
+import ScheduleForm from "../Home/ScheduleForm";
+import EditUserInfoForm from "../Home/EditUserInfo";
+import UserProfile from "../Users/UserProfile";
+import OffersList from '../Schedule/OffersList';
+import DefaultHeader from './DefaultHeader';
 
 // export default createBottomTabNavigator({
 //   HomeStack,
@@ -49,23 +51,39 @@ export class AppNav extends Component {
   renderContent = () => {
     const screen = this.props.screen.split('/');
     switch (screen[0]) {
+
       case "Home":
         return <Home />;
+
       case "CreateSchedule":
         return <ScheduleForm 
           handleSubmitSchedule={this.props.handleScheduleCreate}
         />;
+
       case "EditSchedule":
         return <ScheduleForm 
           handleSubmitSchedule={this.props.handleScheduleUpdate}
           editFormId={screen[1]}
         />;
+
       case "EditUserInfoForm":
         return <EditUserInfoForm />;
+
       case "UserProfile":
-        return <UserProfile uid={screen[1]}/>
+        return <View>
+          <DefaultHeader title='User Profile'/>
+          <UserProfile uid={screen[1]}/>
+        </View>
+
+      case "ViewOffers":
+        return <View>
+          <DefaultHeader title='View Offers'/>
+          <OffersList scheduleId={screen[1]}/>
+        </View>
+
       case "Search":
         return <Search />;
+        
       case "Chat":
         return <Chat />
       default:
