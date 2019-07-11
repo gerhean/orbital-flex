@@ -12,12 +12,6 @@ import UserProfile from "../Users/UserProfile";
 import OffersList from '../Schedule/OffersList';
 import DefaultHeader from './DefaultHeader';
 
-// export default createBottomTabNavigator({
-//   HomeStack,
-//   SearchStack,
-//   ChatStack,
-// });
-
 import { Container, Button, Text, Icon, Footer, FooterTab } from "native-base";
 
 const mapStateToProps = state => ({
@@ -83,7 +77,7 @@ export class AppNav extends Component {
 
       case "Search":
         return <Search />;
-        
+
       case "Chat":
         return <Chat />
       default:

@@ -67,12 +67,6 @@ class UserProfile extends Component {
       { title: "Posted Schedules", content: postedScheduleList },
     ]
 
-          // <Right>
-          //   <Button onPress={() => {}}>
-          //     <Text>Back</Text>
-          //   </Button>
-          // </Right>
-
     return (
       <Container>
 
