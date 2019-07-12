@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { View, StyleSheet, Text } from "react-native";
-import chatContainer from './Chat';
 import {
   Container,
   Header,
@@ -15,12 +14,11 @@ import {
 } from "native-base";
 import Expo from "expo";
 import firebase from "firebase";
-
-//needs log out button
+import Groups from "./Chat";
 
 class Chat extends Component {
   render() {
-    return <chatContainer />;
+    return <Groups />;
     /*
     return (
       <Container>
@@ -57,3 +55,4 @@ const styles = StyleSheet.create({
 });
 
 export default Chat;
+

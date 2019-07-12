@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import { changeScreen, scheduleCreate, scheduleUpdate, scheduleFetchHome } from "../../actions";
 import Home from "../Home";
 import Search from "../Search";
-import Chat from "../Chat";
 import ScheduleForm from "../Home/ScheduleForm"
 import EditUserInfoForm from "../Home/EditUserInfo"
 import UserProfile from "../Users/UserProfile"
@@ -17,6 +16,8 @@ import UserProfile from "../Users/UserProfile"
 // });
 
 import { Container, Button, Text, Icon, Footer, FooterTab } from "native-base";
+import Groups from "../Chat/Groups";
+import ChatRoom from "../Chat/ChatRoom";
 
 const mapStateToProps = state => ({
   screen: state.screen,
@@ -66,8 +67,10 @@ export class AppNav extends Component {
         return <UserProfile uid={screen[1]}/>
       case "Search":
         return <Search />;
-      case "Chat":
-        return <Chat />
+      case "Groups":
+        return <Groups />
+      case "ChatRoom":
+        return <ChatRoom />
       default:
         return <Home />;
     }
@@ -96,8 +99,8 @@ export class AppNav extends Component {
           </Button>
           <Button
             vertical
-            active={screen === "Chat"}
-            onPress={this.navigate("Chat")}
+            active={screen === "Groups"} 
+            onPress={this.navigate("Groups")}
           >
             <Icon name="chatbubbles" />
             <Text>Chat</Text>

@@ -1,0 +1,88 @@
+// example for reference
+
+import React, { Component} from "react";
+import { GiftedChat } from "react-native-gifted-chat";
+import firebase from 'firebase';
+import { ChatManager, TokenProvider } from '@pusher/chatkit-client';
+import {CHATKIT_INSTANCE_LOCATOR, CHATKIT_TOKEN_PROVIDER_ENDPOINT} from '../../../env';
+
+let user = firebase.auth().currentUser;
+const CHATKIT_ROOM_ID = '19423905';
+let CHATKIT_USER_NAME = (user != null) ? user.uid : "";
+
+export default class singleChat extends Component {
+  state = {
+    messages: []
+    // rooms: [] , getjoinable rooms and place it in component did mount.
+  };
+
+  onReceive = data => {
+    const { id, senderId, text, createdAt } = data;
+    const incomingMessage = {
+      _id: id,
+      text: text,
+      createdAt: new Date(createdAt),
+      user: {
+        _id: senderId,
+        name: senderId,
+        avatar:
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmXGGuS_PrRhQt73sGzdZvnkQrPXvtA-9cjcPxJLhLo8rW-sVA',
+      },
+    };
+
+    this.setState(previousState => ({
+      messages: GiftedChat.append(previousState.messages, incomingMessage),
+    })); // appends received messages to state.messages
+  };
+
+  onSend = (messages = []) => {
+    messages.forEach(message => {
+      this.currentUser
+        .sendMessage({
+          text: message.text,
+          roomId: CHATKIT_ROOM_ID,
+        })
+        .then(() => {})
+        .catch(err => {
+          console.log(err);
+        });
+    });
+  };
+
+  componentDidMount() {
+    const tokenProvider = new TokenProvider({
+      url: CHATKIT_TOKEN_PROVIDER_ENDPOINT,
+    });
+
+    const chatManager = new ChatManager({
+      instanceLocator: CHATKIT_INSTANCE_LOCATOR,
+      userId: CHATKIT_USER_NAME, // to get an id
+      tokenProvider: tokenProvider,
+    });
+
+    chatManager
+      .connect() // connect to servers, returns a promise that resolves with a Current User object
+      .then(currentUser => {   
+        this.currentUser = currentUser;
+        this.currentUser.subscribeToRoomMultipart({  
+          roomId: CHATKIT_ROOM_ID,
+          hooks: {
+            onMessage: this.onReceive,  // on receiving message triggers onReceive
+          },
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  render() {
+    return (
+      <GiftedChat 
+        messages={this.state.messages}
+        onSend={messages => this.onSend(messages)}
+        user={{_id: CHATKIT_USER_NAME}}
+      />
+    );
+  }
+}
