@@ -5,15 +5,13 @@ import { connect } from "react-redux";
 import { changeScreen, scheduleCreate, scheduleUpdate, scheduleFetchHome } from "../../actions";
 import Home from "../Home";
 import Search from "../Search";
-import ScheduleForm from "../Home/ScheduleForm"
-import EditUserInfoForm from "../Home/EditUserInfo"
-import UserProfile from "../Users/UserProfile"
+import Chat from "../Chat";
+import ScheduleForm from "../Home/ScheduleForm";
+import EditUserInfoForm from "../Home/EditUserInfo";
+import UserProfile from "../Users/UserProfile";
+import OffersList from '../Schedule/OffersList';
+import DefaultHeader from './DefaultHeader';
 
-// export default createBottomTabNavigator({
-//   HomeStack,
-//   SearchStack,
-//   ChatStack,
-// });
 
 import { Container, Button, Text, Icon, Footer, FooterTab } from "native-base";
 import Groups from "../Chat/Groups";
@@ -50,27 +48,41 @@ export class AppNav extends Component {
   renderContent = () => {
     const screen = this.props.screen.split('/');
     switch (screen[0]) {
+
       case "Home":
         return <Home />;
+
       case "CreateSchedule":
         return <ScheduleForm 
           handleSubmitSchedule={this.props.handleScheduleCreate}
         />;
+
       case "EditSchedule":
         return <ScheduleForm 
           handleSubmitSchedule={this.props.handleScheduleUpdate}
           editFormId={screen[1]}
         />;
+
       case "EditUserInfoForm":
         return <EditUserInfoForm />;
+
       case "UserProfile":
-        return <UserProfile uid={screen[1]}/>
+        return <View>
+          <DefaultHeader title='User Profile'/>
+          <UserProfile uid={screen[1]}/>
+        </View>
+
+      case "ViewOffers":
+        return <View>
+          <DefaultHeader title='View Offers'/>
+          <OffersList scheduleId={screen[1]}/>
+        </View>
       case "Search":
         return <Search />;
-      case "Groups":
-        return <Groups />
       case "ChatRoom":
         return <ChatRoom />
+      case "Chat":
+        return <Chat />
       default:
         return <Home />;
     }
