@@ -14,7 +14,7 @@ import {
 } from "native-base";
 import Expo from "expo";
 import firebase from "firebase";
-import Groups from "./Chat";
+import Groups from "./Groups";
 
 class Chat extends Component {
   render() {

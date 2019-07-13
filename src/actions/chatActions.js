@@ -9,3 +9,9 @@ export const enterRoom = room => {
     type: actionTypes.FETCH_ROOM,
     room
 }
+
+// message to be an object as specified in gifted chat
+export const sendMessage = message => {
+    type: actionTypes.SEND_MESSAGE,
+    message
+}
