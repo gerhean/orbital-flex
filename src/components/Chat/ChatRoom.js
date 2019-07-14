@@ -28,8 +28,8 @@ class ChatRoom extends Component {
         this.props.handleChangeScreen(screen);
       };
     
-    addMessage(message = {}) {
-        let message = message[0]
+    addMessage(messageObj = {}) {
+        message = messageObj[0]
         this.props.handleSendMessage({
             text: message.text,
             createdAt: Date.now(),
