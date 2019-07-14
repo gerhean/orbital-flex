@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {InstantSearch, connectSearchBox, connectInfiniteHits } from 'react-instantsearch-native';
 import Constants from 'expo-constants'
 import layout from './layout';
-import { ALOGOLIA_API_KEY, ALGOLIA_APP_ID } from '../../../env';
+import { ALOGOLIA_API_KEY, ALOGOLIA_APP_ID } from '../../../env';
 import ScheduleList from '../Home/ScheduleList';
 
 export default class UsersList extends Component {
@@ -12,7 +12,7 @@ export default class UsersList extends Component {
     return (
       <View style={styles.mainContainer}>
         <InstantSearch
-          appId={ALGOLIA_APP_ID}
+          appId={ALOGOLIA_APP_ID}
           apiKey={ALOGOLIA_API_KEY}
           indexName="trainer_schedules"
         >

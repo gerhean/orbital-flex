@@ -1,5 +1,7 @@
-import { PropTypes } from 'prop-types';
 import React, { Component } from 'react';
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { PropTypes } from 'prop-types';
 import { FlatList } from 'react-native';
 
 import {List} from 'native-base';

@@ -193,45 +193,6 @@ function* scheduleSaga() {
     }
   })
 
-  yield takeLeading(UPDATE_USER_INFO, function*(action){
-    try {
-    	const uid = firebase.auth().currentUser.uid;
-    	const userRef = db.collection('users').doc(uid)
-	    yield call(
-	    	[userRef, userRef.update], 
-	    	action.userInfo
-	    )
-      yield put({ type: UPDATE_USER_INFO_SUCCESS, userInfo: action.userInfo })
-      yield call(displayMessage, "User Info Updated");
-    } catch (error) {
-      yield call(displayErrorMessage, error, UPDATE_USER_INFO);
-    }
-  })
-
-  yield takeEvery(FETCH_USER_INFO, function*(action){
-    try {
-    	const uid = action.uid;
-    	const storedUser = yield select(state => state.users[uid]);
-    	if (!storedUser || (Date.now() - storedUser.timeFetched > 300000)) { // reduce api calls
-		    const userDocRef = db.collection('users').doc(uid);
-		   	const userData = yield call([userDocRef, userDocRef.get]);
-		   	const user = yield {
-		   		...userData.data(),
-		   		uid,
-		   		timeFetched: Date.now()
-		   	}
-		   	for (const scheduleId of Object.keys(user.postedSchedules)) {
-		   		yield put({ type: FETCH_SCHEDULE, scheduleId });
-		   	}
-
-		    yield put({ type: FETCH_USER_INFO_SUCCESS, uid, user });
-    	}
-
-    } catch (error) {
-      yield call(displayErrorMessage, error, FETCH_USER_INFO);
-    }
-  })
-
 }
 
 export default scheduleSaga;

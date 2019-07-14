@@ -60,7 +60,7 @@ class ScheduleCard extends Component {
       buttonText = "Edit Schedule";
       onButtonPress = this.navigate("EditSchedule/" + scheduleId);
       button2Text = "View Offers";
-      button2Text = this.navigate("ViewOffers/" + scheduleId)
+      onButton2Press = this.navigate("ViewOffers/" + scheduleId)
 
     } else if (schedule.isBooked === 0) {
       buttonText = "Book";

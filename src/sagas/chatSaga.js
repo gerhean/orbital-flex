@@ -10,6 +10,7 @@ import {
 	FETCH_ROOM,
 	FETCH_ROOM_SUCCESS,
 	SEND_MESSAGE,
+	FETCH_MESSAGES,
 	FETCH_MESSAGES_SUCCESS,
 } from '../actions/actionTypes';
 
