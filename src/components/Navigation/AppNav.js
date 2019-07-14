@@ -67,16 +67,16 @@ export class AppNav extends Component {
         return <EditUserInfoForm />;
 
       case "UserProfile":
-        return <View>
+        return <React.Fragment>
           <DefaultHeader title='User Profile'/>
           <UserProfile uid={screen[1]}/>
-        </View>
+        </React.Fragment>
 
       case "ViewOffers":
-        return <View>
+        return <React.Fragment>
           <DefaultHeader title='View Offers'/>
           <OffersList scheduleId={screen[1]}/>
-        </View>
+        </React.Fragment>
       case "Search":
         return <Search />;
       case "ChatRoom":

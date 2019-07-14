@@ -142,9 +142,6 @@ function* authSaga() {
 		   		uid,
 		   		timeFetched: Date.now()
 		   	}
-		   	for (const scheduleId of Object.keys(user.postedSchedules)) {
-		   		yield put({ type: FETCH_SCHEDULE, scheduleId });
-		   	}
 
 		    yield put({ type: FETCH_USER_INFO_SUCCESS, uid, user });
     	}

@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { PropTypes } from 'prop-types';
 import { FlatList } from 'react-native';
 
-import {List} from 'native-base';
+import {List, Container} from 'native-base';
 import OfferCard from './OfferCard';
 
 const mapStateToProps = (state, ownProps) => ({
@@ -26,18 +26,20 @@ class OffersList extends Component {
   render() {
     const bookerIds = Object.keys(this.props.bookers);
     return(
-      <List>
-        <FlatList 
-          data={bookerIds} 
-          renderItem={({ item }) => (
-            <OfferCard 
-              uid={item}
-              offer={this.props.bookers[item]}
-            />
-          )}
-          keyExtractor={item => item}
-        />
-      </List>
+      <Container>
+        <List>
+          <FlatList 
+            data={bookerIds} 
+            renderItem={({ item }) => (
+              <OfferCard 
+                uid={item}
+                offer={this.props.bookers[item]}
+              />
+            )}
+            keyExtractor={item => item}
+          />
+        </List>
+      </Container>
     );
   }
 }
