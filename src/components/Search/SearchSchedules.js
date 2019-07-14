@@ -36,6 +36,7 @@ class SearchBar extends Component {
     return (
       <TextInput 
         onChangeText={text => this.props.refine(text)}
+        placeholder='type here to search'
         value={this.props.currentRefinement}
         returnKeyType='done'
         clearButtonMode='while-editing'

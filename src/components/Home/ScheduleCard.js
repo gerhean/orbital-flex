@@ -7,7 +7,7 @@ import { View, Card, Body, Text, Right, Left, Thumbnail, SwipeRow, Icon, List, L
 Grid, Row, Col, H2, Form, Item, Label, Input} from 'native-base';
 
 import profilePictureDisplay from '../profilePictureDisplay';
-import { changeScreen, fetchSchedule } from "../../actions";
+import { changeScreen, fetchSchedule, startChat } from "../../actions";
 
 const mapStateToProps = (state, ownProps) => ({
   schedule: state.schedules[ownProps.scheduleId],
@@ -18,6 +18,7 @@ const mapDispatchToProps = dispatch =>
     {
       handleFetchSchedule: fetchSchedule,
       handleChangeScreen: changeScreen,
+      handleChat: startChat
     },
     dispatch
   );
@@ -28,7 +29,7 @@ class ScheduleCard extends Component {
     scheduleId: PropTypes.string.isRequired,
     // Id of schedule to be displayed
     onPressBook: PropTypes.func.isRequired,
-    onPressUnbook: PropTypes.func.isRequired,
+    onPressUnbook: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -54,6 +55,7 @@ class ScheduleCard extends Component {
     let buttonText;
     let onButtonPress;
     let button2Text = "";
+    let button3Text = "";
     let onButton2Press = () => {};
 
     if (schedule.isBooked === -1) {
@@ -65,6 +67,8 @@ class ScheduleCard extends Component {
     } else if (schedule.isBooked === 0) {
       buttonText = "Book";
       onButtonPress = () => this.props.onPressBook(scheduleId);
+      button3Text = "Message";
+      onButton3Press = () => this.props.handleChat(schedule);
 
     } else if (schedule.isBooked === 1) {
       const uid = firebase.auth().currentUser.uid;
@@ -72,7 +76,8 @@ class ScheduleCard extends Component {
       onButtonPress = () => this.props.onPressUnbook(scheduleId);
       button2Text = "Edit Offer";
       onButton2Press = () => this.props.onPressBook(scheduleId, schedule.bookers[uid]);
-      
+      button3Text = "Message";
+      onButton3Press = () => this.props.handleChat(schedule);
     } else {
       console.log("Unable to determine state of schedule");
       return null;
@@ -139,6 +144,12 @@ class ScheduleCard extends Component {
               </Row>
             </Col>
           </Row>
+          {button3Text ? 
+            <Button block rounded bordered onPress={onButton3Press}>
+              <Text>{button3Text}</Text>
+            </Button>
+            : null
+          }
           {button2Text ? 
             <Button block rounded bordered onPress={onButton2Press}>
               <Text>{button2Text}</Text>

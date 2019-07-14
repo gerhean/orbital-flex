@@ -343,21 +343,35 @@ function* backendSaga() {
     }
   })
 
-  // used when someone starts a chat with another user
   yield takeLeading(CHATROOM_CREATE, function*(action){
 	try {
+		const hasExistingChat = false;
 		const uid = firebase.auth().currentUser.uid;
-		// const other_uid = uid of the person we want to open room with
-		// let chatroom = { user's id, other_uid }
-		const collectionRef = db.collection("chatrooms")
-		const ref = yield call([collectionRef, collectionRef.add], chatroom);
-		const roomRef = db.collection('chatrooms').doc(ref.id);
-		// chatroom = { ...chatroom, roomId: ref.id }
-		yield call(
-	    	[roomRef, roomRef.update], 
-	    	chatroom
-	    )
-		yield put({ type: CHATROOM_CREATE_SUCCESS, chatroom, roomId: ref.id })
+		const other_uid = action.schedule.poster;
+		for (const existingId of Object.keys(user.hasChatWith)) {
+			if (existingId === other_uid) {
+				hasExistingChat = true;
+			}
+		} 
+		if (!hasExistingChat) {
+			// const other_name = action.schedule.posterName;
+			let chatroom = { user1_id: uid, user2_id: other_uid };
+			const collectionRef = db.collection("chatrooms");
+			const ref = yield call([collectionRef, collectionRef.add], chatroom);
+			const roomRef = db.collection('chatrooms').doc(ref.id);
+			chatroom = { ...chatroom, roomId: ref.id }
+			yield call(
+				[roomRef, roomRef.update], 
+				chatroom
+			)
+			const userRef = db.collection('users').doc(uid);
+			const otherUserRef = db.collection('users').doc(other_uid);
+			yield call([userRef, userRef.update], {[`chatrooms.${ref.id}`]: true});
+			yield call([otherUserRef, otherUserRef.update], {[`chatrooms.${ref.id}`]: true});
+			yield call([userRef, userRef.update], {[`hasChatWith.${other_uid}`]: true});
+			yield call([otherUserRef, otherUserRef.update], {[`hasChatWith.${uid}`]: true});
+			yield put({ type: CHATROOM_CREATE_SUCCESS, chatroom, roomId: ref.id })
+		} // find existing room
   } catch (error) {
 	  yield call(displayErrorMessage, error, CHATROOM_CREATE);
 	}
@@ -365,10 +379,19 @@ function* backendSaga() {
 
   yield takeEvery(UPDATE_USER_ROOMS, function*(action) {
     try {
-		const userId = action.user.uid;
-		const collectionRef = db.collection("chatrooms")
-		// to get chatrooms which contains user id
-		// const userRooms = yield call([collectionRef, collectionRef.where().get]); 
+		const userId = action.user.uid; 
+		const userDocRef = db.collection('users').doc(userId);
+		   	const userData = yield call([userDocRef, userDocRef.get]);
+		   	const user = yield {
+		   		...userData.data(),
+		   		timeFetched: Date.now()
+			   }
+		const userRooms = []
+		for (const roomId of Object.keys(user.chatrooms)) {
+			const docRef = db.collection("chatrooms").doc(roomId);
+			const fetchedRoom = yield call([docRef, docRef.get]);
+			userRooms.push(fetchedRoom);
+		}
 		yield put({ type: UPDATE_USER_ROOMS_SUCCESS, userRooms}) 
     } catch (error) {
       yield call(displayErrorMessage, error, UPDATE_USER_ROOMS);
