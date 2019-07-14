@@ -1,6 +1,7 @@
 import firebase from 'firebase';
 import '@firebase/firestore'
 import { Toast } from 'native-base';
+import Chatkit from '@pusher/chatkit-server';
 import { takeLatest, takeEvery, takeLeading, put, call, select } from 'redux-saga/effects';
 import { 
 	LOGIN_EMAIL,
@@ -28,17 +29,27 @@ import {
 	BOOK_SCHEDULE,
 	BOOK_SCHEDULE_SUCCESS,
 	UNBOOK_SCHEDULE,
-	UNBOOK_SCHEDULE_SUCCESS
+	UNBOOK_SCHEDULE_SUCCESS,
+	CHATROOM_CREATE,
+	UPDATE_USER_ROOMS,
+	UPDATE_USER_ROOMS_SUCCESS,
+	FETCH_ROOM,
+	FETCH_ROOM_SUCCESS,
+	SEND_MESSAGE,
+	FETCH_MESSAGES_SUCCESS
+
 } from '../actions/actionTypes';
-import { ALGOLIA_APP_ID, ALOGOLIA_API_KEY, STREAM_API_KEY, STREAM_SECRET, STREAM_APP_ID } from '../../env';
+// import { ALGOLIA_APP_ID, ALOGOLIA_API_KEY, CHATKIT_INSTANCE_LOCATOR, CHATKIT_KEY} from '../../env';
 
 const algoliasearch = require('algoliasearch/reactnative');
 const client = algoliasearch(ALGOLIA_APP_ID, ALOGOLIA_API_KEY);
 const ALGOLIA_INDEX_NAME = 'trainer_schedules';
 const schedule_index = client.initIndex(ALGOLIA_INDEX_NAME);
 
-const StreamChat = require('stream-chat').StreamChat;
-const chatClient = new StreamChat(STREAM_API_KEY, STREAM_SECRET);
+// const chatkit = new Chatkit.default({
+// 	instanceLocator: CHATKIT_INSTANCE_LOCATOR,
+// 	key: CHATKIT_KEY,
+// })
 
 const arrayUnion = firebase.firestore.FieldValue.arrayUnion;
 const serverTimestamp = firebase.firestore.FieldValue.serverTimestamp;
@@ -76,14 +87,6 @@ function* backendSaga() {
 				...user,
 				uid
 			}
-		// create a chat token using uid 
-		const token = yield call([chatClient, chatClient.createToken], uid);
-		yield call([chatClient, chatClient.setUser], {
-			id: uid,
-			name: user.username,
-			image: user.profilePic
-		}, token);
-		
 	    yield put({ type: SIGNUP_SUCCESS, user });
 	  } catch (error) {
 	    const error_message = { code: error.code, message: error.message };
@@ -118,14 +121,6 @@ function* backendSaga() {
 	   		...userData.data(),
 	   		uid,
 		   }
-		yield call([console, console.log], chatClient);
-		const token = yield call([chatClient, chatClient.createToken], uid);
-		yield call([console, console.log], token);
-		yield call([chatClient, chatClient.setUser], {
-			id: uid,
-			name: user.username,
-			image: user.profilePic
-		}, token);
 		
 	    yield put({ type: LOGIN_SUCCESS, user });
 	  } catch (error) {
@@ -139,7 +134,6 @@ function* backendSaga() {
 	  try {
 	    const auth = firebase.auth()
 		const result = yield call([auth, auth.signOut])
-		yield call([chatClient, chatClient.disconnect])
 	    yield put({ type: LOGOUT_SUCCESS, payload: result });
 	  } catch (error) {
 	    // const error_message = { code: error.code, message: error.message };
@@ -347,6 +341,70 @@ function* backendSaga() {
     } catch (error) {
       yield call(displayErrorMessage, error, UNBOOK_SCHEDULE);
     }
+  })
+
+  // used when someone starts a chat with another user
+  yield takeLeading(CHATROOM_CREATE, function*(action){
+	try {
+		const uid = firebase.auth().currentUser.uid;
+		// const other_uid = uid of the person we want to open room with
+		// let chatroom = { user's id, other_uid }
+		const collectionRef = db.collection("chatrooms")
+		const ref = yield call([collectionRef, collectionRef.add], chatroom);
+		const roomRef = db.collection('chatrooms').doc(ref.id);
+		// chatroom = { ...chatroom, roomId: ref.id }
+		yield call(
+	    	[roomRef, roomRef.update], 
+	    	chatroom
+	    )
+		yield put({ type: CHATROOM_CREATE_SUCCESS, chatroom, roomId: ref.id })
+  } catch (error) {
+	  yield call(displayErrorMessage, error, CHATROOM_CREATE);
+	}
+  })
+
+  yield takeEvery(UPDATE_USER_ROOMS, function*(action) {
+    try {
+		const userId = action.user.uid;
+		const collectionRef = db.collection("chatrooms")
+		// to get chatrooms which contains user id
+		// const userRooms = yield call([collectionRef, collectionRef.where().get]); 
+		yield put({ type: UPDATE_USER_ROOMS_SUCCESS, userRooms}) 
+    } catch (error) {
+      yield call(displayErrorMessage, error, UPDATE_USER_ROOMS);
+    }
+  })
+
+  yield takeEvery(FETCH_ROOM, function*(action) {
+	  try {
+		let current_room = action.room;
+		yield put({ type: FETCH_MESSAGES, room: current_room });
+		yield put({ type: FETCH_ROOM_SUCCESS, current_room });
+	  } catch (error) {
+		yield call(displayErrorMessage, error, FETCH_ROOM);
+	  }
+  })
+
+  yield takeEvery(FETCH_MESSAGES, function*(action) {
+	try {
+		const collectionRef = db.collection("chatrooms").doc(action.room.roomId)
+			.collection("messages")
+		const messages = yield call([collectionRef, collectionRef.get]); 
+		yield put({ type: FETCH_MESSAGES_SUCCESS, messages });
+	} catch (error) {
+	  	yield call(displayErrorMessage, error, FETCH_MESSAGES);
+	}
+})
+
+  yield takeEvery(SEND_MESSAGE, function*(action){
+	try {
+		const collectionRef = db.collection("chatrooms").doc(action.message.roomId)
+			.collection("messages");
+		yield call([collectionRef, collectionRef.add], action.message);
+		yield put({ type: FETCH_MESSAGES, room: action.message.roomId });
+	  } catch (error) {
+		yield call(displayErrorMessage, error, SEND_MESSAGE);
+	  }
   })
 }
 

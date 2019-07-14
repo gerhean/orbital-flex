@@ -12,7 +12,10 @@ import UserProfile from "../Users/UserProfile";
 import OffersList from '../Schedule/OffersList';
 import DefaultHeader from './DefaultHeader';
 
+
 import { Container, Button, Text, Icon, Footer, FooterTab } from "native-base";
+import Groups from "../Chat/Groups";
+import ChatRoom from "../Chat/ChatRoom";
 
 const mapStateToProps = state => ({
   screen: state.screen,
@@ -74,10 +77,10 @@ export class AppNav extends Component {
           <DefaultHeader title='View Offers'/>
           <OffersList scheduleId={screen[1]}/>
         </View>
-
       case "Search":
         return <Search />;
-
+      case "ChatRoom":
+        return <ChatRoom />
       case "Chat":
         return <Chat />
       default:
@@ -108,8 +111,8 @@ export class AppNav extends Component {
           </Button>
           <Button
             vertical
-            active={screen === "Chat"}
-            onPress={this.navigate("Chat")}
+            active={screen === "Groups"} 
+            onPress={this.navigate("Groups")}
           >
             <Icon name="chatbubbles" />
             <Text>Chat</Text>

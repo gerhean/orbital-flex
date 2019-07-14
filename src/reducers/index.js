@@ -3,6 +3,7 @@ import initialState from './state';
 import userReducer from './userReducer';
 import loginReducer from './loginReducer';
 import scheduleReducer from './scheduleReducer';
+import chatReducer from "./chatReducer";
 
 export { initialState };
 
@@ -42,7 +43,7 @@ const miscReducer = {
   },
 };
 
-const reducerArr = [miscReducer, loginReducer, userReducer, scheduleReducer];
+const reducerArr = [miscReducer, loginReducer, userReducer, scheduleReducer, chatReducer];
 
 export default mainReducer = (state = initialState(), action) => {
   for (const reducer of reducerArr) {

@@ -13,6 +13,9 @@ export default initialState = () => ({
   schedules: {},
   bookedSchedules: [],
   postedSchedules: [],
+  user_rooms: [], // array of room objects
+  current_room: {},
+  messages: []
 });
 
 const mockUser = {
