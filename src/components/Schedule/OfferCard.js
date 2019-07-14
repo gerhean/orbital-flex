@@ -62,7 +62,7 @@ class OfferCard extends Component {
           <Text note>Remarks:</Text>
           <Text>{offer.remarks}</Text>
 
-          <Button onPress={this.navigate("UserProfile/" + uid)}>
+          <Button onPress={this.navigate("UserProfile/" + this.props.uid)}>
             <Text>View Profile</Text>
           </Button>
         </Body>
