@@ -47,12 +47,10 @@ function* chatSaga() {
 					[roomRef, roomRef.update], 
 					chatroom
 				)
-				const userRef = db.collection('users').doc(uid);
-				const otherUserRef = db.collection('users').doc(other_uid);
-				yield call([userRef, userRef.update], {[`chatrooms.${ref.id}`]: true});
-				yield call([otherUserRef, otherUserRef.update], {[`chatrooms.${ref.id}`]: true});
-				yield call([userRef, userRef.update], {[`hasChatWith.${other_uid}`]: true});
-				yield call([otherUserRef, otherUserRef.update], {[`hasChatWith.${uid}`]: true});
+				const userRef = db.collection('user_chatrooms').doc(uid);
+				const otherUserRef = db.collection('user_chatrooms').doc(other_uid);
+				yield call([userRef, userRef.update], {[ref.id]: other_uid});
+				yield call([otherUserRef, otherUserRef.update], {[ref.id]: uid});
 				yield put({ type: CHATROOM_CREATE_SUCCESS, chatroom, roomId: ref.id })
 			} // find existing room
 	  } catch (error) {
@@ -63,14 +61,11 @@ function* chatSaga() {
 	yield takeEvery(UPDATE_USER_ROOMS, function*(action) {
 	try {
 		const userId = action.user.uid; 
-		const userDocRef = db.collection('users').doc(userId);
-				const userData = yield call([userDocRef, userDocRef.get]);
-				const user = yield {
-					...userData.data(),
-					timeFetched: Date.now()
-				}
+		const userDocRef = db.collection('user_chatrooms').doc(userId);
+		const userData = yield call([userDocRef, userDocRef.get]);
+		const userChatrooms = userData.data();
 		const userRooms = []
-		for (const roomId of Object.keys(user.chatrooms)) {
+		for (const roomId of Object.keys(userChatrooms)) {
 			const docRef = db.collection("chatrooms").doc(roomId);
 			const fetchedRoom = yield call([docRef, docRef.get]);
 			userRooms.push(fetchedRoom);
