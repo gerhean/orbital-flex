@@ -4,6 +4,8 @@ import { Toast } from 'native-base';
 import { takeLatest, takeEvery, takeLeading, put, call, select } from 'redux-saga/effects';
 
 import { 
+	FETCH_CHATROOMS,
+	FETCH_CHATROOMS_SUCCESS,
 	CHATROOM_CREATE,
 	CHATROOM_GET_EXISTING_SUCCESS,
 	UPDATE_USER_ROOMS,
@@ -27,13 +29,40 @@ import {
 
 function* chatSaga() {
 
+	yield takeEvery(FETCH_CHATROOMS, function*(action) {
+		try {
+			const uid = firebase.auth().currentUser.uid;
+			const userChatroomsRef = db.collection('user_chatrooms').doc(uid);
+			const userChatroomsData = yield call([userChatroomsRef, userChatroomsRef.get]);
+			const userChatrooms = userChatroomsData.data();
+			const storedChatrooms = yield select(state => state.chat.chatrooms);
+
+			for (const chatroom of Object.keys(userChatrooms)) {
+				const storedChatroom = storedChatrooms[chatroom.id];
+				if (storedChatroom && storedChatroom.updated.nanoseconds < chatroom.updated.nanoseconds) {
+					yield put({ type: FETCH_ROOM, roomId: chatroom.id })
+				}
+			} 
+
+			userChatroomsRef.onSnapshot(doc => {
+	      console.log("Current data: ", doc.data());
+	      
+	    });
+
+			yield put({ type: FETCH_CHATROOMS_SUCCESS })
+
+		} catch (error) {
+			yield call(displayErrorMessage, error, FETCH_CHATROOMS);
+		}
+	})
+
 	yield takeLeading(CHATROOM_CREATE, function*(action){
 		try {
 			let hasExistingChat = false;
 			const uid = firebase.auth().currentUser.uid;
-			const other_uid = action.schedule.poster;
+			const otherUid = action.schedule.poster;
 			for (const existingId of Object.keys(user.hasChatWith)) {
-				if (existingId === other_uid) {
+				if (existingId === otherUid) {
 					hasExistingChat = true;
 				}
 			} 
@@ -49,20 +78,14 @@ function* chatSaga() {
 					chatroom
 				)
 				const userRef = db.collection('user_chatrooms').doc(uid);
-				const otherUserRef = db.collection('user_chatrooms').doc(other_uid);
-				yield call([userRef, userRef.update], {[other_uid]: ref.id});
+				const otherUserRef = db.collection('user_chatrooms').doc(otherUid);
+				yield call([userRef, userRef.update], {[otherUid]: ref.id});
 				yield call([otherUserRef, otherUserRef.update], {[uid]: ref.id});
 				yield put({ type: CHATROOM_CREATE_SUCCESS, chatroom })
-			} else {
-				// find existing room
-				const chatRoomRef = db.collection('user_chatrooms').doc(uid);  // !
-				const roomRef = db.collection('chatrooms').doc(chatRoomRef.data()[other_uid]); // ??
-				const chatroom_ss = yield call([roomRef, roomRef.get]);
-				const chatroom = chatroom_ss.data();
-				yield put({ type: CHATROOM_GET_EXISTING_SUCCESS, chatroom })
-			}
+				
+			} 
 	  } catch (error) {
-		  yield call(displayErrorMessage, error, CHATROOM_CREATE);
+		  displayErrorMessage(error, CHATROOM_CREATE);
 		}
 	  })
 	
