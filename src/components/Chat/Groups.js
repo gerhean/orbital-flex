@@ -11,7 +11,7 @@ import {
     View
   } from 'react-native';
 import styles from './styles.js';
-import { fetchChat, enterRoom, changeScreen } from "../../actions";
+import { fetchRooms, enterRoom, changeScreen } from "../../actions";
 
 const mapStateToProps = state => ({
     user: state.user,
@@ -21,7 +21,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      handleFetchRooms: fetchChat,
+      handleFetchRooms: fetchRooms,
       handleChangeScreen: changeScreen,
       handleEnterRoom: enterRoom
     },

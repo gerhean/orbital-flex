@@ -5,6 +5,7 @@ import { takeLatest, takeEvery, takeLeading, put, call, select } from 'redux-sag
 
 import { 
 	CHATROOM_CREATE,
+	CHATROOM_GET_EXISTING_SUCCESS,
 	UPDATE_USER_ROOMS,
 	UPDATE_USER_ROOMS_SUCCESS,
 	FETCH_ROOM,
@@ -38,7 +39,7 @@ function* chatSaga() {
 			} 
 			if (!hasExistingChat) {
 				// const other_name = action.schedule.posterName;
-				let chatroom = { user1_id: uid, user2_id: other_uid };
+				let chatroom = { }; // !
 				const collectionRef = db.collection("chatrooms");
 				const ref = yield call([collectionRef, collectionRef.add], chatroom);
 				const roomRef = db.collection('chatrooms').doc(ref.id);
@@ -49,10 +50,17 @@ function* chatSaga() {
 				)
 				const userRef = db.collection('user_chatrooms').doc(uid);
 				const otherUserRef = db.collection('user_chatrooms').doc(other_uid);
-				yield call([userRef, userRef.update], {[ref.id]: other_uid});
-				yield call([otherUserRef, otherUserRef.update], {[ref.id]: uid});
-				yield put({ type: CHATROOM_CREATE_SUCCESS, chatroom, roomId: ref.id })
-			} // find existing room
+				yield call([userRef, userRef.update], {[other_uid]: ref.id});
+				yield call([otherUserRef, otherUserRef.update], {[uid]: ref.id});
+				yield put({ type: CHATROOM_CREATE_SUCCESS, chatroom })
+			} else {
+				// find existing room
+				const chatRoomRef = db.collection('user_chatrooms').doc(uid);  // !
+				const roomRef = db.collection('chatrooms').doc(chatRoomRef.data()[other_uid]); // ??
+				const chatroom_ss = yield call([roomRef, roomRef.get]);
+				const chatroom = chatroom_ss.data();
+				yield put({ type: CHATROOM_GET_EXISTING_SUCCESS, chatroom })
+			}
 	  } catch (error) {
 		  yield call(displayErrorMessage, error, CHATROOM_CREATE);
 		}
@@ -67,7 +75,8 @@ function* chatSaga() {
 		const userRooms = []
 		for (const roomId of Object.keys(userChatrooms)) {
 			const docRef = db.collection("chatrooms").doc(roomId);
-			const fetchedRoom = yield call([docRef, docRef.get]);
+			const fetchedRoom_ss = yield call([docRef, docRef.get]);
+			const fetchedRoom = fetchedRoom_ss.data();
 			userRooms.push(fetchedRoom);
 		}
 		yield put({ type: UPDATE_USER_ROOMS_SUCCESS, userRooms}) 
@@ -90,7 +99,9 @@ function* chatSaga() {
 		try {
 			const collectionRef = db.collection("chatrooms").doc(action.room.roomId)
 				.collection("messages")
-			const messages = yield call([collectionRef, collectionRef.get]); 
+			const querySnapshot = yield call([collectionRef, collectionRef.get]);
+			const messages = querySnapshot.docs.map(documentSnapshot => documentSnapshot.data());
+			// messages is an array
 			yield put({ type: FETCH_MESSAGES_SUCCESS, messages });
 		} catch (error) {
 				yield call(displayErrorMessage, error, FETCH_MESSAGES);
@@ -102,7 +113,7 @@ function* chatSaga() {
 			const collectionRef = db.collection("chatrooms").doc(action.message.roomId)
 				.collection("messages");
 			yield call([collectionRef, collectionRef.add], action.message);
-			yield put({ type: FETCH_MESSAGES, room: action.message.roomId });
+			yield put({ type: FETCH_MESSAGES, room: action.message.current_room });
 			} catch (error) {
 			yield call(displayErrorMessage, error, SEND_MESSAGE);
 		}

@@ -18,6 +18,12 @@ export default chatReducer = {
         current_room: action.chatroom
     }),
     
+    [actionTypes.CHATROOM_GET_EXISTING_SUCCESS]: (state, action) => ({
+        ...state,
+        screen: "ChatRoom",
+        current_room: action.chatroom
+    }),
+
     [actionTypes.FETCH_MESSAGES_SUCCESS]: (state, action) => ({
         ...state,
         messages: action.messages

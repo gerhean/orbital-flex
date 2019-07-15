@@ -38,7 +38,8 @@ class ChatRoom extends Component {
             user: {
             _id: message.user._id,
             name: message.user.name,
-            roomId: this.props.current_room.roomId
+            current_room: this.props.current_room, // !
+            roomId: this.props.current_room.roomId //!
             }
         })
     }

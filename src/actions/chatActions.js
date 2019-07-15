@@ -5,7 +5,7 @@ export const startChat = schedule => {
     schedule
 }
 
-export const fetchChat = user => {
+export const fetchRooms = user => {
     type: actionTypes.UPDATE_USER_ROOMS,
     user
 }
@@ -15,7 +15,6 @@ export const enterRoom = room => {
     room
 }
 
-// message to be an object as specified in gifted chat
 export const sendMessage = message => {
     type: actionTypes.SEND_MESSAGE,
     message

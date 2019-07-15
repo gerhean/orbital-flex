@@ -111,8 +111,8 @@ export class AppNav extends Component {
           </Button>
           <Button
             vertical
-            active={screen === "Groups"} 
-            onPress={this.navigate("Groups")}
+            active={screen === "Chat"} 
+            onPress={this.navigate("Chat")}
           >
             <Icon name="chatbubbles" />
             <Text>Chat</Text>
