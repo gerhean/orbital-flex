@@ -29,7 +29,7 @@ function* chatSaga() {
 
 	yield takeLeading(CHATROOM_CREATE, function*(action){
 		try {
-			const hasExistingChat = false;
+			let hasExistingChat = false;
 			const uid = firebase.auth().currentUser.uid;
 			const other_uid = action.schedule.poster;
 			for (const existingId of Object.keys(user.hasChatWith)) {
