@@ -15,7 +15,7 @@ export const enterRoom = room => ({
     room
 });
 
-export const sendMessage = message => ({
+export const sendMessage = payload => ({
     type: actionTypes.SEND_MESSAGE,
-    message
+    payload
 });

@@ -1,31 +1,48 @@
 import * as actionTypes from "../actions/actionTypes";
 
 export default chatReducer = {
-    [actionTypes.UPDATE_USER_ROOMS_SUCCESS]: (state, action) => ({
-        ...state,
-        user_rooms: action.user_rooms
-    }),
+  [actionTypes.CHATROOM_CREATE_SUCCESS]: (state, action) => ({
+    ...state,
+    screen: "ChatRoom",
+    chat: {
+      ...state.chat,
+      chatrooms: {
+        ...state.chat.chatrooms,
+        [action.roomId]: action.chatroom,
+      },
+      hasChatWith: {
+        ...state.chat.hasChatWith,
+        [action.chatroom.otherUid]: true
+      }
+    }
+  }),
+  
+  [actionTypes.FETCH_MESSAGES_SUCCESS]: (state, action) => ({
+    ...state,
+    screen: "ChatRoom",
+    chat: {
+      ...state.chat,
+      chatrooms: {
+        ...state.chat.chatrooms,
+        [action.roomId]: action.chatroom,
+      }
+    }
+  }),
 
-    [actionTypes.FETCH_ROOM_SUCCESS]: (state, action) => ({
-        ...state,
-        current_room: action.current_room
-    }),
-
-    [actionTypes.CHATROOM_CREATE_SUCCESS]: (state, action) => ({
-        ...state,
-        user_rooms: state.user_rooms.concat([action.chatroom]),
-        screen: "ChatRoom",
-        current_room: action.chatroom
-    }),
-    
-    [actionTypes.CHATROOM_GET_EXISTING_SUCCESS]: (state, action) => ({
-        ...state,
-        screen: "ChatRoom",
-        current_room: action.chatroom
-    }),
-
-    [actionTypes.FETCH_MESSAGES_SUCCESS]: (state, action) => ({
-        ...state,
-        messages: action.messages
-    })
+  [actionTypes.SEND_MESSAGE_SUCCESS]: (state, action) => {
+    const chatroom = state.chat.chatrooms[action.roomId];
+    return {
+      ...state,
+      chat: {
+        ...state.chat,
+        chatrooms: {
+          ...state.chat.chatrooms,
+          [action.roomId]: {
+            ...chatroom,
+            messages: chatroom.messages.concat(action.message)
+          },
+        }
+      }
+    }
+  }
 };

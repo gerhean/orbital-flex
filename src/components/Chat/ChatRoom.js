@@ -34,13 +34,8 @@ class ChatRoom extends Component {
         message = messageObj[0]
         this.props.handleSendMessage({
             text: message.text,
-            createdAt: Date.now(),
-            user: {
-            _id: message.user._id,
-            name: message.user.name,
-            current_room: this.props.current_room, // !
-            roomId: this.props.current_room.roomId //!
-            }
+            roomId: this.props.current_room.roomId, //!
+            otherUid: '?',
         })
     }
 
