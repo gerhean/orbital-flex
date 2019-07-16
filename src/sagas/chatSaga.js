@@ -35,7 +35,8 @@ function* chatSaga() {
 			const uid = firebase.auth().currentUser.uid;
 			const userChatroomsRef = db.collection('user_chatrooms').doc(uid);
 			const userChatroomsData = yield call([userChatroomsRef, userChatroomsRef.get]);
-			const userChatrooms = userChatroomsData.data();
+			const userChatrooms = yield userChatroomsData.data();
+			console.log("hihi");
 			yield put({ type: UPDATE_CHATROOMS, userChatrooms })
 
 			userChatroomsRef.onSnapshot(doc => {
@@ -53,6 +54,7 @@ function* chatSaga() {
 	})
 
 	yield takeEvery(UPDATE_CHATROOMS, function*(action){
+		console.log(action);
 		const userChatrooms = action.userChatrooms;
 		const storedChatrooms = yield select(state => state.chat.chatrooms);
 		for (const otherUid of Object.keys(userChatrooms)) {
@@ -99,25 +101,6 @@ function* chatSaga() {
 		  displayErrorMessage(error, CHATROOM_CREATE);
 		}
 	})
-	
-	// yield takeEvery(UPDATE_USER_ROOMS, function*(action) {
-	// try {
-	// 	const userId = action.user.uid; 
-	// 	const userDocRef = db.collection('user_chatrooms').doc(userId);
-	// 	const userData = yield call([userDocRef, userDocRef.get]);
-	// 	const userChatrooms = userData.data();
-	// 	const userRooms = []
-	// 	for (const roomId of Object.keys(userChatrooms)) {
-	// 		const docRef = db.collection("chatrooms").doc(roomId);
-	// 		const fetchedRoom_ss = yield call([docRef, docRef.get]);
-	// 		const fetchedRoom = fetchedRoom_ss.data();
-	// 		userRooms.push(fetchedRoom);
-	// 	}
-	// 	yield put({ type: UPDATE_USER_ROOMS_SUCCESS, userRooms}) 
-	// } catch (error) {
-	// 		displayErrorMessage(error, UPDATE_USER_ROOMS);
-	// }
-	// })
 
 	yield takeEvery(FETCH_MESSAGES, function*(action) {
 		try {
@@ -160,19 +143,6 @@ function* chatSaga() {
 			displayErrorMessage(error, FETCH_MESSAGES);
 		}
 	})
-
-	// yield takeEvery(FETCH_MESSAGES, function*(action) {
-	// 	try {
-	// 		const collectionRef = db.collection("chatrooms").doc(action.room.roomId)
-	// 			.collection("messages")
-	// 		const querySnapshot = yield call([collectionRef, collectionRef.get]);
-	// 		const messages = querySnapshot.docs.map(documentSnapshot => documentSnapshot.data());
-	// 		// messages is an array
-	// 		yield put({ type: FETCH_MESSAGES_SUCCESS, messages });
-	// 	} catch (error) {
-	// 			displayErrorMessage(error, FETCH_MESSAGES);
-	// 	}
-	// })
 
 	yield takeEvery(SEND_MESSAGE, function*(action){
 		try {
