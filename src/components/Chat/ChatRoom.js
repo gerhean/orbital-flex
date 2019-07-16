@@ -10,7 +10,7 @@ import styles from './styles.js';
 import { sendMessage, changeScreen } from "../../actions";
 
 const mapStateToProps = (state, ownProps) => ({
-    user: state.user,
+    uid: state.user.uid,
     room: state.chat.chatrooms[ownProps.roomId],
   });
 
@@ -25,35 +25,36 @@ bindActionCreators(
 
 class ChatRoom extends Component {
     
-    navigate = screen => () => {
-        this.props.handleChangeScreen(screen);
-      };
-    
-    addMessage(messageObj = {}) {
-        message = messageObj[0]
-        this.props.handleSendMessage({
-            text: message.text,
-            roomId: this.props.roomId, //!
-            otherUid: this.props.room.otherUid,
-        })
+  navigate = screen => () => {
+    this.props.handleChangeScreen(screen);
+  };
+  
+  sendMessage(messages = []) {
+    for (const message of messages) {
+      console.log(message);
+      this.props.handleSendMessage({
+        text: message.text,
+        roomId: this.props.roomId, 
+        otherUid: this.props.room.otherUid,
+      })
     }
+  }
 
-    // missing back button
-    render() {
-        return (
-          <View style={{flex: 1}}>
-            <StatusBar barStyle="light-content"/>
-            <GiftedChat
-              messages={this.props.room.messages}  // array of messages to display
-              onSend={this.addMessage}
-              user={{
-                _id: this.props.user.uid,
-                name: this.props.user.username,
-              }}
-            />
-          </View>
-        );
-      }
+  // missing back button
+  render() {
+    return (
+      <View style={{flex: 1}}>
+        <StatusBar barStyle="light-content"/>
+        <GiftedChat
+          messages={this.props.room.messages}  // array of messages to display
+          onSend={this.sendMessage}
+          user={{
+            _id: this.props.uid,
+          }}
+        />
+      </View>
+    );
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChatRoom);

@@ -122,7 +122,15 @@ function* chatSaga() {
 					.limit(25);
 			}
 			const querySnapshot = yield call([messageRef, messageRef.get]);
-			const messages = querySnapshot.map(doc => doc.data()); 
+			const messages = querySnapshot.map(doc => {
+				const message = doc.data();
+				return {
+					text: message.text,
+					createdAt: message.sentTime.toDate(),
+					user: { _id: message.poster }
+				}
+			}); 
+			messages.reverse();
 			
 			if (storedRoom) {
 				const chatroom = {
@@ -148,7 +156,7 @@ function* chatSaga() {
 		try {
 			const roomId = action.payload.roomId
 			const uid = firebase.auth().currentUser.uid;
-			const message = {text: action.payload.text, sentTime: serverTimestamp()}
+			const message = {text: action.payload.text, sentTime: serverTimestamp(), poster: uid }
 			const collectionRef = db.collection("chatrooms")
 				.doc(roomId)
 				.collection("messages");
@@ -157,7 +165,13 @@ function* chatSaga() {
 			const otherUserRef = db.collection('user_chatrooms').doc(action.payload.otherUid);
 			yield call([otherUserRef, otherUserRef.update], {[`${uid}.updated`]: serverTimestamp()});
 
-			yield put({ type: SEND_MESSAGE_SUCCESS, message, roomId });
+			const localMessage = {
+				text: action.payload.text,
+				createdAt: Date.now(),
+				user: { _id: uid },
+			}
+
+			yield put({ type: SEND_MESSAGE_SUCCESS, message: localMessage, roomId });
 		} catch (error) {
 			displayErrorMessage(error, SEND_MESSAGE);
 		}
