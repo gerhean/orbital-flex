@@ -1,11 +1,20 @@
 import * as actionTypes from "../actions/actionTypes";
 
 export default chatReducer = {
+  [actionTypes.FETCH_CHATROOMS_SUCCESS]: (state, action) => ({
+    ...state,
+    chat: {
+      ...state.chat,
+      chatroomArr: Object.keys(state.chat.chatroomArr),
+    }
+  }),
+
   [actionTypes.CHATROOM_CREATE_SUCCESS]: (state, action) => ({
     ...state,
     screen: "ChatRoom",
     chat: {
       ...state.chat,
+      chatroomArr: state.chat.chatroomArr.concat([action.roomId]),
       chatrooms: {
         ...state.chat.chatrooms,
         [action.roomId]: action.chatroom,
