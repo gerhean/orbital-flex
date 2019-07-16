@@ -38,9 +38,9 @@ function* chatSaga() {
 			yield put({ type: UPDATE_CHATROOMS, userChatrooms })
 
 			userChatroomsRef.onSnapshot(doc => {
+	     	console.log("Updated data: ", data);
 				if (!doc.metadata.hasPendingWrites) {
 					const userChatrooms = yield doc.data();
-	      	console.log("Updated data: ", data);
 					yield put({ type: UPDATE_CHATROOMS, userChatrooms })
 				}
 	    });
@@ -127,16 +127,16 @@ function* chatSaga() {
 					.doc(roomId)
 					.collection("messages")
 					.where('sentTime', '>', storedRoom.lastFetch)
-					.limit(25);
+					.orderBy("sentTime", "desc");
 			} else {
 				messageRef = db.collection("chatrooms")
 					.doc(roomId)
 					.collection("messages")
-					.orderBy("sentTime",Query.Direction.DESCENDING) // need more work here
+					.orderBy("sentTime", "desc") 
 					.limit(25);
 			}
 			const querySnapshot = yield call([messageRef, messageRef.get]);
-			const messages = querySnapshot.docs.map(documentSnapshot => documentSnapshot.data()); // pretty sure this is wrong
+			const messages = querySnapshot.map(doc => doc.data()); 
 			
 			if (storedRoom) {
 				const chatroom = {
