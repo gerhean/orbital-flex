@@ -24,6 +24,9 @@ bindActionCreators(
 );
 
 class ChatRoom extends Component {
+  constructor(props) {
+    super(props);
+  }
     
   navigate = screen => () => {
     this.props.handleChangeScreen(screen);
