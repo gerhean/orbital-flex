@@ -35,12 +35,12 @@ function* chatSaga() {
 			const uid = firebase.auth().currentUser.uid;
 			const userChatroomsRef = db.collection('user_chatrooms').doc(uid);
 			const userChatroomsData = yield call([userChatroomsRef, userChatroomsRef.get]);
-			const userChatrooms = yield userChatroomsData.data();
-			console.log("hihi");
+			const userChatrooms = yield userChatroomsData.data() || {};
+			console.log(userChatrooms);
 			yield put({ type: UPDATE_CHATROOMS, userChatrooms })
 
 			userChatroomsRef.onSnapshot(doc => {
-	     	console.log("Updated data: ", data);
+	     	console.log("Updated data: ", doc.data());
 				if (!doc.metadata.hasPendingWrites) {
 					const userChatrooms = doc.data();
 					put({ type: UPDATE_CHATROOMS, userChatrooms })
@@ -54,7 +54,6 @@ function* chatSaga() {
 	})
 
 	yield takeEvery(UPDATE_CHATROOMS, function*(action){
-		console.log(action);
 		const userChatrooms = action.userChatrooms;
 		const storedChatrooms = yield select(state => state.chat.chatrooms);
 		for (const otherUid of Object.keys(userChatrooms)) {
