@@ -8,27 +8,26 @@ import {
   } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
 import styles from './styles.js';
-import { sendMessage, changeScreen } from "../../actions";
+import { createChat, changeScreen } from "../../actions";
 
 const mapStateToProps = (state, ownProps) => ({
     uid: state.user.uid,
-    room: state.chat.chatrooms[ownProps.roomId],
   });
 
 const mapDispatchToProps = dispatch =>
 bindActionCreators(
   {
     handleChangeScreen: changeScreen,
-    handleSendMessage: sendMessage,
+    handleCreateChat: createChat,
   },
   dispatch
 );
 
-class ChatRoom extends Component {
+class ChatRoomNew extends Component {
   static propTypes = {
-    roomId: PropTypes.string.isRequired,
+    otherUid: PropTypes.string.isRequired,
   };
-  
+
   constructor(props) {
     super(props);
   }
@@ -38,14 +37,7 @@ class ChatRoom extends Component {
   };
   
   sendMessage(messages = []) {
-    for (const message of messages) {
-      console.log(message);
-      this.props.handleSendMessage({
-        text: message.text,
-        roomId: this.props.roomId, 
-        otherUid: this.props.room.otherUid,
-      })
-    }
+    this.props.handleCreateChat(message[0].text, this.props.otherUid)
   }
 
   // missing back button
@@ -54,7 +46,7 @@ class ChatRoom extends Component {
       <View style={{flex: 1}}>
         <StatusBar barStyle="light-content"/>
         <GiftedChat
-          messages={this.props.room.messages}  // array of messages to display
+          messages={[]}  // array of messages to display
           onSend={this.sendMessage}
           user={{
             _id: this.props.uid,
@@ -65,4 +57,4 @@ class ChatRoom extends Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChatRoom);
+export default connect(mapStateToProps, mapDispatchToProps)(ChatRoomNew);

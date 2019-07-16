@@ -75,28 +75,25 @@ function* chatSaga() {
 		try {
 			const uid = firebase.auth().currentUser.uid;
 			const otherUid = action.otherUid;
-			const hasExistingChat = yield select(state => state.chat.hasChatWith[otherUid]);
 
-			if (!hasExistingChat) {
-				const chatroom = { 
-					user1: uid,
-					user2: otherUid,
-				};
-				const collectionRef = db.collection("chatrooms");
-				const ref = yield call([collectionRef, collectionRef.add], chatroom);
-				const roomId = ref.id;
+			const chatroom = { 
+				user1: uid,
+				user2: otherUid,
+			};
+			const collectionRef = db.collection("chatrooms");
+			const ref = yield call([collectionRef, collectionRef.add], chatroom);
+			const roomId = ref.id;
 
-				const userRef = db.collection('user_chatrooms').doc(uid);
-				const otherUserRef = db.collection('user_chatrooms').doc(otherUid);
-				const userChatroom = {roomId, updated: serverTimestamp()};
-				yield call([userRef, userRef.set], {[otherUid]: userChatroom}, { merge: true });
-				yield call([otherUserRef, otherUserRef.set], {[uid]: userChatroom}, { merge: true });
+			const userRef = db.collection('user_chatrooms').doc(uid);
+			const otherUserRef = db.collection('user_chatrooms').doc(otherUid);
+			const userChatroom = {roomId, updated: serverTimestamp()};
+			yield call([userRef, userRef.set], {[otherUid]: userChatroom}, { merge: true });
+			yield call([otherUserRef, otherUserRef.set], {[uid]: userChatroom}, { merge: true });
 
-				localChatroom = {otherUid, messages: [], lastFetch: localTimestamp()};
-				yield put({ type: CHATROOM_CREATE_SUCCESS, chatroom: localChatroom, roomId });
-			} else {
-				yield put({ type: CHANGE_SCREEN, screen: "Chatroom/" + hasExistingChat });
-			}
+			localChatroom = {otherUid, messages: [], lastFetch: localTimestamp()};
+			yield put({ type: CHATROOM_CREATE_SUCCESS, chatroom: localChatroom, roomId });
+			yield put({ type: SEND_MESSAGE, payload: { text: action.text, roomId, otherUid } });
+			
 	  } catch (error) {
 		  displayErrorMessage(error, CHATROOM_CREATE);
 		}
@@ -130,19 +127,23 @@ function* chatSaga() {
 					user: { _id: message.poster }
 				}
 			}); 
+			const lastMessageTime = messages[0].createdAt.getTime();
 			messages.reverse();
 			
 			if (storedRoom) {
 				const chatroom = {
 					...storedRoom,
-					messages: storedRoom.messages.concat(messages)
+					messages: storedRoom.messages.concat(messages),
+					lastFetch: localTimestamp(),
+					lastMessageTime,
 				}
 				yield put({ type: FETCH_MESSAGES_SUCCESS, chatroom, roomId });
 			} else {
 				const chatroom = {
 					otherUid: action.otherUid, 
 					messages, 
-					lastFetch: localTimestamp()
+					lastFetch: localTimestamp(),
+					lastMessageTime
 				};
 				yield put({ type: CHATROOM_CREATE_SUCCESS, chatroom, roomId })
 			}

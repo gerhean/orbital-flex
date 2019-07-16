@@ -53,3 +53,10 @@ const publicUserInfo = {
 	profilePic: 'image.com/image',
 	contact: '',
 }
+
+// const chatroomExample = {
+//   otherUid, 
+//   messages, 
+//   lastFetch, // time when messages last fetched
+//   lastMessageTime // timeCreated of last message in messages
+// }

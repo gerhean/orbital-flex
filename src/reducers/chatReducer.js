@@ -1,20 +1,34 @@
 import * as actionTypes from "../actions/actionTypes";
 
+const sortChatrooms = (rooms) => (a, b) => rooms[b].lastMessageTime - rooms[a].lastMessageTime;
+
 export default chatReducer = {
   [actionTypes.FETCH_CHATROOMS_SUCCESS]: (state, action) => ({
     ...state,
     chat: {
       ...state.chat,
-      chatroomArr: Object.keys(state.chat.chatroomArr),
+      chatroomArr: Object.keys(state.chat.chatroomArr)
+        .sort(sortChatrooms(state.chat.chatrooms)),
     }
   }),
 
+  [actionTypes.OPEN_CHAT]: (state, action) => {
+    const hasExistingChat = state.chat.hasChatWith[action.otherUid];
+    let screen = hasExistingChat ? 
+      "ChatRoom/" + hasExistingChat 
+      : "ChatroomNew/" + otherUid;
+    return {
+      ...state,
+      screen
+    }
+  },
+
   [actionTypes.CHATROOM_CREATE_SUCCESS]: (state, action) => ({
     ...state,
-    screen: "ChatRoom",
+    screen: "ChatRoom/" + action.roomId,
     chat: {
       ...state.chat,
-      chatroomArr: state.chat.chatroomArr.concat([action.roomId]),
+      chatroomArr: Array.of(action.roomId, ...state.chat.chatroomArr), 
       chatrooms: {
         ...state.chat.chatrooms,
         [action.roomId]: action.chatroom,
@@ -28,7 +42,6 @@ export default chatReducer = {
   
   [actionTypes.FETCH_MESSAGES_SUCCESS]: (state, action) => ({
     ...state,
-    screen: "ChatRoom",
     chat: {
       ...state.chat,
       chatrooms: {
@@ -48,7 +61,8 @@ export default chatReducer = {
           ...state.chat.chatrooms,
           [action.roomId]: {
             ...chatroom,
-            messages: chatroom.messages.concat(action.message)
+            messages: chatroom.messages.concat([action.message]),
+            lastMessageTime: Date.now();
           },
         }
       }

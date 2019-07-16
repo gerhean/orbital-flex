@@ -5,7 +5,13 @@ export const fetchRooms = () => ({
 });
 
 export const startChat = otherUid => ({
+    type: actionTypes.OPEN_CHAT,
+    otherUid
+});
+
+export const createChat = (text, otherUid) => ({
     type: actionTypes.CHATROOM_CREATE,
+    text,
     otherUid
 });
 
