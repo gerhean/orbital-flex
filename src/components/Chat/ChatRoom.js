@@ -9,10 +9,9 @@ import { GiftedChat } from 'react-native-gifted-chat';
 import styles from './styles.js';
 import { sendMessage, changeScreen } from "../../actions";
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, ownProps) => ({
     user: state.user,
-    current_room: state.current_room,
-    messages: state.messages
+    room: state.chat.chatrooms[ownProps.roomId],
   });
 
 const mapDispatchToProps = dispatch =>
@@ -34,8 +33,8 @@ class ChatRoom extends Component {
         message = messageObj[0]
         this.props.handleSendMessage({
             text: message.text,
-            roomId: this.props.current_room.roomId, //!
-            otherUid: '?',
+            roomId: this.props.roomId, //!
+            otherUid: this.props.room.otherUid,
         })
     }
 
@@ -45,8 +44,8 @@ class ChatRoom extends Component {
           <View style={{flex: 1}}>
             <StatusBar barStyle="light-content"/>
             <GiftedChat
-              messages={this.props.messages}  // array of messages to display
-              onSend={this.addMessage.bind(this)}
+              messages={this.props.room.messages}  // array of messages to display
+              onSend={this.addMessage}
               user={{
                 _id: this.props.user.uid,
                 name: this.props.user.username,

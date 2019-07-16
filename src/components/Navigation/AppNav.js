@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
-import { changeScreen, scheduleCreate, scheduleUpdate, scheduleFetchHome } from "../../actions";
+import { changeScreen, scheduleCreate, scheduleUpdate, scheduleFetchHome, fetchRooms } from "../../actions";
 import Home from "../Home";
 import Search from "../Search";
 import Chat from "../Chat";
@@ -28,6 +28,7 @@ const mapDispatchToProps = dispatch =>
       handleScheduleCreate: scheduleCreate,
       handleScheduleUpdate: scheduleUpdate,
       handleOwnScheduleFetch: scheduleFetchHome,
+      handleFetchRooms: fetchRooms,
     },
     dispatch
   );
@@ -38,7 +39,9 @@ export class AppNav extends Component {
   };
 
   componentDidMount() {
+    console.log("AppNav mounted");
     this.props.handleOwnScheduleFetch();
+    this.props.handleFetchRooms();
   }
 
   navigate = (screen) => () => {
@@ -79,8 +82,8 @@ export class AppNav extends Component {
         </React.Fragment>
       case "Search":
         return <Search />;
-      case "ChatRoom":
-        return <ChatRoom />
+      case "Chatroom":
+        return <ChatRoom roomId={screen[1]}/>
       case "Chat":
         return <Chat />
       default:

@@ -9,6 +9,7 @@ import {
 	UPDATE_CHATROOMS,
 	CHATROOM_CREATE,
 	CHATROOM_CREATE_SUCCESS,
+	CHANGE_SCREEN,
 	FETCH_MESSAGES,
 	FETCH_MESSAGES_SUCCESS,
 	SEND_MESSAGE,
@@ -71,7 +72,7 @@ function* chatSaga() {
 	yield takeLeading(CHATROOM_CREATE, function*(action){
 		try {
 			const uid = firebase.auth().currentUser.uid;
-			const otherUid = action.schedule.poster;
+			const otherUid = action.otherUid;
 			const hasExistingChat = yield select(state => state.chat.hasChatWith[otherUid]);
 
 			if (!hasExistingChat) {
@@ -91,7 +92,9 @@ function* chatSaga() {
 
 				localChatroom = {otherUid, messages: [], lastFetch: localTimestamp()};
 				yield put({ type: CHATROOM_CREATE_SUCCESS, chatroom: localChatroom, roomId });
-			} 
+			} else {
+				yield put({ type: CHANGE_SCREEN, screen: "Chatroom/" + hasExistingChat });
+			}
 	  } catch (error) {
 		  displayErrorMessage(error, CHATROOM_CREATE);
 		}

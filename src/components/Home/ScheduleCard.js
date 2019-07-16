@@ -77,7 +77,7 @@ class ScheduleCard extends Component {
       button2Text = "Edit Offer";
       onButton2Press = () => this.props.onPressBook(scheduleId, schedule.bookers[uid]);
       button3Text = "Message";
-      onButton3Press = () => this.props.handleChat(schedule);
+      onButton3Press = () => this.props.handleChat(schedule.poster);
     } else {
       console.log("Unable to determine state of schedule");
       return null;

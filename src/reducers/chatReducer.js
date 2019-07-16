@@ -12,7 +12,7 @@ export default chatReducer = {
       },
       hasChatWith: {
         ...state.chat.hasChatWith,
-        [action.chatroom.otherUid]: true
+        [action.chatroom.otherUid]: action.roomId
       }
     }
   }),

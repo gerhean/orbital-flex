@@ -1,19 +1,18 @@
 import * as actionTypes from "./actionTypes";
 
-export const startChat = schedule => ({
+export const fetchRooms = () => ({
+    type: actionTypes.UPDATE_USER_ROOMS
+});
+
+export const startChat = otherUid => ({
     type: actionTypes.CHATROOM_CREATE,
-    schedule
+    otherUid
 });
 
-export const fetchRooms = user => ({
-    type: actionTypes.UPDATE_USER_ROOMS,
-    user
-});
-
-export const enterRoom = room => ({
-    type: actionTypes.FETCH_ROOM,
-    room
-});
+// export const enterRoom = room => ({
+//     type: actionTypes.FETCH_ROOM,
+//     room
+// });
 
 export const sendMessage = payload => ({
     type: actionTypes.SEND_MESSAGE,
