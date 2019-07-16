@@ -40,8 +40,8 @@ function* chatSaga() {
 			userChatroomsRef.onSnapshot(doc => {
 	     	console.log("Updated data: ", data);
 				if (!doc.metadata.hasPendingWrites) {
-					const userChatrooms = yield doc.data();
-					yield put({ type: UPDATE_CHATROOMS, userChatrooms })
+					const userChatrooms = doc.data();
+					put({ type: UPDATE_CHATROOMS, userChatrooms })
 				}
 	    });
 
