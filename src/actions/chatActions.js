@@ -1,7 +1,7 @@
 import * as actionTypes from "./actionTypes";
 
 export const fetchRooms = () => ({
-    type: actionTypes.UPDATE_USER_ROOMS
+    type: actionTypes.FETCH_CHATROOMS
 });
 
 export const startChat = otherUid => ({
