@@ -35,8 +35,7 @@ function* chatSaga() {
 			const uid = firebase.auth().currentUser.uid;
 			const userChatroomsRef = db.collection('user_chatrooms').doc(uid);
 			const userChatroomsData = yield call([userChatroomsRef, userChatroomsRef.get]);
-			const userChatrooms = yield userChatroomsData.data() || {};
-			console.log(userChatrooms);
+			const userChatrooms = yield userChatroomsData.data();
 			yield put({ type: UPDATE_CHATROOMS, userChatrooms })
 
 			userChatroomsRef.onSnapshot(doc => {
@@ -55,19 +54,21 @@ function* chatSaga() {
 
 	yield takeEvery(UPDATE_CHATROOMS, function*(action){
 		const userChatrooms = action.userChatrooms;
-		const storedChatrooms = yield select(state => state.chat.chatrooms);
-		for (const otherUid of Object.keys(userChatrooms)) {
-			const chatroom = userChatrooms[otherUid];
-			const roomId = chatroom.roomId;
-			const storedChatroom = storedChatrooms[roomId];
-			if (storedChatroom) {
-				if (storedChatroom.lastFetch.nanoseconds < chatroom.updated.nanoseconds) {
-					yield put({ type: FETCH_MESSAGES, storedRoom: storedChatroom, roomId })
+		if (userChatrooms) {
+			const storedChatrooms = yield select(state => state.chat.chatrooms);
+			for (const otherUid of Object.keys(userChatrooms)) {
+				const chatroom = userChatrooms[otherUid];
+				const roomId = chatroom.roomId;
+				const storedChatroom = storedChatrooms[roomId];
+				if (storedChatroom) {
+					if (storedChatroom.lastFetch.nanoseconds < chatroom.updated.nanoseconds) {
+						yield put({ type: FETCH_MESSAGES, storedRoom: storedChatroom, roomId })
+					}
+				} else {
+					yield put({ type: FETCH_MESSAGES, roomId, otherUid })
 				}
-			} else {
-				yield put({ type: FETCH_MESSAGES, roomId, otherUid })
-			}
-		} 
+			} 
+		}
 	})
 
 	yield takeLeading(CHATROOM_CREATE, function*(action){
@@ -88,8 +89,8 @@ function* chatSaga() {
 				const userRef = db.collection('user_chatrooms').doc(uid);
 				const otherUserRef = db.collection('user_chatrooms').doc(otherUid);
 				const userChatroom = {roomId, updated: serverTimestamp()};
-				yield call([userRef, userRef.update], {[otherUid]: userChatroom});
-				yield call([otherUserRef, otherUserRef.update], {[uid]: userChatroom});
+				yield call([userRef, userRef.set], {[otherUid]: userChatroom}, { merge: true });
+				yield call([otherUserRef, otherUserRef.set], {[uid]: userChatroom}, { merge: true });
 
 				localChatroom = {otherUid, messages: [], lastFetch: localTimestamp()};
 				yield put({ type: CHATROOM_CREATE_SUCCESS, chatroom: localChatroom, roomId });
