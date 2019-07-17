@@ -18,6 +18,8 @@ import {
   ListItem
 } from "native-base";
 import { FlatList } from 'react-native';
+import StarRating from 'react-native-star-rating';
+
 import { changeScreen, fetchUserReviews } from "../../actions";
 import profilePictureDisplay from '../profilePictureDisplay';
 import ScheduleList from "../Home/ScheduleList";
@@ -52,27 +54,43 @@ class ViewReviews extends Component {
     this.props.handleChangeScreen(screen);
   };
 
-  reviewCard = review => {
-
-  }
+  reviewCard = review => (
+    <ListItem bordered>
+      <Left>
+        {profilePictureDisplay(user.profilePic, {large: true})}
+      </Left>
+      <Body>
+        <StarRating
+          maxStars={5}
+          rating={review.rating}
+        />
+        <Text>{user.username}</Text>
+        <Text>{review.text}</Text>
+      </Body>
+    </ListItem>
+  )
 
   render() {
     const reviews = this.props.user.reviews;
-    if (!reviews) {
-      return <Text>Loading</Text>
+    if (reviews === undefined) {
+      return (
+        <Container>
+          <Text>Loading</Text>
+        </Container>
+      );
     }
     const ownReview = this.props.user.ownReview;
 
     return (
       <Container>
         <Content>
-          <FlatList 
-            data={reviews} 
-            renderItem={({ item }) => (
-              reviewCard(item)
-            )}
-            keyExtractor={item => item.poster}
-          />
+          <List> 
+            <FlatList 
+              data={reviews} 
+              renderItem={({ item }) => reviewCard(item) }
+              keyExtractor={item => item.poster}
+            />
+          </List> 
         </Content>
       </Container>
     );
