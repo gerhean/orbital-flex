@@ -36,8 +36,8 @@ class ChatRoomNew extends Component {
     this.props.handleChangeScreen(screen);
   };
   
-  sendMessage(messages = []) {
-    this.props.handleCreateChat(message[0].text, this.props.otherUid)
+  sendMessage = (messages = []) => {
+    this.props.handleCreateChat(messages[0].text, this.props.otherUid)
   }
 
   // missing back button

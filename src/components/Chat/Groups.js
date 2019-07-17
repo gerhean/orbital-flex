@@ -39,16 +39,14 @@ class Groups extends Component {
     return (
       <TouchableHighlight style={styles.roomLi}
       underlayColor="#fff"
-      onPress={() => {
-        this.props.navigate("Chatroom/" + item);
-      }}
-      >
-      <Text style={styles.roomLiText}>{item.name}</Text>
+      onPress={this.navigate("Chatroom/" + item)}>
+      <Text style={styles.roomLiText}>{item}</Text>
       </TouchableHighlight>
     )
   }
 
   render() {
+    console.log(this.props.chatroomArr);
     return (
       <View style={styles.roomsContainer}>
         <StatusBar barStyle="light-content"/>
@@ -56,8 +54,8 @@ class Groups extends Component {
         <View style={styles.roomsListContainer}>
           <FlatList
           data={this.props.chatroomArr} // data is array
-          renderItem={({item}) => (this.renderRow(item)
-          )}
+          renderItem={({item}) => (this.renderRow(item))}
+          keyExtractor={item => item}
           />
         </View>
       </View>

@@ -7,7 +7,7 @@ export default chatReducer = {
     ...state,
     chat: {
       ...state.chat,
-      chatroomArr: Object.keys(state.chat.chatroomArr)
+      chatroomArr: Object.keys(state.chat.chatrooms)
         .sort(sortChatrooms(state.chat.chatrooms)),
     }
   }),
@@ -16,7 +16,7 @@ export default chatReducer = {
     const hasExistingChat = state.chat.hasChatWith[action.otherUid];
     let screen = hasExistingChat ? 
       "ChatRoom/" + hasExistingChat 
-      : "ChatroomNew/" + otherUid;
+      : "ChatroomNew/" + action.otherUid;
     return {
       ...state,
       screen

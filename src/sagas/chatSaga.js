@@ -119,33 +119,37 @@ function* chatSaga() {
 					.limit(25);
 			}
 			const querySnapshot = yield call([messageRef, messageRef.get]);
-			const messages = querySnapshot.map(doc => {
+			const messages = [];
+			querySnapshot.forEach(doc => {
 				const message = doc.data();
-				return {
+				messages.push({
+					_id: doc.id,
 					text: message.text,
 					createdAt: message.sentTime.toDate(),
 					user: { _id: message.poster }
-				}
+				});
 			}); 
-			const lastMessageTime = messages[0].createdAt.getTime();
-			messages.reverse();
-			
-			if (storedRoom) {
-				const chatroom = {
-					...storedRoom,
-					messages: storedRoom.messages.concat(messages),
-					lastFetch: localTimestamp(),
-					lastMessageTime,
+			if (messages[0]) {
+				const lastMessageTime = messages[0].createdAt.getTime();
+				messages.reverse();
+				
+				if (storedRoom) {
+					const chatroom = {
+						...storedRoom,
+						messages: storedRoom.messages.concat(messages),
+						lastFetch: localTimestamp(),
+						lastMessageTime,
+					}
+					yield put({ type: FETCH_MESSAGES_SUCCESS, chatroom, roomId });
+				} else {
+					const chatroom = {
+						otherUid: action.otherUid, 
+						messages, 
+						lastFetch: localTimestamp(),
+						lastMessageTime
+					};
+					yield put({ type: CHATROOM_CREATE_SUCCESS, chatroom, roomId })
 				}
-				yield put({ type: FETCH_MESSAGES_SUCCESS, chatroom, roomId });
-			} else {
-				const chatroom = {
-					otherUid: action.otherUid, 
-					messages, 
-					lastFetch: localTimestamp(),
-					lastMessageTime
-				};
-				yield put({ type: CHATROOM_CREATE_SUCCESS, chatroom, roomId })
 			}
 
 		} catch (error) {
@@ -161,12 +165,13 @@ function* chatSaga() {
 			const collectionRef = db.collection("chatrooms")
 				.doc(roomId)
 				.collection("messages");
-			yield call([collectionRef, collectionRef.add], message);
+			const messageRef = yield call([collectionRef, collectionRef.add], message);
 
 			const otherUserRef = db.collection('user_chatrooms').doc(action.payload.otherUid);
 			yield call([otherUserRef, otherUserRef.update], {[`${uid}.updated`]: serverTimestamp()});
 
 			const localMessage = {
+				_id: messageRef.id,
 				text: action.payload.text,
 				createdAt: Date.now(),
 				user: { _id: uid },

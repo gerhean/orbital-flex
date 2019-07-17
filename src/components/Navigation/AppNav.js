@@ -16,6 +16,7 @@ import DefaultHeader from './DefaultHeader';
 import { Container, Button, Text, Icon, Footer, FooterTab } from "native-base";
 import Groups from "../Chat/Groups";
 import ChatRoom from "../Chat/ChatRoom";
+import ChatRoomNew from "../Chat/ChatRoomNew";
 
 const mapStateToProps = state => ({
   screen: state.screen,
@@ -84,6 +85,8 @@ export class AppNav extends Component {
         return <Search />;
       case "Chatroom":
         return <ChatRoom roomId={screen[1]}/>
+      case "ChatroomNew":
+        return <ChatRoomNew otherUid={screen[1]}/>
       case "Chat":
         return <Chat />
       default:
