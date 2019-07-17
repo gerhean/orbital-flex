@@ -15,7 +15,9 @@ import { changeScreen } from "../../actions";
 
 const mapStateToProps = state => ({
   user: state.user,
+  users: state.users,
   chatroomArr: state.chat.chatroomArr,
+  chatrooms: state.chat.chatrooms,
 });
 
 const mapDispatchToProps = dispatch =>
@@ -46,7 +48,6 @@ class Groups extends Component {
   }
 
   render() {
-    console.log(this.props.chatroomArr);
     return (
       <View style={styles.roomsContainer}>
         <StatusBar barStyle="light-content"/>
