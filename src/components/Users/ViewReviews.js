@@ -18,7 +18,7 @@ import {
   Thumbnail,
   View
 } from "native-base";
-import { changeScreen, scheduleFetchHome, fetchUserInfo } from "../../actions";
+import { changeScreen, fetchUserReviews } from "../../actions";
 import profilePictureDisplay from '../profilePictureDisplay';
 import ScheduleList from "../Home/ScheduleList";
 
@@ -30,12 +30,12 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       handleChangeScreen: changeScreen,
-      handleFetchUserInfo: fetchUserInfo,
+      handleFetchUserReviews: fetchUserReviews,
     },
     dispatch
   );
 
-class UserProfile extends Component {
+class ViewReviews extends Component {
   static propTypes = {
     uid: PropTypes.string.isRequired,
   };
@@ -45,7 +45,7 @@ class UserProfile extends Component {
   }
 
   componentDidMount() {
-    this.props.handleFetchUserInfo(this.props.uid);
+    this.props.handleFetchUserReviews(this.props.uid);
   }
 
   navigate = screen => () => {
@@ -53,10 +53,11 @@ class UserProfile extends Component {
   };
 
   render() {
-    const user = this.props.user;
-    if (!user) {
+    const reviews = this.props.user.reviews;
+    if (!reviews) {
       return <Text>Loading</Text>
     }
+    const ownReview = this.props.user.ownReview;
     const postedScheduleList = <ScheduleList 
       scheduleArr={Object.keys(user.postedSchedules)}
     />
@@ -94,4 +95,4 @@ class UserProfile extends Component {
 
 // export default Home;
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);
+export default connect(mapStateToProps, mapDispatchToProps)(ViewReviews);

@@ -121,7 +121,6 @@ function* userSaga() {
 					}
 				}); 
 				if (reviews[0]) {
-					reviews.reverse();
 					if (!ownReview) {
 						const ownReviewRef = reviewCollectionRef.doc(ownUid);
 						const ownReviewQuery = yield call([ownReviewRef, ownReviewRef.get]);
