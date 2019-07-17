@@ -31,11 +31,11 @@ const Filters = ({
           searchState={searchState}
           onSearchStateChange={onSearchStateChange}
         >
-          <RefinementList attribute="location" />
-          
+          <RefinementList attribute="location" title="location" />
+          <RefinementList attribute="services" title="services" />
           
           <TouchableOpacity style={styles.closeButton} onPress={toggleModal}>
-            <Text style={styles.closeButtonText}>Close</Text>
+            <Text style={styles.closeButtonText}>Apply</Text>
           </TouchableOpacity>
         </InstantSearch>
       </SafeAreaView>

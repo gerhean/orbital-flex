@@ -62,10 +62,10 @@ export default chatReducer = {
           [action.roomId]: {
             ...chatroom,
             messages: chatroom.messages.concat([action.message]),
-            lastMessageTime: Date.now();
-          },
+            lastMessageTime: Date.now()
+          }
         }
       }
-    }
+    };
   }
 };

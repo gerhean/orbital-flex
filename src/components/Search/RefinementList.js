@@ -5,10 +5,11 @@ import { connectRefinementList } from 'react-instantsearch-native';
 
 // change location text to { this.props.attribute} ?
 
-const RefinementList = ({ items, refine }) => (
+const RefinementList = ({ items, refine, title }) => (
+    
     <View style={styles.container}>
       <View style={styles.title}>
-        <Text style={styles.titleText}>Locations</Text> 
+        <Text style={styles.titleText}>{ title }</Text> 
       </View>
       <View style={styles.list}>
         {items.map(item => {

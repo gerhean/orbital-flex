@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { View, StyleSheet, Text, FlatList, TextInput, Image, Button } from 'react-native';
 import PropTypes from 'prop-types';
-import { InstantSearch, connectSearchBox, 
+import { InstantSearch, connectSearchBox, connectCurrentRefinements,
   connectInfiniteHits, connectRefinementList } from 'react-instantsearch-native';
 import algoliasearch from 'algoliasearch/reactnative';
 import Constants from 'expo-constants'
@@ -44,31 +44,32 @@ export default class SearchSchedules extends Component {
           searchClient={searchClient}
           indexName="trainer_schedules"
         >
-        <VirtualRefinementList attribute="location" />
-        <Filters
-              isModalOpen={isModalOpen}
-              searchClient={searchClient}
-              toggleModal={this.toggleModal}
-              searchState={searchState}
-              onSearchStateChange={this.onSearchStateChange}
-        />
-        <View style={styles.searchContainer}>
-          <ConnectedSearchBar />
-          <Image
-            source={require('../../../assets/algolia.png')}
-            style={styles.logo}
-            resizeMode="contain"
+          <VirtualRefinementList attribute="location" />
+          <Filters
+                isModalOpen={isModalOpen}
+                searchClient={searchClient}
+                toggleModal={this.toggleModal}
+                searchState={searchState}
+                onSearchStateChange={this.onSearchStateChange}
           />
-        </View>
-        <Button
-              title="Filters"
-              color="#252b33"
-              onPress={this.toggleModal}
+          <View style={styles.searchContainer}>
+            <ConnectedSearchBar />
+            <Image
+              source={require('../../../assets/algolia.png')}
+              style={styles.logo}
+              resizeMode="contain"
             />
-        <ConnectedHits />
+          </View>
+          <Button
+                title="Filters"
+                color="#252b33"
+                onPress={this.toggleModal}
+              />
+          
+          <ConnectedHits />
         </InstantSearch>
       </View>
-    ) 
+    ) //<ConnectedClearRefinements />
   }
 }
 
@@ -111,6 +112,17 @@ Hits.propTypes = {
 };
 
 const ConnectedHits = connectInfiniteHits(Hits);
+
+const ClearRefinements = ({ items, refine }) => (
+  <Button 
+    onClick={() => refine(items)} 
+    disabled={!items.length} 
+    title="Clear filters"
+  />
+  
+  );
+  
+const ConnectedClearRefinements = connectCurrentRefinements(ClearRefinements);
 
 const styles = StyleSheet.create({
   mainContainer: {
