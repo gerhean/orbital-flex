@@ -131,12 +131,11 @@ function* chatSaga() {
 			}); 
 			if (messages[0]) {
 				const lastMessageTime = messages[0].createdAt.getTime();
-				messages.reverse();
 				
 				if (storedRoom) {
 					const chatroom = {
 						...storedRoom,
-						messages: storedRoom.messages.concat(messages),
+						messages: Array.of(messages, ...storedRoom.messages),
 						lastFetch: localTimestamp(),
 						lastMessageTime,
 					}

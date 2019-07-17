@@ -53,6 +53,7 @@ class ChatRoom extends Component {
 
   // missing back button
   render() {
+    console.log(this.props.room.messages)
     return (
       <View style={{flex: 1}}>
         <StatusBar barStyle="light-content"/>

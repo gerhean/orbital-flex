@@ -61,7 +61,7 @@ export default chatReducer = {
           ...state.chat.chatrooms,
           [action.roomId]: {
             ...chatroom,
-            messages: chatroom.messages.concat([action.message]),
+            messages: Array.of(action.message, ...chatroom.messages),
             lastMessageTime: Date.now()
           }
         }
