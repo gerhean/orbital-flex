@@ -1,14 +1,39 @@
 import React, { Component } from "react";
 import { View, StyleSheet, Text, FlatList, TextInput, Image } from 'react-native';
 import PropTypes from 'prop-types';
-import {InstantSearch, connectSearchBox, connectInfiniteHits } from 'react-instantsearch-native';
+import { InstantSearch, connectSearchBox, 
+  connectInfiniteHits, connectRefinementList } from 'react-instantsearch-native';
 import Constants from 'expo-constants'
 import layout from './layout';
+import Filters from './Filters';
 import { ALOGOLIA_API_KEY, ALOGOLIA_APP_ID } from '../../../env';
 import ScheduleList from '../Home/ScheduleList';
 
-export default class UsersList extends Component {
+//  allow you to pre-refine any widget without rendering anything
+const VirtualRefinementList = connectRefinementList(() => null);
+
+// export default class UsersList extends Component
+export default class SearchSchedules extends Component {
+  
+  state = {
+    isModalOpen: false,
+    searchState: {},
+  };
+
+  toggleModal = () =>
+    this.setState(({ isModalOpen }) => ({
+      isModalOpen: !isModalOpen,
+    }));
+
+  onSearchStateChange = searchState =>
+    this.setState(() => ({
+      searchState,
+    }));
+
   render() {
+
+    const { isModalOpen, searchState } = this.state;
+
     return (
       <View style={styles.mainContainer}>
         <InstantSearch
@@ -16,18 +41,31 @@ export default class UsersList extends Component {
           apiKey={ALOGOLIA_API_KEY}
           indexName="trainer_schedules"
         >
-        <View style={styles.searchContainer}>
-        <Image
-          source={require('../../../assets/algolia.png')}
-          style={styles.logo}
-          resizeMode="contain"
+        <VirtualRefinementList attribute="location" />
+        <Filters
+              isModalOpen={isModalOpen}
+              searchClient={searchClient} // !
+              toggleModal={this.toggleModal}
+              searchState={searchState}
+              onSearchStateChange={this.onSearchStateChange}
         />
-        <ConnectedSearchBar />
+        <View style={styles.searchContainer}>
+          <ConnectedSearchBar />
+          <Image
+            source={require('../../../assets/algolia.png')}
+            style={styles.logo}
+            resizeMode="contain"
+          />
         </View>
+        <Button
+              title="Filters"
+              color="#252b33"
+              onPress={this.toggleModal}
+            />
         <ConnectedHits />
         </InstantSearch>
       </View>
-    )
+    ) 
   }
 }
 
@@ -89,7 +127,8 @@ const styles = StyleSheet.create({
   },
   logo: {
     height: 20,
-    width: 20
+    width: 20,
+    padding : 5
   },
   textInput: {
     height: 30,
