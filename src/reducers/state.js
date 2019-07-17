@@ -21,6 +21,7 @@ export default initialState = () => ({
 });
 
 const mockUser = {
+  timeFetched: 100000,
   username: "test",
   contact: "",
   about: "I'm just a random person",
@@ -28,6 +29,11 @@ const mockUser = {
   gender: 0,
   bookedSchedules: {},
   postedSchedules: {},
+  avgRating: 0,
+  numRatings: 0,
+  reviews: [],
+  ownReview: false,
+  timeFetchedReview: 100000,
 };
 
 const scheduleExample = {
