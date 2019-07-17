@@ -134,10 +134,10 @@ function* userSaga() {
 						}
 					}
 				}
-				yield put({ type: FETCH_USER_REVIEWS_SUCCESS, reviews, ownReview })
+				yield put({ type: FETCH_USER_REVIEWS_SUCCESS, uid, reviews, ownReview })
 			}
 		} catch (error) {
-			displayErrorMessage(error, FETCH_MESSAGES);
+			displayErrorMessage(error, FETCH_USER_REVIEWS);
 		}
 	})
 
