@@ -37,7 +37,7 @@ class ChatRoom extends Component {
     this.props.handleChangeScreen(screen);
   };
   
-  sendMessage(messages = []) {
+  sendMessage = (messages = []) => {
     for (const message of messages) {
       console.log(message);
       this.props.handleSendMessage({
