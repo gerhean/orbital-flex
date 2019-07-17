@@ -19,6 +19,7 @@ import ChatRoom from "../Chat/ChatRoom";
 import ChatRoomNew from "../Chat/ChatRoomNew";
 
 const mapStateToProps = state => ({
+  uid: state.user.uid,
   screen: state.screen,
 });
 
@@ -71,10 +72,14 @@ export class AppNav extends Component {
         return <EditUserInfoForm />;
 
       case "UserProfile":
-        return <React.Fragment>
-          <DefaultHeader title='User Profile'/>
-          <UserProfile uid={screen[1]}/>
-        </React.Fragment>
+        if (this.props.uid = screen[1]) {
+          return <Home />;
+        } else {
+          return <React.Fragment>
+            <DefaultHeader title='User Profile'/>
+            <UserProfile uid={screen[1]}/>
+          </React.Fragment>
+        }
 
       case "ViewOffers":
         return <React.Fragment>
