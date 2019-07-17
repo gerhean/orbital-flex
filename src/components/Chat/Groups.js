@@ -37,12 +37,12 @@ class Groups extends Component {
     this.props.handleChangeScreen(screen);
   };
 
-  renderRow(item) {
+  renderRow = (roomId) => {
     return (
       <TouchableHighlight style={styles.roomLi}
       underlayColor="#fff"
-      onPress={this.navigate("Chatroom/" + item)}>
-      <Text style={styles.roomLiText}>{item}</Text>
+      onPress={this.navigate("Chatroom/" + roomId)}>
+      <Text style={styles.roomLiText}>{roomId}</Text>
       </TouchableHighlight>
     )
   }
