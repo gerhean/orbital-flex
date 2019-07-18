@@ -4,7 +4,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import firebase from 'firebase';
 import { View, Card, Body, Text, Right, Left, Thumbnail, SwipeRow, Icon, List, ListItem, Button,
-Grid, Row, Col, H2, Form, Item, Label, Input} from 'native-base';
+Grid, Row, Col, H2, Form, Item, Label, Input, FooterTab} from 'native-base';
 
 import profilePictureDisplay from '../profilePictureDisplay';
 import { changeScreen, fetchSchedule, startChat } from "../../actions";
@@ -158,21 +158,23 @@ class ScheduleCard extends Component {
               </Row>
             </Col>
           </Row>
-          {button3Text ? 
-            <Button block rounded bordered onPress={onButton3Press}>
-              <Text>{button3Text}</Text>
+           <View style={{flexDirection: "row"}}>
+            {button3Text ? 
+              <Button rounded bordered onPress={onButton3Press}>
+                <Text>{button3Text}</Text>
+              </Button>
+              : null
+            }
+            {button2Text ? 
+              <Button rounded bordered onPress={onButton2Press}>
+                <Text>{button2Text}</Text>
+              </Button>
+              : null
+            }
+            <Button rounded bordered onPress={onButtonPress}>
+              <Text>{buttonText}</Text>
             </Button>
-            : null
-          }
-          {button2Text ? 
-            <Button block rounded bordered onPress={onButton2Press}>
-              <Text>{button2Text}</Text>
-            </Button>
-            : null
-          }
-          <Button block rounded bordered onPress={onButtonPress}>
-            <Text>{buttonText}</Text>
-          </Button>
+          </View>
         </Grid>
       </ListItem>
     )
