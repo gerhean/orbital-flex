@@ -45,7 +45,9 @@ const initialSchedule = {
   day: 1,
   timeStart: 0,
   timeEnd: 0,
+  district: "",
   location: "",
+  category: "",
   services: "",
   price: 0,
   remarks: "",
@@ -76,7 +78,8 @@ class ScheduleForm extends Component {
   };
 
   submitForm = () => {
-    const { name, day, timeStart, timeEnd, location, services, remarks} = this.state;
+    const { name, day, timeStart, timeEnd, district, 
+      location, category, services, remarks} = this.state;
     let { price, image } = this.state;
     if (!name || !location) {
       Toast.show({ text: "Missing fields" })
@@ -96,7 +99,9 @@ class ScheduleForm extends Component {
       day,
       timeStart,
       timeEnd,
+      district,
       location,
+      category,
       services,
       price,
       remarks
@@ -205,6 +210,27 @@ class ScheduleForm extends Component {
               />
             </Item>
 
+            <Item picker fixedLabel>
+              <Label>District</Label>
+              <Picker
+                mode="dropdown"
+                iosIcon={<Icon name="arrow-down" />}
+                style={{ width: undefined }}
+                placeholder="General location"
+                placeholderStyle={{ color: "#bfc6ea" }}
+                placeholderIconColor="#007aff"
+                selectedValue={this.state.district}
+                onValueChange={this.setValue("district")}
+              >
+                <Picker.Item label="City" value={1} />
+                <Picker.Item label="Central" value={2} />
+                <Picker.Item label="North" value={3} />
+                <Picker.Item label="South" value={4} />
+                <Picker.Item label="East" value={5} />
+                <Picker.Item label="West" value={6} />
+              </Picker>
+            </Item>
+
             <Item stackedLabel>
               <Label>Location*</Label>
               <Input
@@ -213,8 +239,35 @@ class ScheduleForm extends Component {
               />
             </Item>
 
+            <Item picker fixedLabel>
+              <Label>category of workout</Label>
+              <Picker
+                mode="dropdown"
+                iosIcon={<Icon name="arrow-down" />}
+                style={{ width: undefined }}
+                placeholder="Day of the week"
+                placeholderStyle={{ color: "#bfc6ea" }}
+                placeholderIconColor="#007aff"
+                selectedValue={this.state.category}
+                onValueChange={this.setValue("category")}
+              >
+                <Picker.Item label="Aerobics" value={1} />
+                <Picker.Item label="Circuit training" value={2} />
+                <Picker.Item label="Cycling" value={3} />
+                <Picker.Item label="Hiking" value={4} />
+                <Picker.Item label="Swimming" value={5} />
+                <Picker.Item label="Weight training" value={6} />
+                <Picker.Item label="Strength training" value={7} />
+                <Picker.Item label="Calisthenics" value={8} />
+                <Picker.Item label="Stretching" value={9} />
+                <Picker.Item label="Pilates" value={10} />
+                <Picker.Item label="Yoga" value={11} />
+                <Picker.Item label="Others" value={12} />
+              </Picker>
+            </Item>
+
             <Item stackedLabel>
-              <Label>Type</Label>
+              <Label>Type of service</Label>
               <Input
                 value={this.state.services}
                 onChangeText={this.setValue("services")}

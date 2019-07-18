@@ -108,6 +108,13 @@ class ScheduleCard extends Component {
             </Col>
 
             <Col>
+            <Row>
+                <Text note>District:</Text>
+              </Row>
+              <Row>
+                <Text>{schedule.district}</Text>
+              </Row>
+              
               <Row>
                 <Text note>Location:</Text>
               </Row>
@@ -128,9 +135,16 @@ class ScheduleCard extends Component {
               <Row>
                 <Text>${schedule.price}</Text>
               </Row>
-      
+
               <Row>
-                <Text note>Type: </Text>
+                <Text note>Category of workout: </Text>
+              </Row>
+              <Row>
+                <Text>{schedule.category}</Text>
+              </Row>
+
+              <Row>
+                <Text note>Type of service: </Text>
               </Row>
               <Row>
                 <Text>{schedule.services}</Text>

@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 import { InstantSearch } from 'react-instantsearch-native';
 import algoliasearch from 'algoliasearch/reactnative';
 import RefinementList from './RefinementList';
+import ConnectedRangeSlider from './RangeSlider';
 import { ALOGOLIA_API_KEY, ALOGOLIA_APP_ID } from '../../../env';
 
 const searchClient = algoliasearch(ALOGOLIA_APP_ID, ALOGOLIA_API_KEY);
@@ -31,16 +32,16 @@ const Filters = ({
           searchState={searchState}
           onSearchStateChange={onSearchStateChange}
         >
-          <RefinementList attribute="location" title="location" />
-          <RefinementList attribute="services" title="services" />
-          
+          <RefinementList attribute="district" title="district" />
+          <RefinementList attribute="category" title="workout category" />
+
           <TouchableOpacity style={styles.closeButton} onPress={toggleModal}>
             <Text style={styles.closeButtonText}>Apply</Text>
           </TouchableOpacity>
         </InstantSearch>
       </SafeAreaView>
     </Modal>
-    // can have more refinementList / sliders
+    // <ConnectedRangeSlider attribute="price" />
   );
 
 Filters.propTypes = {

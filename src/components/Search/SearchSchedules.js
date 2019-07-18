@@ -11,8 +11,9 @@ import { ALOGOLIA_API_KEY, ALOGOLIA_APP_ID } from '../../../env';
 import ScheduleList from '../Home/ScheduleList';
 
 //  allow you to pre-refine any widget without rendering anything
-const VirtualRefinementList = connectRefinementList(() => null);
 const searchClient = algoliasearch(ALOGOLIA_APP_ID, ALOGOLIA_API_KEY);
+
+const VirtualRefinementList = connectRefinementList(() => null);
 
 // export default class UsersList extends Component
 export default class SearchSchedules extends Component {

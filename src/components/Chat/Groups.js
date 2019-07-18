@@ -8,7 +8,8 @@ import {
   StatusBar,
   ListView,
   FlatList,
-  View
+  View,
+  Image
   } from 'react-native';
 import styles from './styles.js';
 import { changeScreen } from "../../actions";
@@ -42,7 +43,7 @@ class Groups extends Component {
       <TouchableHighlight style={styles.roomLi}
       underlayColor="#fff"
       onPress={this.navigate("Chatroom/" + roomId)}>
-      <Text style={styles.roomLiText}>{roomId}</Text>
+      <Text style={styles.roomLiText}>{ roomId }</Text>
       </TouchableHighlight>
     )
   }
