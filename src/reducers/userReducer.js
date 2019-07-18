@@ -17,11 +17,51 @@ export default userReducer = {
 
   [actionTypes.FETCH_USER_INFO_SUCCESS]: (state, action) => {
     const now = Date.now();
+    const uid = action.uid;
     const users = objFilter(
       state.users, 
-      user => now - user.timeFetched < 2000000 
+      user => now - user.timeFetched < 432000000 
     )
-    users[action.uid] = action.user
+    if (users[uid]) {
+      users[uid] = {
+        ...users[uid],
+        ...action.user
+      };
+    } else {
+      users[uid] = action.user;
+    }
+    return {
+      ...state,
+      users
+    }
+  },
+
+  [actionTypes.ADD_USER_REVIEW_SUCCESS]: (state, action) => {
+    const uid = action.uid;
+    const users = {
+      ...state.users,
+      [uid]: {
+        ...state.users.uid,
+        ownReview: action.review,
+      }
+    }
+    return {
+      ...state,
+      users
+    }
+  },
+
+  [actionTypes.FETCH_USER_REVIEWS_SUCCESS]: (state, action) => {
+    const uid = action.uid;
+    const users = {
+      ...state.users,
+      [uid]: {
+        ...state.users.uid,
+        reviews: action.reviews,
+        ownReview: action.ownReview,
+        timeFetchedReview: Date.now()
+      }
+    }
     return {
       ...state,
       users

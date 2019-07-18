@@ -24,7 +24,7 @@ export const fetchUserReviews = (uid) => ({
   uid
 });
 
-export const addUserReviews = (uid, text, rating) => ({
+export const addUserReview = (uid, text, rating) => ({
   type: actionTypes.ADD_USER_REVIEW,
   uid, 
   text, 

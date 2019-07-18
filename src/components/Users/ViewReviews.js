@@ -3,21 +3,23 @@ import { PropTypes } from 'prop-types';
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import {
-  Accordion,
   Text,
   Container,
   Header,
   Body,
   Title,
   Button,
-  Card,
   Content,
   Right,
   Left,
-  CardItem,
   Thumbnail,
-  View
+  View,
+  List, 
+  ListItem
 } from "native-base";
+import { FlatList } from 'react-native';
+import StarRating from 'react-native-star-rating';
+
 import { changeScreen, fetchUserReviews } from "../../actions";
 import profilePictureDisplay from '../profilePictureDisplay';
 import ScheduleList from "../Home/ScheduleList";
@@ -52,41 +54,43 @@ class ViewReviews extends Component {
     this.props.handleChangeScreen(screen);
   };
 
+  reviewCard = review => (
+    <ListItem bordered>
+      <Left>
+        {profilePictureDisplay(user.profilePic, {large: true})}
+      </Left>
+      <Body>
+        <StarRating
+          maxStars={5}
+          rating={review.rating}
+        />
+        <Text>{user.username}</Text>
+        <Text>{review.text}</Text>
+      </Body>
+    </ListItem>
+  )
+
   render() {
     const reviews = this.props.user.reviews;
-    if (!reviews) {
-      return <Text>Loading</Text>
+    if (reviews === undefined) {
+      return (
+        <Container>
+          <Text>Loading</Text>
+        </Container>
+      );
     }
     const ownReview = this.props.user.ownReview;
-    const postedScheduleList = <ScheduleList 
-      scheduleArr={Object.keys(user.postedSchedules)}
-    />
-    const scheduleArray = [
-      { title: "Posted Schedules", content: postedScheduleList },
-    ]
 
     return (
       <Container>
-
         <Content>
-          <Card>
-            <CardItem>
-              <Left>
-                {profilePictureDisplay(user.profilePic)}
-              </Left>
-              <Body>
-                <Text>{user.username}</Text>
-              </Body>
-            </CardItem>
-            <CardItem>
-              <Body>
-                <Text>{user.about}</Text>
-              </Body>
-            </CardItem>
-          </Card>
-
-          <Accordion dataArray={scheduleArray} renderContent={item => <View>{item.content}</View>} />
-
+          <List> 
+            <FlatList 
+              data={reviews} 
+              renderItem={({ item }) => reviewCard(item) }
+              keyExtractor={item => item.poster}
+            />
+          </List> 
         </Content>
       </Container>
     );
