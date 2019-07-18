@@ -56,7 +56,7 @@ export default userReducer = {
     const users = {
       ...state.users,
       [uid]: {
-        ...state.users.uid,
+        ...state.users[uid],
         reviews: action.reviews,
         ownReview: action.ownReview,
         timeFetchedReview: Date.now()

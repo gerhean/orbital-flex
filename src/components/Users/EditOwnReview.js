@@ -13,7 +13,10 @@ import {
   Left,
   Item,
   View,
-  Input
+  Input,
+  Label,
+  Card,
+  CardItem
 } from "native-base";
 import { FlatList } from 'react-native';
 import StarRating from 'react-native-star-rating';
@@ -34,7 +37,7 @@ class EditOwnReview extends Component {
     const review = this.props.review || {};
     this.state = {
       text: review.text || '',
-      rating: review.rating || 0,
+      rating: review.rating || 3,
     };
   }
 
@@ -60,25 +63,35 @@ class EditOwnReview extends Component {
 
     return (
       <Container>
-        <Form>
-          <StarRating
-            disabled={false}
-            maxStars={5}
-            rating={this.state.rating}
-            selectedStar={this.onStarRatingPress}
-          />
-          <Item stackedLabel>
-            <Label>Review</Label>
-            <Input
-              value={this.state.text}
-              onChangeText={this.setValue("text")}
+        <Card>
+          <CardItem header>
+            <Text>{this.props.review ? "Edit" : "Submit"} Your Own Review</Text>
+          </CardItem>
+          <CardItem>
+            <StarRating
+              disabled={false}
+              maxStars={5}
+              rating={this.state.rating}
+              selectedStar={this.onStarRatingPress}
+              fullStarColor="yellow"
+              starSize={30}
             />
-          </Item>
-        </Form>
-
-        <Button rounded block bordered onPress={this.submitForm}>
-          <Text>Submit</Text>
-        </Button>
+          </CardItem>
+          <CardItem>
+            <Item regular>
+              <Input
+                value={this.state.text}
+                onChangeText={this.setValue("text")}
+                placeholder="Write Review Here..."
+              />
+            </Item>
+          </CardItem>
+          <CardItem>
+            <Button rounded block bordered onPress={this.submitForm}>
+              <Text>Submit</Text>
+            </Button>
+          </CardItem>
+        </Card>
       </Container>
     );
   }

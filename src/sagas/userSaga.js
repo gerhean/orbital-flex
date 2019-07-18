@@ -73,14 +73,14 @@ function* userSaga() {
     	const review = {
     		rating,
     		text,
-    		sentTime: serverTimestamp();
+    		sentTime: serverTimestamp()
     	};
 	    const userReviewRef = db.collection('users').doc(uid).collection('reviews').doc(ownUid);
 	    yield call([userReviewRef, userReviewRef.set], review);
 	    const localReview = {
     		...review,
     		poster: ownUid,
-    		sentTime: Date.now();
+    		sentTime: Date.now()
     	};
 	    yield put({ type: ADD_USER_REVIEW_SUCCESS, uid, review: localReview});
     } catch (error) {
@@ -109,14 +109,14 @@ function* userSaga() {
 						ownReview = {
 							rating: review.rating,
 							text: review.text,
-							createdAt: review.sentTime.toDate(),
+							createdAt: review.sentTime.toDate()
 						}
 					} else {
 						reviews.push({
 							rating: review.rating,
 							text: review.text,
 							createdAt: review.sentTime.toDate(),
-							poster: doc.id,
+							poster: doc.id
 						});
 					}
 				}); 
@@ -129,7 +129,7 @@ function* userSaga() {
 							ownReview = {
 								rating: review.rating,
 								text: review.text,
-								createdAt: review.sentTime.toDate(),
+								createdAt: review.sentTime.toDate()
 							}
 						}
 					}

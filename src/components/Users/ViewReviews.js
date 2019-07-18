@@ -88,7 +88,7 @@ class ViewReviews extends Component {
         <Content>
           <EditOwnReview 
             uid={this.props.uid}
-            review={ownReview}
+            review={ownReview || undefined}
             handleAddUserReview={this.props.handleAddUserReview}
           />
           <List> 

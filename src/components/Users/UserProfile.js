@@ -16,7 +16,8 @@ import {
   Left,
   CardItem,
   Thumbnail,
-  View
+  View,
+  H1
 } from "native-base";
 import { changeScreen, scheduleFetchHome, fetchUserInfo } from "../../actions";
 import profilePictureDisplay from '../profilePictureDisplay';
@@ -74,13 +75,18 @@ class UserProfile extends Component {
                 {profilePictureDisplay(user.profilePic)}
               </Left>
               <Body>
-                <Text>{user.username}</Text>
+                <H1>{user.username}</H1>
               </Body>
             </CardItem>
             <CardItem>
               <Body>
                 <Text>{user.about}</Text>
               </Body>
+            </CardItem>
+            <CardItem>
+                <Button block rounded bordered onPress={this.navigate("ViewReviews/" + this.props.uid)}>
+                  <Text>View Reviews</Text>
+                </Button>
             </CardItem>
           </Card>
 
