@@ -9,6 +9,7 @@ import Chat from "../Chat";
 import ScheduleForm from "../Home/ScheduleForm";
 import EditUserInfoForm from "../Home/EditUserInfo";
 import UserProfile from "../Users/UserProfile";
+import ViewReviews from "../Users/ViewReviews";
 import OffersList from '../Schedule/OffersList';
 import DefaultHeader from './DefaultHeader';
 
@@ -71,7 +72,7 @@ export class AppNav extends Component {
         return <EditUserInfoForm />;
 
       case "UserProfile":
-        if (this.props.uid = screen[1]) {
+        if (this.props.uid === screen[1]) {
           return <Home />;
         } else {
           return <React.Fragment>
@@ -79,6 +80,12 @@ export class AppNav extends Component {
             <UserProfile uid={screen[1]}/>
           </React.Fragment>
         }
+
+      case "ViewReviews":
+        return <React.Fragment>
+          <DefaultHeader title='View Reviews'/>
+          <ViewReviews uid={screen[1]}/>
+        </React.Fragment>
 
       case "ViewOffers":
         return <React.Fragment>
