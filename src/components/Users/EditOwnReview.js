@@ -24,6 +24,7 @@ import ScheduleList from "../Home/ScheduleList";
 
 class EditOwnReview extends Component {
   static propTypes = {
+    uid: PropTypes.string.isRequired,
     review: PropTypes.object,
     handleAddUserReview: PropTypes.func.isRequired
   };
@@ -47,9 +48,12 @@ class EditOwnReview extends Component {
     this.setState({
       rating
     });
-  }
+  };
 
-  submitForm = () => {};
+  submitForm = () => {
+    const {text, rating} = this.state;
+    this.props.handleAddUserReview(this.props.uid, text, rating)
+  };
 
   render() {
     const reviews = this.props.review;

@@ -17,7 +17,7 @@ export default scheduleReducer = {
     ...state,
     schedules: {
       ...state.schedules,
-      [action.id]: action.schedule
+      [action.scheduleId]: action.schedule
     },
     postedSchedules: state.postedSchedules.concat([action.scheduleId]),
     user: {

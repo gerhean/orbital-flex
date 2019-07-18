@@ -1,58 +1,57 @@
-import React, { Component } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import React, { Component } from 'react';
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 import {
-  Container,
-  Header,
-  Body,
-  Title,
-  Button,
-  Card,
-  Content,
-  Footer,
-  FooterTab,
-  Right
-} from "native-base";
-import Expo from "expo";
-import firebase from "firebase";
-import Groups from "./Groups";
+  Text,
+  TextInput,
+  TouchableHighlight,
+  StatusBar,
+  ListView,
+  FlatList,
+  View,
+  Image
+  } from 'react-native';
+import { Container, Header, Content, List } from 'native-base';
+import styles from './styles.js';
+import { changeScreen } from "../../actions";
+import ChatRow from "./ChatRow";
+
+const mapStateToProps = state => ({
+  chatroomArr: state.chat.chatroomArr,
+});
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+  {
+    handleChangeScreen: changeScreen,
+  },
+  dispatch
+  );
 
 class Chat extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  navigate = screen => () => {
+    this.props.handleChangeScreen(screen);
+  };
+
   render() {
-    return <Groups />;
-    /*
     return (
       <Container>
-        <Header>
-          <Body>
-            <Title>Chat</Title>
-          </Body>
-          <Right>
-            <Button onPress={() => firebase.auth().signOut()}>
-              <Text>Log out</Text>
-            </Button>
-          </Right>
-        </Header>
         <Content>
-            <Body style={styles.bodyStyle}>
-              <Text>Implementation in progress</Text>
-            </Body>
+          <List>
+            <FlatList
+            data={this.props.chatroomArr} // data is array
+            renderItem={({item}) => <ChatRow roomId={item}/>}
+            keyExtractor={item => item}
+            />
+          </List>
         </Content>
       </Container>
     );
-    */
   }
 }
 
-const styles = StyleSheet.create({
-  textStyle: {
-    color: '#696969',
-    fontSize: 25
-  },
-  bodyStyle: {
-    flex: 1,
-    justifyContent: 'center'
-  }
-});
-
-export default Chat;
-
+export default connect(mapStateToProps, mapDispatchToProps)(Chat);

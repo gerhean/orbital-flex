@@ -20,9 +20,10 @@ import {
 import { FlatList } from 'react-native';
 import StarRating from 'react-native-star-rating';
 
-import { changeScreen, fetchUserReviews } from "../../actions";
+import { changeScreen, fetchUserReviews, addUserReview } from "../../actions";
 import profilePictureDisplay from '../profilePictureDisplay';
 import ScheduleList from "../Home/ScheduleList";
+import EditOwnReview from "./EditOwnReview";
 
 const mapStateToProps = (state, ownProps) => ({
   user: state.users[ownProps.uid]
@@ -33,6 +34,7 @@ const mapDispatchToProps = dispatch =>
     {
       handleChangeScreen: changeScreen,
       handleFetchUserReviews: fetchUserReviews,
+      handleAddUserReview: addUserReview,
     },
     dispatch
   );
@@ -84,6 +86,11 @@ class ViewReviews extends Component {
     return (
       <Container>
         <Content>
+          <EditOwnReview 
+            uid={this.props.uid}
+            review={ownReview}
+            handleAddUserReview={this.props.handleAddUserReview}
+          />
           <List> 
             <FlatList 
               data={reviews} 

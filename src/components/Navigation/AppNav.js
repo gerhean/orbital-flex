@@ -14,7 +14,6 @@ import DefaultHeader from './DefaultHeader';
 
 
 import { Container, Button, Text, Icon, Footer, FooterTab } from "native-base";
-import Groups from "../Chat/Groups";
 import ChatRoom from "../Chat/ChatRoom";
 import ChatRoomNew from "../Chat/ChatRoomNew";
 
@@ -86,14 +85,22 @@ export class AppNav extends Component {
           <DefaultHeader title='View Offers'/>
           <OffersList scheduleId={screen[1]}/>
         </React.Fragment>
+      
       case "Search":
         return <Search />;
+      
+      case "Chat":
+        return <React.Fragment>
+          <DefaultHeader title='Chat'/>
+          <Chat />
+        </React.Fragment>
+      
       case "Chatroom":
         return <ChatRoom roomId={screen[1]}/>
+      
       case "ChatroomNew":
         return <ChatRoomNew otherUid={screen[1]}/>
-      case "Chat":
-        return <Chat />
+      
       default:
         return <Home />;
     }
