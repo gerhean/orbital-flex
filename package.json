@@ -14,10 +14,6 @@
   "dependencies": {
     "@expo/samples": "~3.0.0",
     "@expo/vector-icons": "^10.0.2",
-    "@ptomasroos/react-native-multi-slider": "^1.0.0",
-    "@pusher/chatkit-client": "^1.9.1",
-    "@pusher/chatkit-server": "^2.0.1",
-    "@react-native-community/slider": "^2.0.0-rc.1",
     "algoliasearch": "^3.33.0",
     "expo": "^33.0.0",
     "expo-asset": "^5.0.0",
@@ -25,7 +21,6 @@
     "expo-font": "^5.0.1",
     "expo-web-browser": "^5.0.0",
     "firebase": "^6.0.4",
-    "getstream": "^4.2.4",
     "jsonwebtoken": "^8.5.1",
     "native-base": "^2.12.1",
     "prop-types": "^15.7.2",
@@ -47,11 +42,7 @@
     "redux": "^4.0.1",
     "redux-persist": "^5.10.0",
     "redux-saga": "^1.0.3",
-    "rheostat": "^3.0.2",
-    "rn-range-slider": "^1.2.5",
-    "stream-chat": "^0.13.6",
-    "stream-chat-expo": "^0.1.13",
-    "stream-chat-react-native": "^0.1.13"
+    "rn-range-slider": "^1.2.5"
   },
   "devDependencies": {
     "babel-preset-expo": "^5.1.0",
