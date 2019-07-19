@@ -72,9 +72,7 @@ export default scheduleReducer = {
     const {[action.scheduleId]: value2, ...schedules} = state.schedules;
     return {
       ...state,
-      schedules: {
-        schedules
-      },
+      schedules,
       user: {
         ...state.user,
         // bookedSchedules,
