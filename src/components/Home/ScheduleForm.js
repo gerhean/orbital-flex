@@ -75,7 +75,7 @@ class ScheduleForm extends Component {
       price: schedule.price.toString(),
       timePickerVisible: ""
     };
-  };
+  }
 
   submitForm = () => {
     const { name, day, timeStart, timeEnd, district, 
@@ -86,7 +86,7 @@ class ScheduleForm extends Component {
       return;
     }
     price = parseFloat(price);
-    if (price === NaN) {
+    if (isNaN(price)) {
       Toast.show({ text: "Price is not a number" })
       return;
     }

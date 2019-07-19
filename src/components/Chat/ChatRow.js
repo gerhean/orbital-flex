@@ -11,7 +11,7 @@ import { changeScreen, fetchUserInfo } from "../../actions";
 const mapStateToProps = (state, ownProps) => {
   const uid = state.chat.chatrooms[ownProps.roomId].otherUid;
   return {
-    uid,
+    uid: uid,
     user: state.users[uid],
     room: state.chat.chatrooms[ownProps.roomId],
   }

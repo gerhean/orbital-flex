@@ -9,7 +9,6 @@ import {
 import { Container, Header, Content, Left, Body, Right, Text, Title, Button } from 'native-base';
 import { GiftedChat } from 'react-native-gifted-chat';
 
-import styles from './styles.js';
 import profilePictureDisplay from '../profilePictureDisplay';
 import { sendMessage, changeScreen, changePreviousScreen } from "../../actions";
 

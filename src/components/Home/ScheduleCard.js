@@ -35,8 +35,7 @@ class ScheduleCard extends Component {
 
   constructor(props) {
     super(props);
-    const scheduleId = this.props.scheduleId;
-  };
+  }
 
   componentDidMount() {
     this.props.handleFetchSchedule(this.props.scheduleId);
@@ -53,35 +52,33 @@ class ScheduleCard extends Component {
     if (!schedule) return null;
     const scheduleId = this.props.scheduleId;
 
-    let buttonText;
+    let buttonText = "";
     let onButtonPress;
     let button2Text = "";
+    let onButton2Press;
     let button3Text = "";
-    let onButton2Press = () => {};
     let onButton3Press;
-    let delButtonText = "";
-    let onButtonDelPress;
 
     if (schedule.isBooked === -1) {
-      buttonText = "Edit Schedule";
-      onButtonPress = this.navigate("EditSchedule/" + scheduleId);
-      button2Text = "View Offers";
-      onButton2Press = this.navigate("ViewOffers/" + scheduleId)
-      delButtonText = "Delete Schedule";
-      onButtonDelPress = this.props.handleDelete(scheduleId);
+      buttonText = "View Offers";
+      onButtonPress = this.navigate("ViewOffers/" + scheduleId);
+      button2Text = "Edit Schedule";
+      onButton2Press = this.navigate("EditSchedule/" + scheduleId);
+      button3Text = "Delete Schedule";
+      onButton3Press = () => this.props.handleDelete(scheduleId);
 
     } else if (schedule.isBooked === 0) {
-      buttonText = "Book";
-      onButtonPress = () => this.props.onPressBook(scheduleId);
+      button2Text = "Book";
+      onButton2Press = () => this.props.onPressBook(scheduleId);
       button3Text = "Message";
       onButton3Press = () => this.props.handleChat(schedule);
 
     } else if (schedule.isBooked === 1) {
       const uid = firebase.auth().currentUser.uid;
-      buttonText = "Unbook";
-      onButtonPress = () => this.props.onPressUnbook(scheduleId);
-      button2Text = "Edit Offer";
-      onButton2Press = () => this.props.onPressBook(scheduleId, schedule.bookers[uid]);
+      buttonText = "Edit Offer";
+      onButtonPress = () => this.props.onPressBook(scheduleId, schedule.bookers[uid]);
+      button2Text = "Unbook";
+      onButton2Press = () => this.props.onPressUnbook(scheduleId);
       button3Text = "Message";
       onButton3Press = () => this.props.handleChat(schedule.poster);
     } else {
@@ -132,65 +129,48 @@ class ScheduleCard extends Component {
             </Col>
 
             <Col>
-              <Row>
+              <View style={{flexDirection: "column"}}>
                 <Text note>Location:</Text>
-              </Row>
-              <Row>
                 <Text>{schedule.location}</Text>
-              </Row>
 
-              <Row>
                 <Text note>Time:</Text>
-              </Row>
-              <Row>
                 <Text>{timeToString(schedule.timeStart)} - {timeToString(schedule.timeEnd)}</Text>
-              </Row>
         
-              <Row>
                 <Text note>Price: </Text>
-              </Row>
-              <Row>
                 <Text>${schedule.price}</Text>
-              </Row>
 
-              <Row>
                 <Text note>Type of service: </Text>
-              </Row>
-              <Row>
                 <Text>{schedule.services}</Text>
-              </Row>
       
-              <Row>
                 <Text note>Remarks: </Text>
-              </Row>
-              <Row>
                 <Text>{schedule.remarks}</Text>
-              </Row>
+              </View>
             </Col>
           </Row>
-          <View style={{flexDirection: "row"}}>
-            {button3Text ? 
-              <Button rounded bordered onPress={onButton3Press}>
-                <Text>{button3Text}</Text>
-              </Button>
-              : null
-            }
-            {button2Text ? 
-              <Button rounded bordered onPress={onButton2Press}>
-                <Text>{button2Text}</Text>
-              </Button>
-              : null
-            }
-            <Button rounded bordered onPress={onButtonPress}>
+          {buttonText ? 
+            <Button block rounded bordered onPress={onButtonPress}>
               <Text>{buttonText}</Text>
             </Button>
-            {delButtonText ? 
-              <Button block rounded bordered onPress={onButtonDelPress}>
-                <Text>{delButtonText}</Text>
-              </Button>
-              : null
-            }
-          </View>
+            : null
+          }
+          <Row>
+            <Col>
+              {button2Text ? 
+                <Button rounded bordered onPress={onButton2Press}>
+                  <Text>{button2Text}</Text>
+                </Button>
+                : null
+              }
+            </Col>
+            <Col>
+              {button3Text ? 
+                <Button rounded bordered onPress={onButton3Press}>
+                  <Text>{button3Text}</Text>
+                </Button>
+                : null
+              }
+            </Col>
+          </Row>
         </Grid>
       </ListItem>
     )
