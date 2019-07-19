@@ -32,13 +32,16 @@ function* chatSaga() {
       const userChatrooms = yield userChatroomsData.data();
       yield put({ type: UPDATE_CHATROOMS, userChatrooms })
 
-      userChatroomsRef.onSnapshot(doc => {
-        console.log("Updated data: ", doc.data());
-        if (!doc.metadata.hasPendingWrites) {
-          const userChatrooms = doc.data();
-          put({ type: UPDATE_CHATROOMS, userChatrooms })
-        }
-      });
+      userChatroomsRef
+        .onSnapshot(doc => {
+          console.log("Updated data: ", doc.data());
+          if (!doc.metadata.hasPendingWrites) {
+            const userChatrooms = doc.data();
+            put({ type: UPDATE_CHATROOMS, userChatrooms })
+          }
+        }, error => {
+          console.log("Chatroom listener unsubscribed: " + error);
+        });
 
       yield put({ type: FETCH_CHATROOMS_SUCCESS })
     } catch (error) {

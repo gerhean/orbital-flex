@@ -22,7 +22,10 @@ export default scheduleReducer = {
     postedSchedules: state.postedSchedules.concat([action.scheduleId]),
     user: {
       ...state.user,
-      postedScheduleIds: state.user.postedSchedules[action.scheduleId] = true,
+      postedScheduleIds: {
+        ...state.user.postedSchedules,
+        [action.scheduleId]: true
+      },
     },
     screen: "Home"
   }),
