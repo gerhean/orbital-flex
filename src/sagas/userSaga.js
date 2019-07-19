@@ -73,14 +73,14 @@ function* userSaga() {
     	const review = {
     		rating,
     		text,
-    		sentTime: serverTimestamp();
+    		sentTime: serverTimestamp()
     	};
 	    const userReviewRef = db.collection('users').doc(uid).collection('reviews').doc(ownUid);
 	    yield call([userReviewRef, userReviewRef.set], review);
 	    const localReview = {
     		...review,
     		poster: ownUid,
-    		sentTime: Date.now();
+    		sentTime: Date.now()
     	};
 	    yield put({ type: ADD_USER_REVIEW_SUCCESS, uid, review: localReview});
     } catch (error) {
@@ -90,9 +90,15 @@ function* userSaga() {
 
   yield takeEvery(FETCH_USER_REVIEWS, function*(action) {
 		try {
+			const ownUid = firebase.auth().currentUser.uid;
 			const uid = action.uid;
 			const forceFetch = action.forceFetch;
-			const lastFetched = yield select(state => state.users[uid].timeFetchedReview);
+			let lastFetched 
+			if (ownUid === uid) {
+				lastFetched = yield select(state => state.user.timeFetchedReview);
+			} else {
+				lastFetched = yield select(state => state.users[uid].timeFetchedReview);
+			}
 			
 			if (forceFetch || !lastFetched || Date.now() - lastFetched > 3000000) {
 				const ownUid = firebase.auth().currentUser.uid;
@@ -109,14 +115,14 @@ function* userSaga() {
 						ownReview = {
 							rating: review.rating,
 							text: review.text,
-							createdAt: review.sentTime.toDate(),
+							createdAt: review.sentTime.toDate()
 						}
 					} else {
 						reviews.push({
 							rating: review.rating,
 							text: review.text,
 							createdAt: review.sentTime.toDate(),
-							poster: doc.id,
+							poster: doc.id
 						});
 					}
 				}); 
@@ -129,7 +135,7 @@ function* userSaga() {
 							ownReview = {
 								rating: review.rating,
 								text: review.text,
-								createdAt: review.sentTime.toDate(),
+								createdAt: review.sentTime.toDate()
 							}
 						}
 					}

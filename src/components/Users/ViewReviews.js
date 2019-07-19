@@ -20,25 +20,36 @@ import {
 import { FlatList } from 'react-native';
 import StarRating from 'react-native-star-rating';
 
-import { changeScreen, fetchUserReviews } from "../../actions";
+import { changeScreen, fetchUserReviews, addUserReview } from "../../actions";
 import profilePictureDisplay from '../profilePictureDisplay';
 import ScheduleList from "../Home/ScheduleList";
+import EditOwnReview from "./EditOwnReview";
 
-const mapStateToProps = (state, ownProps) => ({
-  user: state.users[ownProps.uid]
-});
+const mapStateToProps = (state, ownProps) => {
+  if (ownProps.isOwnReviews) {
+    return {
+      user: state.user
+    }
+  } else {
+    return {
+      user: state.users[ownProps.uid]
+    }
+  }
+};
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       handleChangeScreen: changeScreen,
       handleFetchUserReviews: fetchUserReviews,
+      handleAddUserReview: addUserReview,
     },
     dispatch
   );
 
 class ViewReviews extends Component {
   static propTypes = {
+    isOwnReviews: PropTypes.bool,
     uid: PropTypes.string.isRequired,
   };
 
@@ -78,12 +89,20 @@ class ViewReviews extends Component {
           <Text>Loading</Text>
         </Container>
       );
-    }
+    } 
     const ownReview = this.props.user.ownReview;
 
     return (
       <Container>
         <Content>
+          {this.props.isOwnReviews ? 
+            null :
+            <EditOwnReview 
+              uid={this.props.uid}
+              review={ownReview || undefined}
+              handleAddUserReview={this.props.handleAddUserReview}
+            />
+          }
           <List> 
             <FlatList 
               data={reviews} 

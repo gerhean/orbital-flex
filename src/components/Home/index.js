@@ -17,7 +17,8 @@ import {
   Left,
   CardItem,
   Thumbnail,
-  View
+  View,
+  H2
 } from "native-base";
 import { changeScreen, logout, setScheduleEditIndex } from "../../actions";
 import profilePictureDisplay from '../profilePictureDisplay';
@@ -89,6 +90,24 @@ class Home extends Component {
                 <Button onPress={this.navigate("EditUserInfoForm")}>
                   <Text>Edit Personal Info</Text>
                 </Button>
+              </Body>
+            </CardItem>
+
+            <CardItem>
+              <Body>
+                <H2>User Ratings</H2>
+                {!user.numRatings ? 
+                  <Text>Oops, you has no reviews yet</Text> :
+                  <React.Fragment>
+                    <StarRating
+                      maxStars={5}
+                      rating={user.avgRating}
+                    />
+                    <Button block rounded bordered onPress={this.navigate("ViewReviews/" + this.props.user.uid)}>
+                      <Text>View Reviews</Text>
+                    </Button>
+                  </React.Fragment>
+                }
               </Body>
             </CardItem>
           </Card>

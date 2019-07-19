@@ -16,8 +16,12 @@ import {
   Left,
   CardItem,
   Thumbnail,
-  View
+  View,
+  H1,
+  H2
 } from "native-base";
+import StarRating from 'react-native-star-rating';
+
 import { changeScreen, scheduleFetchHome, fetchUserInfo } from "../../actions";
 import profilePictureDisplay from '../profilePictureDisplay';
 import ScheduleList from "../Home/ScheduleList";
@@ -74,12 +78,27 @@ class UserProfile extends Component {
                 {profilePictureDisplay(user.profilePic)}
               </Left>
               <Body>
-                <Text>{user.username}</Text>
+                <H1>{user.username}</H1>
               </Body>
             </CardItem>
             <CardItem>
               <Body>
                 <Text>{user.about}</Text>
+              </Body>
+            </CardItem>
+            <CardItem>
+              <Body>
+                <H2>User Ratings</H2>
+                {!user.numRatings || user.numRatings <= 0 ? 
+                  <Text>Oops, this user has no reviews yet</Text> :
+                  <StarRating
+                    maxStars={5}
+                    rating={user.avgRating}
+                  />
+                }
+                <Button block rounded bordered onPress={this.navigate("ViewReviews/" + this.props.uid)}>
+                  <Text>View Reviews</Text>
+                </Button>
               </Body>
             </CardItem>
           </Card>

@@ -9,12 +9,12 @@ import Chat from "../Chat";
 import ScheduleForm from "../Home/ScheduleForm";
 import EditUserInfoForm from "../Home/EditUserInfo";
 import UserProfile from "../Users/UserProfile";
+import ViewReviews from "../Users/ViewReviews";
 import OffersList from '../Schedule/OffersList';
 import DefaultHeader from './DefaultHeader';
 
 
 import { Container, Button, Text, Icon, Footer, FooterTab } from "native-base";
-import Groups from "../Chat/Groups";
 import ChatRoom from "../Chat/ChatRoom";
 import ChatRoomNew from "../Chat/ChatRoomNew";
 
@@ -72,7 +72,7 @@ export class AppNav extends Component {
         return <EditUserInfoForm />;
 
       case "UserProfile":
-        if (this.props.uid = screen[1]) {
+        if (this.props.uid === screen[1]) {
           return <Home />;
         } else {
           return <React.Fragment>
@@ -81,19 +81,33 @@ export class AppNav extends Component {
           </React.Fragment>
         }
 
+      case "ViewReviews":
+        return <React.Fragment>
+          <DefaultHeader title='View Reviews'/>
+          <ViewReviews isOwnReviews={this.props.uid === screen[1]} uid={screen[1]}/>
+        </React.Fragment>
+
       case "ViewOffers":
         return <React.Fragment>
           <DefaultHeader title='View Offers'/>
           <OffersList scheduleId={screen[1]}/>
         </React.Fragment>
+      
       case "Search":
         return <Search />;
+      
+      case "Chat":
+        return <React.Fragment>
+          <DefaultHeader title='Chat'/>
+          <Chat />
+        </React.Fragment>
+      
       case "Chatroom":
         return <ChatRoom roomId={screen[1]}/>
+      
       case "ChatroomNew":
         return <ChatRoomNew otherUid={screen[1]}/>
-      case "Chat":
-        return <Chat />
+      
       default:
         return <Home />;
     }

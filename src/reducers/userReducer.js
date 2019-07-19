@@ -41,7 +41,7 @@ export default userReducer = {
     const users = {
       ...state.users,
       [uid]: {
-        ...state.users.uid,
+        ...state.users[uid],
         ownReview: action.review,
       }
     }
@@ -53,18 +53,28 @@ export default userReducer = {
 
   [actionTypes.FETCH_USER_REVIEWS_SUCCESS]: (state, action) => {
     const uid = action.uid;
-    const users = {
-      ...state.users,
-      [uid]: {
-        ...state.users.uid,
-        reviews: action.reviews,
-        ownReview: action.ownReview,
-        timeFetchedReview: Date.now()
+    if (uid === state.user.uid) {
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          reviews: action.reviews,
+          timeFetchedReview: Date.now()
+        }
+      }  
+    } else { 
+      return {
+        ...state,
+        users: {
+          ...state.users,
+          [uid]: {
+            ...state.users[uid],
+            reviews: action.reviews,
+            ownReview: action.ownReview,
+            timeFetchedReview: Date.now()
+          }
+        }
       }
-    }
-    return {
-      ...state,
-      users
     }
   },
 

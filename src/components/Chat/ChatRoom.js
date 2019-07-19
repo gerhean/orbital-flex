@@ -6,12 +6,16 @@ import {
     StatusBar,
     View
   } from 'react-native';
+import { Container, Header, Content, Left, Body, Right, Text, Title, Button } from 'native-base';
 import { GiftedChat } from 'react-native-gifted-chat';
+
 import styles from './styles.js';
-import { sendMessage, changeScreen } from "../../actions";
+import profilePictureDisplay from '../profilePictureDisplay';
+import { sendMessage, changeScreen, changePreviousScreen } from "../../actions";
 
 const mapStateToProps = (state, ownProps) => ({
     uid: state.user.uid,
+    users: state.users,
     room: state.chat.chatrooms[ownProps.roomId],
   });
 
@@ -20,6 +24,7 @@ bindActionCreators(
   {
     handleChangeScreen: changeScreen,
     handleSendMessage: sendMessage,
+    handlePreviousScreen: changePreviousScreen,
   },
   dispatch
 );
@@ -53,18 +58,34 @@ class ChatRoom extends Component {
 
   // missing back button
   render() {
-    console.log(this.props.room.messages)
+    const user = this.props.users[this.props.room.otherUid]
     return (
-      <View style={{flex: 1}}>
-        <StatusBar barStyle="light-content"/>
-        <GiftedChat
-          messages={this.props.room.messages}  // array of messages to display
-          onSend={this.sendMessage}
-          user={{
-            _id: this.props.uid,
-          }}
-        />
-      </View>
+      <Container>
+        <Header>
+          <Left>
+            {profilePictureDisplay(user.profilePic, {small:true})}
+          </Left>
+          <Body>
+            <Title>{user.username}</Title>
+          </Body>
+          <Right>
+            <Button onPress={this.props.handlePreviousScreen}>
+              <Text>Back</Text>
+            </Button>
+          </Right>
+        </Header>
+
+        <View style={{flex: 1}}>
+          <StatusBar barStyle="light-content"/>
+          <GiftedChat
+            messages={this.props.room.messages}  // array of messages to display
+            onSend={this.sendMessage}
+            user={{
+              _id: this.props.uid,
+            }}
+          />
+        </View>
+      </Container>
     );
   }
 }
