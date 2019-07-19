@@ -14,9 +14,9 @@ export const scheduleUpdate = schedule => {
 	}
 }
 
-export const removeSchedule = scheduleId => {
+export const cancelSchedule = scheduleId => {
   return {
-    type: actionTypes.REMOVE_SCHEDULE,
+    type: actionTypes.CANCEL_SCHEDULE,
     scheduleId
   }
 }

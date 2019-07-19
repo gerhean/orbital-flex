@@ -7,7 +7,7 @@ import { View, Card, Body, Text, Right, Left, Thumbnail, SwipeRow, Icon, List, L
 Grid, Row, Col, H2, Form, Item, Label, Input, FooterTab} from 'native-base';
 
 import profilePictureDisplay from '../profilePictureDisplay';
-import { changeScreen, fetchSchedule, startChat, removeSchedule } from "../../actions";
+import { changeScreen, fetchSchedule, startChat, cancelSchedule } from "../../actions";
 
 const mapStateToProps = (state, ownProps) => ({
   schedule: state.schedules[ownProps.scheduleId],
@@ -19,7 +19,7 @@ const mapDispatchToProps = dispatch =>
       handleFetchSchedule: fetchSchedule,
       handleChangeScreen: changeScreen,
       handleChat: startChat,
-      handleDelete: removeSchedule
+      handleDelete: cancelSchedule
     },
     dispatch
   );

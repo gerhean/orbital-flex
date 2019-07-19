@@ -123,7 +123,7 @@ function* scheduleSaga() {
 		   	const data = yield scheduleData.data();
 		   	if (!data) {
 		   		yield call(displayErrorMessage, {code: '', message:'Schedule data has been deleted'}, FETCH_SCHEDULE);
-		   		// yield put({ type: REMOVE_SCHEDULE, id, isBooked });
+		   		yield put({ type: REMOVE_SCHEDULE, id, isBooked });
 		   	} else {
 			   	const schedule = yield {
 			   		...data,
@@ -143,6 +143,28 @@ function* scheduleSaga() {
   yield takeEvery(REMOVE_SCHEDULE, function*(action){
     try {
     	const uid = firebase.auth().currentUser.uid;
+    	const scheduleId = action.id;
+	   	const userRef = db.collection('users').doc(uid) 
+    	if (action.isBooked == 1) {
+		    yield call([userRef, userRef.update], {[`bookedSchedules.${scheduleId}`]: deleteField()})
+    	} else if (action.isBooked == -1) {
+    		yield call([userRef, userRef.update], {[`postedSchedules.${scheduleId}`]: deleteField()})
+		}
+		// delete from Algolia
+		yield call([schedule_index, schedule_index.deleteObject], scheduleId)
+    } catch (error) {
+      yield call(displayErrorMessage, error, REMOVE_SCHEDULE);
+	}
+	/* if (action.isBooked == 1) {
+		yield call([userRef, userRef.update], {[`bookedSchedules.${scheduleId}`]: deleteField()})
+	} else if (action.isBooked == -1) {
+		yield call([userRef, userRef.update], {[`postedSchedules.${scheduleId}`]: deleteField()})
+	}*/
+  })
+
+  yield takeEvery(CANCEL_SCHEDULE, function*(action){
+    try {
+    	const uid = firebase.auth().currentUser.uid;
     	const scheduleId = action.scheduleId;
 		const userRef = db.collection('users').doc(uid);
 		const scheduleRef =  db.collection('trainer_schedules').doc(scheduleId);
@@ -158,15 +180,10 @@ function* scheduleSaga() {
 		// delete from Algolia
 		yield call([schedule_index, schedule_index.deleteObject], scheduleId)
 		// to update state.user.postedSchedules
-		yield put({ type: REMOVE_SCHEDULE_SUCCESS, scheduleId })
+		yield put({ type: CANCEL_SCHEDULE_SUCCESS, scheduleId })
     } catch (error) {
-      yield call(displayErrorMessage, error, REMOVE_SCHEDULE);
+      yield call(displayErrorMessage, error, CANCEL_SCHEDULE);
 	}
-	/* if (action.isBooked == 1) {
-		yield call([userRef, userRef.update], {[`bookedSchedules.${scheduleId}`]: deleteField()})
-	} else if (action.isBooked == -1) {
-		yield call([userRef, userRef.update], {[`postedSchedules.${scheduleId}`]: deleteField()})
-	}*/
   })
 
   yield takeLeading(BOOK_SCHEDULE, function*(action){
