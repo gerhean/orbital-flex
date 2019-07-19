@@ -132,8 +132,6 @@ class ScheduleCard extends Component {
             </Col>
 
             <Col>
-              //
-
               <Row>
                 <Text note>Location:</Text>
               </Row>
@@ -155,8 +153,6 @@ class ScheduleCard extends Component {
                 <Text>${schedule.price}</Text>
               </Row>
 
-              //
-
               <Row>
                 <Text note>Type of service: </Text>
               </Row>
@@ -172,7 +168,7 @@ class ScheduleCard extends Component {
               </Row>
             </Col>
           </Row>
-           <View style={{flexDirection: "row"}}>
+          <View style={{flexDirection: "row"}}>
             {button3Text ? 
               <Button rounded bordered onPress={onButton3Press}>
                 <Text>{button3Text}</Text>

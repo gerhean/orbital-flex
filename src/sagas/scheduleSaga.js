@@ -170,7 +170,7 @@ function* scheduleSaga() {
     	const scheduleId = action.scheduleId;
 		const userRef = db.collection('users').doc(uid);
 		const scheduleRef =  db.collection('trainer_schedules').doc(scheduleId);
-		for (const booker in scheduleRef.data().bookers) {
+		for (const booker in scheduleRef.bookers) {
 			// un book for bookers
 			const bookerRef = db.collection('users').doc(booker.uid);
 			yield call([bookerRef, bookerRef.update], {[`bookedSchedules.${scheduleId}`]: deleteField()})
