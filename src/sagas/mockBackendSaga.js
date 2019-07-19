@@ -18,12 +18,9 @@ import {
   SCHEDULE_UPDATE_SUCCESS,
   UPDATE_USER_INFO,
   UPDATE_USER_INFO_SUCCESS,
-  FETCH_USER_INFO,
-  FETCH_USER_INFO_SUCCESS,
   FETCH_SCHEDULE, 
   FETCH_SCHEDULE_SUCCESS
 } from '../actions/actionTypes';
-import * as actionTypes from "../actions/actionTypes";
 
 const mockUser = {
   username: "test",
@@ -35,12 +32,12 @@ const mockUser = {
   postedSchedules: {"B": true},
 };
 
-const publicUserInfo = {
-  uid: 'id',
-  name: 'somebody',
-  profilePic: '',
-  contact: '',
-}
+// const publicUserInfo = {
+//   uid: 'id',
+//   name: 'somebody',
+//   profilePic: '',
+//   contact: '',
+// }
 
 const mockSchedule = {
   id: "A", // id in firestore database

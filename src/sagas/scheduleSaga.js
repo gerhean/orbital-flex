@@ -1,7 +1,6 @@
 import firebase from 'firebase';
 import '@firebase/firestore'
-import { Toast } from 'native-base';
-import { takeLatest, takeEvery, takeLeading, put, call, select } from 'redux-saga/effects';
+import { takeEvery, takeLeading, put, call, select } from 'redux-saga/effects';
 
 import { 
   SCHEDULE_CREATE,
@@ -22,7 +21,6 @@ import {
 } from '../actions/actionTypes';
 
 import { 
-  client, 
   schedule_index, 
   serverTimestamp, 
   deleteField, 

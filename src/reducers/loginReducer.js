@@ -9,7 +9,7 @@ const initialAuth = () => ({
 
 export default loginReducer = {
   [actionTypes.LOGIN_SUCCESS]: (state, action) => ({
-  	...state,
+    ...state,
     auth: {
       error: "",
       loading: false,
@@ -20,12 +20,12 @@ export default loginReducer = {
   }),
 
   [actionTypes.LOGOUT_SUCCESS]: (state, action) => ({
-  	...initialState(),
+    ...initialState(),
     auth: initialAuth(),
   }),
 
   [actionTypes.SIGNUP_SUCCESS]: (state, action) => ({
-  	...state,
+    ...state,
     auth: {
       ...state.auth,
       isAuthenticated: true
@@ -35,7 +35,7 @@ export default loginReducer = {
   }),
 
   [actionTypes.SIGNUP_FAIL]: (state, action) => ({
-  	...state,
+    ...state,
     auth: {
       ...initialAuth(),
       error: action.error.message

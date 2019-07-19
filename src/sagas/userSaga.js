@@ -1,7 +1,6 @@
 import firebase from 'firebase';
-import '@firebase/firestore'
-import { Toast } from 'native-base';
-import { takeLatest, takeEvery, takeLeading, put, call, select } from 'redux-saga/effects';
+import '@firebase/firestore';
+import { takeEvery, takeLeading, put, call, select } from 'redux-saga/effects';
 
 import { 
   UPDATE_USER_INFO,
@@ -15,16 +14,11 @@ import {
 } from '../actions/actionTypes';
 
 import { 
-  client, 
-  schedule_index, 
   serverTimestamp, 
-  deleteField, 
   db, 
   displayErrorMessage, 
   displayMessage
 } from './backendConstants';
-
-const localTimestamp = firebase.firestore.Timestamp.now;
 
 function* userSaga() {
 
@@ -111,7 +105,7 @@ function* userSaga() {
         let ownReview = false;
         querySnapshot.forEach(doc => {
           const review = doc.data();
-          if (ownUid == doc.id) {
+          if (ownUid === doc.id) {
             ownReview = {
               rating: review.rating,
               text: review.text,

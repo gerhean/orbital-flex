@@ -1,7 +1,6 @@
 import firebase from 'firebase';
 import '@firebase/firestore'
-import { Toast } from 'native-base';
-import { takeLatest, takeEvery, takeLeading, put, call, select } from 'redux-saga/effects';
+import { takeEvery, takeLeading, put, call } from 'redux-saga/effects';
 
 import { 
   LOGIN_EMAIL,
@@ -62,7 +61,7 @@ function* authSaga() {
   yield takeLeading(LOGIN_EMAIL, function*(action){
     try {
       const auth = firebase.auth()
-      const result = yield call(
+      yield call(
         [auth, auth.signInWithEmailAndPassword],
         action.user.email,
         action.user.password

@@ -3,8 +3,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import firebase from 'firebase';
-import { View, Card, Body, Text, Right, Left, Thumbnail, SwipeRow, Icon, List, ListItem, Button,
-Grid, Row, Col, H2, Form, Item, Label, Input, FooterTab} from 'native-base';
+import { View, Text, ListItem, Button, Grid, Row, Col, H2} from 'native-base';
 
 import profilePictureDisplay from '../profilePictureDisplay';
 import { changeScreen, fetchSchedule, startChat, cancelSchedule } from "../../actions";
