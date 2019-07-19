@@ -16,7 +16,7 @@ const miscReducer = {
   [actionTypes.CHANGE_SCREEN]: (state, action) => {
     const screen = action.screen;
     let screenHistory;
-    if (screen == "Home" || screen == "Login") {
+    if (screen === "Home" || screen === "Login") {
       screenHistory = [screen];
     } else {
       screenHistory = state.screenHistory.concat([screen])

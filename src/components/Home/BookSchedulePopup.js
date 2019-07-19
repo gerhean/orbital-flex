@@ -28,7 +28,7 @@ class BookSchedulePopup extends Component {
     this.state = {
       ...initialState()
     };
-  };
+  }
 
   componentDidUpdate() {
     const bookingId = this.props.bookingId; 
