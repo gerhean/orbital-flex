@@ -8,13 +8,10 @@ import {
   Title,
   Button,
   Content,
-  Footer,
-  FooterTab,
   Right,
   Left,
   Form,
   Item,
-  Thumbnail,
   Label,
   Input,
   Picker,
@@ -59,6 +56,10 @@ class ScheduleForm extends Component {
     // Is schedule for editing vs for create?
     handleSubmitSchedule: PropTypes.func.isRequired,
     // Function to pass edited schedule into
+    handleChangeScreen: PropTypes.func.isRequired,
+    schedules: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
+    isEditForm: PropTypes.bool
   }
 
   constructor(props) {
