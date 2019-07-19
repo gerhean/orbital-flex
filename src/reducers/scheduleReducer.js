@@ -64,7 +64,24 @@ export default scheduleReducer = {
         postedSchedules
       }
     }
-  }
+  },
+
+  [actionTypes.CANCEL_SCHEDULE_SUCCESS]: (state, action) => {
+    // const {[action.scheduleId]: value, ...bookedSchedules} = state.user.bookedSchedules;
+    const {[action.scheduleId]: value, ...postedSchedules} = state.user.postedSchedules;
+    const {[action.scheduleId]: value2, ...schedules} = state.schedules;
+    return {
+      ...state,
+      schedules: {
+        schedules
+      },
+      user: {
+        ...state.user,
+        // bookedSchedules,
+        postedSchedules,
+      }
+    }
+  },
 
   [actionTypes.BOOK_SCHEDULE_SUCCESS]: (state, action) => {
     const uid = firebase.auth().currentUser.uid;
