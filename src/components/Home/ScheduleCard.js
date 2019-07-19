@@ -7,7 +7,7 @@ import { View, Card, Body, Text, Right, Left, Thumbnail, SwipeRow, Icon, List, L
 Grid, Row, Col, H2, Form, Item, Label, Input} from 'native-base';
 
 import profilePictureDisplay from '../profilePictureDisplay';
-import { changeScreen, fetchSchedule, startChat } from "../../actions";
+import { changeScreen, fetchSchedule, startChat, removeSchedule } from "../../actions";
 
 const mapStateToProps = (state, ownProps) => ({
   schedule: state.schedules[ownProps.scheduleId],
@@ -18,7 +18,8 @@ const mapDispatchToProps = dispatch =>
     {
       handleFetchSchedule: fetchSchedule,
       handleChangeScreen: changeScreen,
-      handleChat: startChat
+      handleChat: startChat,
+      handleDelete: removeSchedule
     },
     dispatch
   );
@@ -57,12 +58,17 @@ class ScheduleCard extends Component {
     let button2Text = "";
     let button3Text = "";
     let onButton2Press = () => {};
+    let onButton3Press;
+    let delButtonText = "";
+    let onButtonDelPress;
 
     if (schedule.isBooked === -1) {
       buttonText = "Edit Schedule";
       onButtonPress = this.navigate("EditSchedule/" + scheduleId);
       button2Text = "View Offers";
       onButton2Press = this.navigate("ViewOffers/" + scheduleId)
+      delButtonText = "Delete Schedule";
+      onButtonDelPress = this.props.handleDelete(scheduleId);
 
     } else if (schedule.isBooked === 0) {
       buttonText = "Book";
@@ -84,6 +90,24 @@ class ScheduleCard extends Component {
     }
 
     return (
+
+      /*
+            <Row>
+                <Text note>District:</Text>
+              </Row>
+              <Row>
+                <Text>{schedule.district}</Text>
+              </Row>
+
+              <Row>
+                <Text note>Workout category:</Text>
+              </Row>
+              <Row>
+                <Text>{schedule.category}</Text>
+              </Row>
+              
+      */
+
       <ListItem bordered>
         <Grid>
           <Row>
@@ -108,13 +132,8 @@ class ScheduleCard extends Component {
             </Col>
 
             <Col>
-            <Row>
-                <Text note>District:</Text>
-              </Row>
-              <Row>
-                <Text>{schedule.district}</Text>
-              </Row>
-              
+              //
+
               <Row>
                 <Text note>Location:</Text>
               </Row>
@@ -136,12 +155,7 @@ class ScheduleCard extends Component {
                 <Text>${schedule.price}</Text>
               </Row>
 
-              <Row>
-                <Text note>Category of workout: </Text>
-              </Row>
-              <Row>
-                <Text>{schedule.category}</Text>
-              </Row>
+              //
 
               <Row>
                 <Text note>Type of service: </Text>
@@ -173,6 +187,12 @@ class ScheduleCard extends Component {
           <Button block rounded bordered onPress={onButtonPress}>
             <Text>{buttonText}</Text>
           </Button>
+          {delButtonText ? 
+            <Button block rounded bordered onPress={onButtonDelPress}>
+              <Text>{delButtonText}</Text>
+            </Button>
+            : null
+          }
         </Grid>
       </ListItem>
     )

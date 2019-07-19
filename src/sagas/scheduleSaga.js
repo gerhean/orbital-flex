@@ -37,15 +37,13 @@ function* scheduleSaga() {
 			const posterName = yield select(state => state.user.username);
 			const schedule = { ...action.payload, poster: uid, bookers: {}, posterName, timeCreated: serverTimestamp() }
 			const collectionRef = db.collection("trainer_schedules")
-	    const ref = yield call([collectionRef, collectionRef.add], schedule);
- 
+	    	const ref = yield call([collectionRef, collectionRef.add], schedule); 
 			// index schedule to algolia https://www.algolia.com/doc/api-reference/api-methods/add-objects/
 			yield call([schedule_index, schedule_index.addObject], { ...schedule, objectID: ref.id })
-								
-	    const userRef = db.collection('users').doc(uid) 
-	    yield call([userRef, userRef.update], {[`postedSchedules.${ref.id}`]: true})
+			const userRef = db.collection('users').doc(uid) 
+	    	yield call([userRef, userRef.update], {[`postedSchedules.${ref.id}`]: true})
 			schedule["isBooked"] = -1;
-	    yield put({ type: SCHEDULE_CREATE_SUCCESS, schedule, scheduleId: ref.id }) // need to navigate back to home page/search page
+	    	yield put({ type: SCHEDULE_CREATE_SUCCESS, schedule, scheduleId: ref.id }) // need to navigate back to home page/search page
 	} catch (error) {
 	    // const error_message = { code: error.code, message: error.message };
 	    // yield put({ type: SCHEDULE_CREATE_FAIL, error: error_message });
@@ -125,7 +123,7 @@ function* scheduleSaga() {
 		   	const data = yield scheduleData.data();
 		   	if (!data) {
 		   		yield call(displayErrorMessage, {code: '', message:'Schedule data has been deleted'}, FETCH_SCHEDULE);
-		   		yield put({ type: REMOVE_SCHEDULE, id, isBooked });
+		   		// yield put({ type: REMOVE_SCHEDULE, id, isBooked });
 		   	} else {
 			   	const schedule = yield {
 			   		...data,
@@ -145,25 +143,38 @@ function* scheduleSaga() {
   yield takeEvery(REMOVE_SCHEDULE, function*(action){
     try {
     	const uid = firebase.auth().currentUser.uid;
-    	const scheduleId = action.id;
-	   	const userRef = db.collection('users').doc(uid) 
-    	if (action.isBooked == 1) {
-		    yield call([userRef, userRef.update], {[`bookedSchedules.${scheduleId}`]: deleteField()})
-    	} else if (action.isBooked == -1) {
-    		yield call([userRef, userRef.update], {[`postedSchedules.${scheduleId}`]: deleteField()})
-		}
+    	const scheduleId = action.scheduleId;
+		const userRef = db.collection('users').doc(uid);
+		const scheduleRef =  db.collection('trainer_schedules').doc(scheduleId);
+		for (const booker in scheduleRef.data().bookers) {
+			// un book for bookers
+			const bookerRef = db.collection('users').doc(booker.uid);
+			yield call([bookerRef, bookerRef.update], {[`bookedSchedules.${scheduleId}`]: deleteField()})
+		};
+		// un post schedule
+		yield call([userRef, userRef.update], {[`postedSchedules.${scheduleId}`]: deleteField()})
+		// delete document
+		yield call([scheduleRef, scheduleRef.delete]);
+		// delete from Algolia
 		yield call([schedule_index, schedule_index.deleteObject], scheduleId)
+		// to update state.user.postedSchedules
+		yield put({ type: REMOVE_SCHEDULE_SUCCESS, scheduleId })
     } catch (error) {
       yield call(displayErrorMessage, error, REMOVE_SCHEDULE);
-    }
+	}
+	/* if (action.isBooked == 1) {
+		yield call([userRef, userRef.update], {[`bookedSchedules.${scheduleId}`]: deleteField()})
+	} else if (action.isBooked == -1) {
+		yield call([userRef, userRef.update], {[`postedSchedules.${scheduleId}`]: deleteField()})
+	}*/
   })
 
   yield takeLeading(BOOK_SCHEDULE, function*(action){
     try {
     	const scheduleId = action.scheduleId;
-    	const offer = action.offer;
-    	const uid = firebase.auth().currentUser.uid;
-		  const bookersRef = db.collection('trainer_schedules').doc(scheduleId);
+		const uid = firebase.auth().currentUser.uid;
+		const offer = { ...action.offer, uid };
+		const bookersRef = db.collection('trainer_schedules').doc(scheduleId);
     	yield call([bookersRef, bookersRef.update], {[`bookers.${uid}`]: offer});
 
     	const userRef = db.collection('users').doc(uid) 
@@ -181,7 +192,7 @@ function* scheduleSaga() {
     	const scheduleId = action.scheduleId;
     	const offer = action.offer;
     	const uid = firebase.auth().currentUser.uid;
-		  const bookersRef = db.collection('trainer_schedules').doc(scheduleId);
+		const bookersRef = db.collection('trainer_schedules').doc(scheduleId);
     	yield call([bookersRef, bookersRef.update], {[`bookers.${uid}`]: deleteField()});
 
     	const userRef = db.collection('users').doc(uid) 

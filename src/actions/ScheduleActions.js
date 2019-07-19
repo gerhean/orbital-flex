@@ -14,6 +14,13 @@ export const scheduleUpdate = schedule => {
 	}
 }
 
+export const removeSchedule = scheduleId => {
+  return {
+    type: actionTypes.REMOVE_SCHEDULE,
+    scheduleId
+  }
+}
+
 export const scheduleFetchHome = (user = undefined) => {
 	return {
 		type: actionTypes.SCHEDULE_FETCH_HOME,
