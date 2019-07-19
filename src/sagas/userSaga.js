@@ -90,9 +90,15 @@ function* userSaga() {
 
   yield takeEvery(FETCH_USER_REVIEWS, function*(action) {
 		try {
+			const ownUid = firebase.auth().currentUser.uid;
 			const uid = action.uid;
 			const forceFetch = action.forceFetch;
-			const lastFetched = yield select(state => state.users[uid].timeFetchedReview);
+			let lastFetched 
+			if (ownUid === uid) {
+				lastFetched = yield select(state => state.user.timeFetchedReview);
+			} else {
+				lastFetched = yield select(state => state.users[uid].timeFetchedReview);
+			}
 			
 			if (forceFetch || !lastFetched || Date.now() - lastFetched > 3000000) {
 				const ownUid = firebase.auth().currentUser.uid;

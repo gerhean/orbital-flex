@@ -84,7 +84,7 @@ export class AppNav extends Component {
       case "ViewReviews":
         return <React.Fragment>
           <DefaultHeader title='View Reviews'/>
-          <ViewReviews uid={screen[1]}/>
+          <ViewReviews isOwnReviews={this.props.uid === screen[1]} uid={screen[1]}/>
         </React.Fragment>
 
       case "ViewOffers":
