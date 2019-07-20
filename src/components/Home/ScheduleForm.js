@@ -22,6 +22,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import { changeScreen } from "../../actions";
+import LocationInput from './LocationInput';
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -138,6 +139,13 @@ class ScheduleForm extends Component {
     this.props.handleChangeScreen(screen);
   };
 
+  handler(arg) {
+    this.setState({
+      location: arg
+    });
+    return;
+  }
+
   render() {
     return (
       <Container>
@@ -235,9 +243,11 @@ class ScheduleForm extends Component {
             <Item stackedLabel>
               <Label>Location*</Label>
               <Input
+                placeholder="Enter a location here or search below"
                 value={this.state.location}
                 onChangeText={this.setValue("location")}
               />
+              <LocationInput handler={this.handler.bind(this)} />
             </Item>
 
             <Item picker fixedLabel>
