@@ -87,23 +87,6 @@ class ScheduleCard extends Component {
 
     return (
 
-      /*
-            <Row>
-                <Text note>District:</Text>
-              </Row>
-              <Row>
-                <Text>{schedule.district}</Text>
-              </Row>
-
-              <Row>
-                <Text note>Workout category:</Text>
-              </Row>
-              <Row>
-                <Text>{schedule.category}</Text>
-              </Row>
-              
-      */
-
       <ListItem bordered>
         <Grid>
           <Row>
@@ -129,6 +112,9 @@ class ScheduleCard extends Component {
 
             <Col>
               <View style={{flexDirection: "column"}}>
+                <Text note>District:</Text>
+                <Text>{schedule.district}</Text>
+
                 <Text note>Location:</Text>
                 <Text>{schedule.location}</Text>
 
@@ -138,6 +124,9 @@ class ScheduleCard extends Component {
                 <Text note>Price: </Text>
                 <Text>${schedule.price}</Text>
 
+                <Text note>Workout category:</Text>
+                <Text>{schedule.category}</Text>       
+                
                 <Text note>Type of service: </Text>
                 <Text>{schedule.services}</Text>
       

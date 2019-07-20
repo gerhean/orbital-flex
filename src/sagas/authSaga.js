@@ -20,7 +20,6 @@ import {
 } from './backendConstants';
 
 const initialUser = {
-  username: "Unnamed user",
   contact: "",
   about: "",
   profilePic: "",
@@ -42,7 +41,8 @@ function* authSaga() {
       )
       const uid = result.user.uid;
       let user = {
-        ...initialUser
+        ...initialUser,
+        username: action.username
       };
       const userDocRef = db.collection('users').doc(uid);
       yield call([userDocRef, userDocRef.set], user);
