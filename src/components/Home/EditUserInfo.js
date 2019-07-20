@@ -52,6 +52,7 @@ class UserInfoForm extends Component {
 
   submitForm = () => {
     const { username, contact, about, profilePic, gender } = this.state;
+    if (!username) return;
     this.props.handleUpdateInfo({
       username,
       contact, 
