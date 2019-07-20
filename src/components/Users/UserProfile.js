@@ -79,6 +79,8 @@ class UserProfile extends Component {
               </Left>
               <Body>
                 <H1>{user.username}</H1>
+                <Text>Identification number: </Text>
+                <Text>{user.uid}</Text>
               </Body>
             </CardItem>
             <CardItem>

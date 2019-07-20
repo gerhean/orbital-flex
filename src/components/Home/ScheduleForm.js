@@ -191,13 +191,13 @@ class ScheduleForm extends Component {
                 selectedValue={this.state.day}
                 onValueChange={this.setValue("day")}
               >
-                <Picker.Item label="Monday" value={1} />
-                <Picker.Item label="Tuesday" value={2} />
-                <Picker.Item label="Wednesday" value={3} />
-                <Picker.Item label="Thursday" value={4} />
-                <Picker.Item label="Friday" value={5} />
-                <Picker.Item label="Saturday" value={6} />
-                <Picker.Item label="Sunday" value={7} />
+                <Picker.Item label="Monday" value="Monday" />
+                <Picker.Item label="Tuesday" value="Tuesday" />
+                <Picker.Item label="Wednesday" value="Wednesday" />
+                <Picker.Item label="Thursday" value="Thursday" />
+                <Picker.Item label="Friday" value="Friday" />
+                <Picker.Item label="Saturday" value="Saturday" />
+                <Picker.Item label="Sunday" value="Sunday" />
               </Picker>
             </Item>
 
@@ -231,12 +231,12 @@ class ScheduleForm extends Component {
                 selectedValue={this.state.district}
                 onValueChange={this.setValue("district")}
               >
-                <Picker.Item label="City" value={1} />
-                <Picker.Item label="Central" value={2} />
-                <Picker.Item label="North" value={3} />
-                <Picker.Item label="South" value={4} />
-                <Picker.Item label="East" value={5} />
-                <Picker.Item label="West" value={6} />
+                <Picker.Item label="City" value="City" />
+                <Picker.Item label="Central" value="Central" />
+                <Picker.Item label="North" value="North" />
+                <Picker.Item label="South" value="South" />
+                <Picker.Item label="East" value="East" />
+                <Picker.Item label="West" value="West" />
               </Picker>
             </Item>
 
@@ -262,18 +262,18 @@ class ScheduleForm extends Component {
                 selectedValue={this.state.category}
                 onValueChange={this.setValue("category")}
               >
-                <Picker.Item label="Aerobics" value={1} />
-                <Picker.Item label="Circuit training" value={2} />
-                <Picker.Item label="Cycling" value={3} />
-                <Picker.Item label="Hiking" value={4} />
-                <Picker.Item label="Swimming" value={5} />
-                <Picker.Item label="Weight training" value={6} />
-                <Picker.Item label="Strength training" value={7} />
-                <Picker.Item label="Calisthenics" value={8} />
-                <Picker.Item label="Stretching" value={9} />
-                <Picker.Item label="Pilates" value={10} />
-                <Picker.Item label="Yoga" value={11} />
-                <Picker.Item label="Others" value={12} />
+                <Picker.Item label="Aerobics" value="Aerobics" />
+                <Picker.Item label="Circuit training" value="Circuit training" />
+                <Picker.Item label="Cycling" value="Cycling" />
+                <Picker.Item label="Hiking" value="Hiking" />
+                <Picker.Item label="Swimming" value="Swimming" />
+                <Picker.Item label="Weight training" value="Weight training" />
+                <Picker.Item label="Strength training" value="Strength training" />
+                <Picker.Item label="Calisthenics" value="Calisthenics" />
+                <Picker.Item label="Stretching" value="Stretching" />
+                <Picker.Item label="Pilates" value="Pilates" />
+                <Picker.Item label="Yoga" value="Yoga" />
+                <Picker.Item label="Others" value="Others" />
               </Picker>
             </Item>
 

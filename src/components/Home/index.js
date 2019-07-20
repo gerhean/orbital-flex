@@ -11,12 +11,9 @@ import {
   Button,
   Card,
   Content,
-  Footer,
-  FooterTab,
   Right,
   Left,
   CardItem,
-  Thumbnail,
   View,
   H2
 } from "native-base";

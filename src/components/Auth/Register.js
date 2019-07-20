@@ -42,6 +42,7 @@ class SignUpForm extends Component {
     const { username, email, passwordOne } = this.state;
     const user = {
       email,
+      username,
       password: passwordOne
     };
     this.props.handleSignup(user);
@@ -51,9 +52,8 @@ class SignUpForm extends Component {
     const { username, email, passwordOne, passwordTwo, error } = this.state;
 
     const isInvalid =
-      passwordOne !== passwordTwo || passwordOne === "" || email === "";
-    // ||
-    // username === '';
+      passwordOne !== passwordTwo || passwordOne === "" 
+      || email === "" || username === '';    
 
     return (
       <View style={styles.container}>
@@ -64,6 +64,11 @@ class SignUpForm extends Component {
           placeholder="Email"
           value={email}
           onChangeText={email => this.setState({ email })}
+        />
+        <Input
+          placeholder="Username"
+          value={username}
+          onChangeText={username => this.setState({ username })}
         />
         <Input
           placeholder="Password"
