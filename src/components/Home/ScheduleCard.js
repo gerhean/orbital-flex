@@ -117,6 +117,9 @@ class ScheduleCard extends Component {
 
                 <Text note>Location:</Text>
                 <Text>{schedule.location}</Text>
+                
+                <Text note>Day of the week:</Text>
+                <Text>{schedule.day}</Text>
 
                 <Text note>Time:</Text>
                 <Text>{timeToString(schedule.timeStart)} - {timeToString(schedule.timeEnd)}</Text>

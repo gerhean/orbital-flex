@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import GOOGLE_API_KEY from '../../../env';
+import { GOOGLE_API_KEY } from '../../../env';
 
 class LocationInput extends Component {
     constructor(props) {
