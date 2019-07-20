@@ -6,23 +6,19 @@ import {
   Accordion,
   Text,
   Container,
-  Header,
   Body,
-  Title,
   Button,
   Card,
   Content,
-  Right,
   Left,
   CardItem,
-  Thumbnail,
   View,
   H1,
   H2
 } from "native-base";
 import StarRating from 'react-native-star-rating';
 
-import { changeScreen, scheduleFetchHome, fetchUserInfo } from "../../actions";
+import { changeScreen, fetchUserInfo } from "../../actions";
 import profilePictureDisplay from '../profilePictureDisplay';
 import ScheduleList from "../Home/ScheduleList";
 
@@ -97,7 +93,7 @@ class UserProfile extends Component {
                   />
                 }
                 <Button block rounded bordered onPress={this.navigate("ViewReviews/" + this.props.uid)}>
-                  <Text>View Reviews</Text>
+                  <Text>{(user.numRatings || 0).toString()} Reviews</Text>
                 </Button>
               </Body>
             </CardItem>

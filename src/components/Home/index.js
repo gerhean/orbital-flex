@@ -11,12 +11,9 @@ import {
   Button,
   Card,
   Content,
-  Footer,
-  FooterTab,
   Right,
   Left,
   CardItem,
-  Thumbnail,
   View,
   H2
 } from "native-base";
@@ -104,7 +101,7 @@ class Home extends Component {
                       rating={user.avgRating}
                     />
                     <Button block rounded bordered onPress={this.navigate("ViewReviews/" + this.props.user.uid)}>
-                      <Text>View Reviews</Text>
+                      <Text>{user.numRatings.toString()} Reviews</Text>
                     </Button>
                   </React.Fragment>
                 }
