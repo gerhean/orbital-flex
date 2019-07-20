@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { Root } from "native-base";
-// this will be used to make your Android hardware Back Button work
-import { Platform, BackHandler } from "react-native";
-import { Provider, connect } from "react-redux";
+import { Provider } from "react-redux";
 import { AppLoading } from "expo";
 import * as Font from "expo-font";
 
@@ -19,7 +17,7 @@ class AppWrapper extends Component {
     };
   }
 
-  async componentWillMount() {
+  async UNSAFE_componentWillMount() {
     await Font.loadAsync({
       Roboto: require("../assets/fonts/Roboto-Black.ttf"),
       Roboto_medium: require("../assets/fonts/Roboto-Medium.ttf")

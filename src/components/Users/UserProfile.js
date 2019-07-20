@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { PropTypes } from 'prop-types';
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import { Clipboard, TouchableOpacity } from "react-native";
 import {
   Accordion,
   Text,
@@ -10,11 +11,10 @@ import {
   Button,
   Card,
   Content,
-  Left,
   CardItem,
   View,
-  H1,
-  H2
+  H2,
+  Icon
 } from "native-base";
 import StarRating from 'react-native-star-rating';
 
@@ -63,6 +63,11 @@ class UserProfile extends Component {
     const scheduleArray = [
       { title: "Posted Schedules", content: postedScheduleList },
     ]
+    const gender = user.gender === 1 ? 
+        "Male" :
+      user.gender === 2 ?
+        "Female" :
+        "None"
 
     return (
       <Container>
@@ -70,20 +75,28 @@ class UserProfile extends Component {
         <Content>
           <Card>
             <CardItem>
-              <Left>
-                {profilePictureDisplay(user.profilePic)}
-              </Left>
+              {profilePictureDisplay(user.profilePic, {large: true})}
               <Body>
-                <H1>{user.username}</H1>
-                <Text>Identification number: </Text>
-                <Text>{user.uid}</Text>
+                <H2>{user.username}</H2>
+                <TouchableOpacity onPress={()=>Clipboard.setString(this.props.uid)}>
+                  <Text note>{this.props.uid}</Text>
+                </TouchableOpacity>
+                <Text>Gender: {gender}</Text>
+              </Body>
+            </CardItem>
+              
+            <CardItem>
+              <Body>
+                <Text>About:</Text>
+                <Text note>{user.about}</Text>
               </Body>
             </CardItem>
             <CardItem>
-              <Body>
-                <Text>{user.about}</Text>
-              </Body>
+              <Button block rounded onPress={this.navigate("EditUserInfoForm")}>
+                <Text>Edit Personal Info</Text>
+              </Button>
             </CardItem>
+
             <CardItem>
               <Body>
                 <H2>User Ratings</H2>

@@ -42,7 +42,7 @@ function* authSaga() {
       const uid = result.user.uid;
       let user = {
         ...initialUser,
-        username: action.username
+        username: action.user.username
       };
       const userDocRef = db.collection('users').doc(uid);
       yield call([userDocRef, userDocRef.set], user);

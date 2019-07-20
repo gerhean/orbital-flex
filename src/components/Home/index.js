@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import { Clipboard, TouchableOpacity } from "react-native";
 import {
   Accordion,
   Text,
@@ -17,6 +18,7 @@ import {
   View,
   H2
 } from "native-base";
+import StarRating from 'react-native-star-rating';
 import { changeScreen, logout, setScheduleEditIndex } from "../../actions";
 import profilePictureDisplay from '../profilePictureDisplay';
 import ScheduleList from "./ScheduleList";
@@ -78,16 +80,26 @@ class Home extends Component {
         <Content>
           <Card>
             <CardItem>
-              <Left>
-                {profilePictureDisplay(user.profilePic, {large: true})}
-              </Left>
+              {profilePictureDisplay(user.profilePic, {large: true})}
               <Body>
-                <Text>{user.username}</Text>
-                <Text>{user.about}</Text>
-                <Button onPress={this.navigate("EditUserInfoForm")}>
-                  <Text>Edit Personal Info</Text>
-                </Button>
+                <H2>{user.username}</H2>
+                <TouchableOpacity onPress={()=>Clipboard.setString(user.uid)}>
+                  <Text>User Id (Tap to copy):</Text>
+                  <Text note>{user.uid}</Text>
+                </TouchableOpacity>
               </Body>
+            </CardItem>
+              
+            <CardItem>
+              <Body>
+                <Text>About:</Text>
+                <Text note>{user.about}</Text>
+              </Body>
+            </CardItem>
+            <CardItem>
+              <Button block rounded onPress={this.navigate("EditUserInfoForm")}>
+                <Text>Edit Personal Info</Text>
+              </Button>
             </CardItem>
 
             <CardItem>

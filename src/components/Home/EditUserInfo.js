@@ -14,7 +14,8 @@ import {
   Item,
   Label,
   Picker,
-  Icon
+  Icon,
+  View
 } from "native-base";
 import { connect } from "react-redux";
 import Dialog, { DialogContent, DialogFooter, DialogButton, DialogTitle } from 'react-native-popup-dialog';
@@ -44,7 +45,8 @@ class UserInfoForm extends Component {
       contact, 
       about, 
       profilePic, 
-      gender
+      gender,
+      checkProfilePicVisible: false
     };
   }
 
@@ -64,6 +66,10 @@ class UserInfoForm extends Component {
       [key]: value
     })
   };
+
+  toggleCheckPicture = value => () => {
+    this.setState({checkProfilePicVisible: value })
+  }
 
   navigate = screen => () => {
     this.props.handleChangeScreen(screen);
@@ -99,6 +105,9 @@ class UserInfoForm extends Component {
                 value={this.state.profilePic}
                 onChangeText={this.setValue("profilePic")}
               />
+              <Button rounded block bordered onPress={this.toggleCheckPicture(true)}>
+                <Text>Check Image</Text>
+              </Button>
             </Item>
 
             <Item picker fixedLabel>
@@ -138,6 +147,23 @@ class UserInfoForm extends Component {
           <Button rounded block bordered onPress={this.submitForm}>
             <Text>Submit</Text>
           </Button>
+
+          <Dialog
+            visible={this.state.checkProfilePicVisible}
+            onTouchOutside={this.toggleCheckPicture(false)}
+            dialogTitle={<DialogTitle title="Check Profile Picture" />}
+            footer={
+              <View>
+                <Button block onPress={this.toggleCheckPicture(false)}>
+                  <Text>Done</Text>
+                </Button>
+              </View>
+            }
+          >
+            <DialogContent>
+              {profilePictureDisplay(this.state.profilePic, {large: true})}
+            </DialogContent>
+          </Dialog>
         </Content>
       </Container>
     );
