@@ -7,11 +7,8 @@ import {
   Title,
   Button,
   Content,
-  Footer,
-  FooterTab,
   Right,
   Left,
-  Thumbnail,
   Input,
   Form,
   Item,
@@ -20,8 +17,10 @@ import {
   Icon
 } from "native-base";
 import { connect } from "react-redux";
+import Dialog, { DialogContent, DialogFooter, DialogButton, DialogTitle } from 'react-native-popup-dialog';
 import { bindActionCreators } from "redux";
 import { updateUserInfo, changeScreen } from "../../actions";
+import profilePictureDisplay from '../profilePictureDisplay';
 
 const mapStateToProps = state => ({
   user: state.user
