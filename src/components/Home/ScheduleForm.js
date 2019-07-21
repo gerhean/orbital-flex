@@ -263,14 +263,9 @@ class ScheduleForm extends Component {
                 onValueChange={this.setValue("category")}
               >
                 <Picker.Item label="Aerobics" value="Aerobics" />
-                <Picker.Item label="Circuit training" value="Circuit training" />
-                <Picker.Item label="Cycling" value="Cycling" />
-                <Picker.Item label="Hiking" value="Hiking" />
                 <Picker.Item label="Swimming" value="Swimming" />
                 <Picker.Item label="Weight training" value="Weight training" />
-                <Picker.Item label="Strength training" value="Strength training" />
                 <Picker.Item label="Calisthenics" value="Calisthenics" />
-                <Picker.Item label="Stretching" value="Stretching" />
                 <Picker.Item label="Pilates" value="Pilates" />
                 <Picker.Item label="Yoga" value="Yoga" />
                 <Picker.Item label="Others" value="Others" />

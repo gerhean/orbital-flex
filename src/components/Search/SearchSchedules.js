@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { View, StyleSheet, Text, FlatList, TextInput, Image, Button } from 'react-native';
 import PropTypes from 'prop-types';
-import { InstantSearch, connectSearchBox, connectCurrentRefinements,
+import { InstantSearch, connectSearchBox,
   connectInfiniteHits, connectRefinementList } from 'react-instantsearch-native';
 import algoliasearch from 'algoliasearch/reactnative';
 import Constants from 'expo-constants'
@@ -15,12 +15,15 @@ const searchClient = algoliasearch(ALOGOLIA_APP_ID, ALOGOLIA_API_KEY);
 
 const VirtualRefinementList = connectRefinementList(() => null);
 
-// export default class UsersList extends Component
 export default class SearchSchedules extends Component {
   
   state = {
     isModalOpen: false,
-    searchState: {},
+    searchState: {
+      district: ["City", "Central", "North", "South", "East", "West"],
+      category: ["Aerobics", "Swimming", "Weight training"
+          , "Calisthenics", "Pilates", "Yoga", "Others"]
+    }
   };
 
   toggleModal = () =>
@@ -44,8 +47,12 @@ export default class SearchSchedules extends Component {
           // apiKey={ALOGOLIA_API_KEY}
           searchClient={searchClient}
           indexName="trainer_schedules"
+          searchState={searchState}
+          onSearchStateChange={this.onSearchStateChange}
         >
-          <VirtualRefinementList attribute="location" />
+          <VirtualRefinementList attribute="district" />
+          <VirtualRefinementList attribute="category" />
+          <VirtualRefinementList attribute="day" />
           <Filters
                 isModalOpen={isModalOpen}
                 searchClient={searchClient}
@@ -66,7 +73,6 @@ export default class SearchSchedules extends Component {
                 color="#252b33"
                 onPress={this.toggleModal}
               />
-          
           <ConnectedHits />
         </InstantSearch>
       </View>
@@ -113,17 +119,6 @@ Hits.propTypes = {
 };
 
 const ConnectedHits = connectInfiniteHits(Hits);
-
-const ClearRefinements = ({ items, refine }) => (
-  <Button 
-    onClick={() => refine(items)} 
-    disabled={!items.length} 
-    title="Clear filters"
-  />
-  
-  );
-  
-const ConnectedClearRefinements = connectCurrentRefinements(ClearRefinements);
 
 const styles = StyleSheet.create({
   mainContainer: {
