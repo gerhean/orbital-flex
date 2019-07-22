@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { PropTypes } from 'prop-types';
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { Clipboard, TouchableOpacity } from "react-native";
+import { Clipboard, TouchableOpacity, StyleSheet } from "react-native";
 import {
   Accordion,
   Text,
@@ -11,14 +11,17 @@ import {
   Button,
   Card,
   Content,
+  Right,
+  Left,
   CardItem,
   View,
   H2,
-  Icon
+  Icon,
+  Separator
 } from "native-base";
 import StarRating from 'react-native-star-rating';
 
-import { changeScreen, fetchUserInfo } from "../../actions";
+import { changeScreen, fetchUserInfo, startChat } from "../../actions";
 import profilePictureDisplay from '../profilePictureDisplay';
 import ScheduleList from "../Home/ScheduleList";
 
@@ -31,6 +34,7 @@ const mapDispatchToProps = dispatch =>
     {
       handleChangeScreen: changeScreen,
       handleFetchUserInfo: fetchUserInfo,
+      handleChat: startChat,
     },
     dispatch
   );
@@ -57,6 +61,7 @@ class UserProfile extends Component {
     if (!user) {
       return <Text>Loading</Text>
     }
+    const uid = this.props.uid;
     const postedScheduleList = <ScheduleList 
       scheduleArr={Object.keys(user.postedSchedules)}
     />
@@ -73,23 +78,45 @@ class UserProfile extends Component {
       <Container>
 
         <Content>
-          <Card>
+          <Card transparent>
+
+          <CardItem header style={{ paddingTop: 20 }}>
+              <Separator bordered>
+                <H2 style={styles.username}>{user.username}</H2>
+              </Separator>
+            </CardItem>
+
             <CardItem>
-              {profilePictureDisplay(user.profilePic, {large: true})}
-              <Body style={{ "margin": 5 }}>
-                <H2>{user.username}</H2>
-                <TouchableOpacity onPress={()=>Clipboard.setString(this.props.uid)}>
-                  <Text note>{this.props.uid.substring(0, 20)}...</Text>
+              {profilePictureDisplay(user.profilePic, {style: styles.picture})}
+              <Body style={{ margin: 5 }}>
+                <TouchableOpacity onPress={()=>Clipboard.setString(uid)}>
+                  <Text style={styles.bold}>User ID:</Text>
+                  <Text note>{uid}</Text>
                 </TouchableOpacity>
-                <Text>Gender: {gender}</Text>
+                <Text style={styles.bold}>Contact:</Text>
+                <Text>{user.contact || "None"}</Text>
+                <Text style={styles.bold}>Gender:</Text>
+                <Text>{gender}</Text>
               </Body>
             </CardItem>
-              
+
             <CardItem>
               <Body>
-                <Text>About:</Text>
-                <Text note>{user.about}</Text>
+                <Text style={styles.bold}>About me:</Text>
+                <Text>{user.about}</Text>
               </Body>
+            </CardItem>
+
+            <CardItem>
+              <Button
+                block 
+                rounded 
+                bordered 
+                style={{ margin: 5 }} 
+                onPress={() => this.props.handleChat(uid)}
+              >
+                <Text>Message Me!</Text>
+              </Button>
             </CardItem>
 
             <CardItem>
@@ -102,7 +129,13 @@ class UserProfile extends Component {
                     rating={user.avgRating}
                   />
                 }
-                <Button block rounded bordered onPress={this.navigate("ViewReviews/" + this.props.uid)}>
+                <Button
+                  block 
+                  rounded 
+                  bordered 
+                  style={{ margin: 5 }} 
+                  onPress={this.navigate("ViewReviews/" + this.props.uid)}
+                >
                   <Text>{(user.numRatings || 0).toString()} Reviews</Text>
                 </Button>
               </Body>
@@ -117,6 +150,19 @@ class UserProfile extends Component {
   }
 }
 
-// export default Home;
+const styles = StyleSheet.create({
+  username: {
+    fontStyle: 'italic', 
+    fontWeight: '600', 
+    textAlign: 'center'
+  },
+  picture: {
+    height:150,
+    width: 180
+  },
+  bold: {
+    fontWeight: "500"
+  }
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);

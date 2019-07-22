@@ -74,7 +74,7 @@ class ScheduleCard extends Component {
       button2Text = "Book";
       onButton2Press = () => this.props.onPressBook(scheduleId);
       button3Text = "Message";
-      onButton3Press = () => this.props.handleChat(schedule);
+      onButton3Press = () => this.props.handleChat(schedule.poster);
 
     } else if (schedule.isBooked === 1) {
       const uid = firebase.auth().currentUser.uid;

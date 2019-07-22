@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { Clipboard, TouchableOpacity } from "react-native";
+import { Clipboard, TouchableOpacity, StyleSheet } from "react-native";
 import {
   Accordion,
   Text,
@@ -81,38 +81,32 @@ class Home extends Component {
         </Header>
 
         <Content>
-          <Card >
-            <CardItem header style={{ paddingLeft: 20, paddingTop: 20 }}>
+          <Card transparent>
+            <CardItem header style={{ paddingTop: 20 }}>
               <Separator bordered>
-                <H2 
-                  style={{fontStyle: 'italic', fontWeight: '600', textAlign: 'center'}}
-                >{user.username}</H2>
+                <H2 style={styles.username}>{user.username}</H2>
               </Separator>
             </CardItem>
 
             <CardItem>
-              {profilePictureDisplay(user.profilePic, {large: true,
-                style: {
-                  height:150,
-                  width: 180
-                }})}
+              {profilePictureDisplay(user.profilePic, {style: styles.picture})}
               <Right>
-                <TouchableOpacity style={{ paddingLeft: 10, margin: 10 }} onPress={()=>Clipboard.setString(user.uid)}>
-                  <Text style={{ fontWeight: '500'}}>Tap my user ID to copy:</Text>
-                  <Text note>{user.uid.substring(0, 20)}...</Text>
+                <TouchableOpacity style={{ margin: 5 }} onPress={()=>Clipboard.setString(user.uid)}>
+                  <Text style={styles.bold }>Tap user ID to copy:</Text>
+                  <Text note>{user.uid}</Text>
                 </TouchableOpacity>
-                <Button style={{  margin: 5 }} onPress={this.navigate("EditUserInfoForm")}>
+                <Button rounded iconRight block style={{ margin: 5 }} onPress={this.navigate("EditUserInfoForm")}>
                   <Text>Edit</Text>
                   <Icon name='create' />
                 </Button>
               </Right>
             </CardItem>
 
-            <CardItem header>
-                <Text>About me:</Text>
-            </CardItem>
             <CardItem>
-              <Text>{user.about}</Text>
+              <Body>
+                <Text style={styles.bold}>About me:</Text>
+                <Text>{user.about}</Text>
+              </Body>
             </CardItem>
             
             <CardItem>
@@ -148,5 +142,20 @@ class Home extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  username: {
+    fontStyle: 'italic', 
+    fontWeight: '600', 
+    textAlign: 'center'
+  },
+  picture: {
+    height:150,
+    width: 180
+  },
+  bold: {
+    fontWeight: "500"
+  }
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
