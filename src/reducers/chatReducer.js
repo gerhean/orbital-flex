@@ -15,7 +15,7 @@ export default chatReducer = {
   [actionTypes.OPEN_CHAT]: (state, action) => {
     const hasExistingChat = state.chat.hasChatWith[action.otherUid];
     let screen = hasExistingChat ? 
-      "ChatRoom/" + hasExistingChat 
+      "Chatroom/" + hasExistingChat 
       : "ChatroomNew/" + action.otherUid;
     return {
       ...state,
@@ -25,7 +25,7 @@ export default chatReducer = {
 
   [actionTypes.CHATROOM_CREATE_SUCCESS]: (state, action) => ({
     ...state,
-    screen: "ChatRoom/" + action.roomId,
+    screen: "Chatroom/" + action.roomId,
     chat: {
       ...state.chat,
       chatroomArr: Array.of(action.roomId, ...state.chat.chatroomArr), 
