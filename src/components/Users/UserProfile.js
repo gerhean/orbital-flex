@@ -91,11 +91,6 @@ class UserProfile extends Component {
                 <Text note>{user.about}</Text>
               </Body>
             </CardItem>
-            <CardItem>
-              <Button block rounded onPress={this.navigate("EditUserInfoForm")}>
-                <Text>Edit Personal Info</Text>
-              </Button>
-            </CardItem>
 
             <CardItem>
               <Body>
