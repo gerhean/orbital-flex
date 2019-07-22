@@ -83,6 +83,11 @@ export default class SearchSchedules extends Component {
 }
 
 class SearchBar extends Component {
+  static propTypes = {
+    refine: PropTypes.func.isRequired,
+    currentRefinement: PropTypes.string,
+  }
+
   render() {
     return (
       <TextInput 
@@ -99,26 +104,22 @@ class SearchBar extends Component {
   }
 }
 
-SearchBar.propTypes = {
-  refine: PropTypes.func.isRequired,
-  currentRefinement: PropTypes.string,
-}
-
 const ConnectedSearchBar = connectSearchBox(SearchBar);
 
 class Hits extends Component {
+  static propTypes = {
+    hits: PropTypes.array.isRequired,
+    refine: PropTypes.func.isRequired,
+    hasMore: PropTypes.bool.isRequired,
+  }
+
   render() {
     const items = this.props.hits.map(item => item.objectID);
     return <ScheduleList scheduleArr={items}/>;
-  };
+  }
 
 }
 
-Hits.propTypes = {
-  hits: PropTypes.array.isRequired,
-  refine: PropTypes.func.isRequired,
-  hasMore: PropTypes.bool.isRequired,
-};
 
 const ConnectedHits = connectInfiniteHits(Hits);
 

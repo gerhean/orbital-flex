@@ -47,7 +47,7 @@ export default scheduleReducer = {
     const now = Date.now();
     const schedules = objFilter(
       state.schedules, 
-      schedule => (now - schedule.timeFetched < 2000000 && schedule.isBooked !== 0)
+      schedule => (now - schedule.timeFetched < 2000000 || schedule.isBooked !== 0)
     )
     schedules[action.id] = action.schedule;
     return {

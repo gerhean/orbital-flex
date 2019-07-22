@@ -28,12 +28,6 @@ const mapDispatchToProps = dispatch =>
     dispatch
   );
 
-const initialState = () => ({
-  unbookingId: '',
-  bookingId: '',
-  bookingOffer: false,
-})
-
 //component responsible for rendering data returned by scheduleReducer
 class ScheduleList extends Component {
   static propTypes = {
@@ -49,7 +43,7 @@ class ScheduleList extends Component {
       unbookingId: '',
       bookingId: '',
     }
-  };
+  }
 
   submitUnbooking = () => {
     this.props.handleUnbookSchedule(this.state.unbookingId);
@@ -89,22 +83,8 @@ class ScheduleList extends Component {
   };
     
   render() {
-    const cards = (
-      <FlatList 
-        data={this.props.scheduleArr} 
-        renderItem={({ item, index }) => (
-          <ScheduleCard 
-            scheduleId={item}
-            onPressBook={this.onPressBook}
-            onPressUnbook={this.onPressUnbook}
-          />
-        )}
-        keyExtractor={item => item}
-      />
-    );
-
     return(   
-      <List>   
+      <View>   
         <BookSchedulePopup 
           handleBookSchedule={this.props.handleBookSchedule}
           clearBookingId={() => {this.setState({ bookingId: '' })}}
@@ -112,18 +92,20 @@ class ScheduleList extends Component {
           initialOffer={this.state.bookingOffer}
         />
         {this.unbookScheduleWarning()}
-        {cards}
-      </List>
+        <FlatList 
+          data={this.props.scheduleArr} 
+          renderItem={({ item }) => (
+            <ScheduleCard 
+              scheduleId={item}
+              onPressBook={this.onPressBook}
+              onPressUnbook={this.onPressUnbook}
+            />
+          )}
+          keyExtractor={item => item}
+        />
+      </View>
     );
   }
-}
-
-const timeToString = time => {
-  const minute = time%60;
-  const hour = (time - minute) / 60
-  const frontZero = hour < 10 ? '0' : '';
-  const backZero = minute < 10 ? '0' : '';
-  return frontZero + hour + ":" + minute + backZero
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ScheduleList);

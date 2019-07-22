@@ -4,6 +4,12 @@ import PropTypes from 'prop-types';
 import { TextInput, View } from 'react-native';
 
 class RangeInput extends Component {
+    propTypes = {
+        refine: PropTypes.func.isRequired,
+        currentRefinement: PropTypes.object,
+        minLabel: PropTypes.string,
+        maxLabel: PropTypes.string
+    }
       
     constructor(props) {
         super(props);
@@ -26,7 +32,7 @@ class RangeInput extends Component {
                     keyboardType="numeric"
                     onChangeText={text => this.props.refine({...this.props.currentRefinement,
                         max: Number(text)})}
-                    maxLength={3}
+                    maxLength={4}
                     value={this.props.currentRefinement.max.toString()}
                     underlineColorAndroid="transparent"
                 />
@@ -35,13 +41,6 @@ class RangeInput extends Component {
             
         );
     }
-}
-
-RangeInput.propTypes = {
-    refine: PropTypes.func.isRequired,
-    currentRefinement: PropTypes.object,
-    minLabel: PropTypes.string,
-    maxLabel: PropTypes.string
 }
 
 export default ConnectedRangeInput = connectRange(RangeInput);
