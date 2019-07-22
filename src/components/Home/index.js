@@ -16,7 +16,9 @@ import {
   Left,
   CardItem,
   View,
-  H2
+  H2,
+  Icon,
+  Separator
 } from "native-base";
 import StarRating from 'react-native-star-rating';
 import { changeScreen, logout, setScheduleEditIndex } from "../../actions";
@@ -71,37 +73,48 @@ class Home extends Component {
             <Title>Profile</Title>
           </Body>
           <Right>
-            <Button onPress={() => this.props.handleLogout()}>
-              <Text>Log out</Text>
-            </Button>
+          <Button onPress={() => this.props.handleLogout()}>
+            <Text>Log out</Text>
+            <Icon name='log-out' />
+          </Button>
           </Right>
         </Header>
 
         <Content>
-          <Card>
-            <CardItem>
-              {profilePictureDisplay(user.profilePic, {large: true})}
-              <Body>
-                <H2>{user.username}</H2>
-                <TouchableOpacity onPress={()=>Clipboard.setString(user.uid)}>
-                  <Text>User Id (Tap to copy):</Text>
-                  <Text note>{user.uid}</Text>
-                </TouchableOpacity>
-              </Body>
-            </CardItem>
-              
-            <CardItem>
-              <Body>
-                <Text>About:</Text>
-                <Text note>{user.about}</Text>
-              </Body>
-            </CardItem>
-            <CardItem>
-              <Button block rounded onPress={this.navigate("EditUserInfoForm")}>
-                <Text>Edit Personal Info</Text>
-              </Button>
+          <Card >
+            <CardItem header style={{ paddingLeft: 20, paddingTop: 20 }}>
+              <Separator bordered>
+                <H2 
+                  style={{fontStyle: 'italic', fontWeight: '600', textAlign: 'center'}}
+                >{user.username}</H2>
+              </Separator>
             </CardItem>
 
+            <CardItem>
+              {profilePictureDisplay(user.profilePic, {large: true,
+                style: {
+                  height:150,
+                  width: 180
+                }})}
+              <Right>
+                <TouchableOpacity style={{ paddingLeft: 10, margin: 10 }} onPress={()=>Clipboard.setString(user.uid)}>
+                  <Text style={{ fontWeight: '500'}}>Tap my user ID to copy:</Text>
+                  <Text note>{user.uid}</Text>
+                </TouchableOpacity>
+                <Button style={{  margin: 5 }} onPress={this.navigate("EditUserInfoForm")}>
+                  <Text>Edit</Text>
+                  <Icon name='create' />
+                </Button>
+              </Right>
+            </CardItem>
+
+            <CardItem header>
+                <Text>About me:</Text>
+            </CardItem>
+            <CardItem>
+              <Text>{user.about}</Text>
+            </CardItem>
+            
             <CardItem>
               <Body>
                 <H2>User Ratings</H2>
