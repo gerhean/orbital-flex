@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import firebase from 'firebase';
+import { TouchableOpacity } from "react-native";
 import { View, Text, ListItem, Button, Grid, Row, Col, H2} from 'native-base';
 
 import profilePictureDisplay from '../profilePictureDisplay';
@@ -34,6 +35,9 @@ class ScheduleCard extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      moreDetails: false
+    };
   }
 
   componentDidMount() {
@@ -112,34 +116,43 @@ class ScheduleCard extends Component {
 
             <Col>
               <View style={{flexDirection: "column"}}>
-                <Text note>District:</Text>
-                <Text>{schedule.district}</Text>
-
                 <Text note>Location:</Text>
                 <Text>{schedule.location}</Text>
+      
+              <Text note>Price: </Text>
+              <Text>${schedule.price}</Text>
                 
                 <Text note>Day of the week:</Text>
                 <Text>{schedule.day}</Text>
 
                 <Text note>Time:</Text>
                 <Text>{timeToString(schedule.timeStart)} - {timeToString(schedule.timeEnd)}</Text>
-        
-                <Text note>Price: </Text>
-                <Text>${schedule.price}</Text>
-
-                <Text note>Workout category:</Text>
-                <Text>{schedule.category}</Text>       
-                
-                <Text note>Type of service: </Text>
-                <Text>{schedule.services}</Text>
-      
-                <Text note>Remarks: </Text>
-                <Text>{schedule.remarks}</Text>
               </View>
             </Col>
           </Row>
+
+          <TouchableOpacity onPress={this.toggleMoreDetails}>
+            <Text note style={{ textAlign: "center", "marginTop": 10 }}>More Details</Text>
+          </TouchableOpacity>
+          {this.state.moreDetails ?
+            <View style={{flexDirection: "column"}}>
+              <Text note>District:</Text>
+              <Text>{schedule.district}</Text>
+
+              <Text note>Workout category:</Text>
+              <Text>{schedule.category}</Text>       
+              
+              <Text note>Type of service: </Text>
+              <Text>{schedule.services}</Text>
+    
+              <Text note>Remarks: </Text>
+              <Text>{schedule.remarks}</Text>
+            </View>
+            :null
+          }
+
           {buttonText ? 
-            <Button block rounded bordered onPress={onButtonPress}>
+            <Button block rounded bordered onPress={onButtonPress} style={{"margin": 10}}>
               <Text>{buttonText}</Text>
             </Button>
             : null
@@ -170,6 +183,10 @@ class ScheduleCard extends Component {
   navigate = screen => () => {
     this.props.handleChangeScreen(screen);
   };
+
+  toggleMoreDetails = () => {
+    this.setState({moreDetails: !this.state.moreDetails})
+  }
 }
 
 const timeToString = time => {
