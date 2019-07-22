@@ -132,7 +132,7 @@ class ScheduleCard extends Component {
           </Row>
 
           <TouchableOpacity onPress={this.toggleMoreDetails}>
-            <Text note style={{ textAlign: "center", "marginTop": 10 }}>More Details</Text>
+            <Text note style={{ textAlign: "center", "marginTop": 5 }}>More Details</Text>
           </TouchableOpacity>
           {this.state.moreDetails ?
             <View style={{flexDirection: "column"}}>
@@ -152,7 +152,7 @@ class ScheduleCard extends Component {
           }
 
           {buttonText ? 
-            <Button block rounded bordered onPress={onButtonPress} style={{"margin": 10}}>
+            <Button block rounded bordered onPress={onButtonPress} style={{"marginTop": 5}}>
               <Text>{buttonText}</Text>
             </Button>
             : null
@@ -160,7 +160,7 @@ class ScheduleCard extends Component {
           <Row>
             <Col>
               {button2Text ? 
-                <Button block rounded bordered onPress={onButton2Press}>
+                <Button block rounded bordered onPress={onButton2Press} style={{ "margin": 5 }}>
                   <Text>{button2Text}</Text>
                 </Button>
                 : null
@@ -168,7 +168,7 @@ class ScheduleCard extends Component {
             </Col>
             <Col>
               {button3Text ? 
-                <Button block rounded bordered onPress={onButton3Press}>
+                <Button block rounded bordered onPress={onButton3Press} style={{ "margin": 5 }}>
                   <Text>{button3Text}</Text>
                 </Button>
                 : null
