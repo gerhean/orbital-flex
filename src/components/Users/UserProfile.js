@@ -21,12 +21,13 @@ import {
 } from "native-base";
 import StarRating from 'react-native-star-rating';
 
-import { changeScreen, fetchUserInfo, startChat } from "../../actions";
+import { changeScreen, fetchUserInfo, startChat, followUser, unfollowUser } from "../../actions";
 import profilePictureDisplay from '../profilePictureDisplay';
 import ScheduleList from "../Home/ScheduleList";
 
 const mapStateToProps = (state, ownProps) => ({
-  user: state.users[ownProps.uid]
+  user: state.users[ownProps.uid],
+  isFollowed: state.user.followedUsers[ownProps.uid],
 });
 
 const mapDispatchToProps = dispatch =>
@@ -35,6 +36,8 @@ const mapDispatchToProps = dispatch =>
       handleChangeScreen: changeScreen,
       handleFetchUserInfo: fetchUserInfo,
       handleChat: startChat,
+      handleFollowUser: followUser,
+      handleUnfollowUser: unfollowUser
     },
     dispatch
   );
@@ -109,14 +112,27 @@ class UserProfile extends Component {
 
             <CardItem>
               <Button
-                block 
-                rounded 
-                bordered 
-                style={{ margin: 5 }} 
+                {...buttonProps} 
                 onPress={() => this.props.handleChat(uid)}
               >
                 <Text>Message Me!</Text>
               </Button>
+
+              {this.props.isFollowed ? 
+                  <Button
+                    {...buttonProps} 
+                    onPress={() => this.props.handleUnfollowUser(uid)}
+                  >
+                    <Text>Unfollow</Text>
+                  </Button> 
+                :
+                  <Button
+                    {...buttonProps} 
+                    onPress={() => this.props.handleFollowUser(uid)}
+                  >
+                    <Text>Follow</Text>
+                  </Button>
+              }
             </CardItem>
 
             <CardItem>
@@ -130,10 +146,7 @@ class UserProfile extends Component {
                   />
                 }
                 <Button
-                  block 
-                  rounded 
-                  bordered 
-                  style={{ margin: 5 }} 
+                  {...buttonProps}
                   onPress={this.navigate("ViewReviews/" + this.props.uid)}
                 >
                   <Text>{(user.numRatings || 0).toString()} Reviews</Text>
@@ -148,6 +161,13 @@ class UserProfile extends Component {
       </Container>
     );
   }
+}
+
+const buttonProps = {
+  block: true,
+  rounded: true,
+  bordered: true,
+  style:{ margin: 5 }
 }
 
 const styles = StyleSheet.create({

@@ -49,15 +49,18 @@ class UserCard extends Component {
     if (!user) {
       return <Text>Loading</Text>
     }
+    let aboutText = user.about;
+    if (aboutText.length > 60) {
+      aboutText = aboutText.substring(0, 60) + "..."
+    } 
+
     return (
       <ListItem bordered>
-        <Left>
-          {profilePictureDisplay(user.profilePic, {large: true})}
-        </Left>
+        {profilePictureDisplay(user.profilePic, {large: true})}
         <Body>
-          <Text>{user.username}</Text>
-          <Text>{user.about}</Text>
-          <Button onPress={this.navigate("UserProfile/" + uid)}>
+          <Text style={{fontWeight: "500"}}>{user.username}</Text>
+          <Text note>{aboutText}</Text>
+          <Button block rounded bordered onPress={this.navigate("UserProfile/" + this.props.uid)}>
             <Text>View Profile</Text>
           </Button>
         </Body>

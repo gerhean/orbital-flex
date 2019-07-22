@@ -29,6 +29,7 @@ export default initialState = () => ({
 //   gender: 0,
 //   bookedSchedules: {},
 //   postedSchedules: {},
+//   followedUsers: {},
 //   avgRating: 0,
 //   numRatings: 0,
 //   reviews: [],
