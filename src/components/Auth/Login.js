@@ -58,6 +58,11 @@ class LoginBase extends Component {
     this.props.handleEmailLogin({ email, password });
   };
 
+  onButton2Press = () => {
+    const { email } = this.state;
+    this.props.handleReset({ email });
+  };
+
   render() {
     if (this.props.authLoading) {
       return <AppLoading onError={console.warn} />;
@@ -96,7 +101,7 @@ class LoginBase extends Component {
             title="Create new account"
           />
           <TouchableOpacity
-            onPress={this.props.handleReset({ email })}
+            onPress={this.onButton2Press}
           >
             <Text>Reset password</Text>
           </TouchableOpacity>

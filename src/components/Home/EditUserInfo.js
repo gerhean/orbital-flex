@@ -96,6 +96,7 @@ class UserInfoForm extends Component {
             <Item stackedLabel>
               <Label>Username</Label>
               <Input
+                maxLength={12}
                 value={this.state.username}
                 onChangeText={this.setValue("username")}
               />
@@ -139,6 +140,7 @@ class UserInfoForm extends Component {
             <Item stackedLabel>
               <Label>About</Label>
               <Input
+                maxLength={32}
                 value={this.state.about}
                 onChangeText={this.setValue("about")}
               />
