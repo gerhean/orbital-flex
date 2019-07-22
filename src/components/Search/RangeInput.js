@@ -16,18 +16,18 @@ class RangeInput extends Component {
                     placeholder={this.props.minLabel}
                     keyboardType="numeric"
                     onChangeText={text => this.props.refine({...this.props.currentRefinement,
-                        min: text})}
+                        min: Number(text)})}
                     maxLength={3}
-                    value={this.props.currentRefinement.min}
+                    value={this.props.currentRefinement.min.toString()}
                     underlineColorAndroid="transparent"
                 />
                 <TextInput
                     placeholder={this.props.maxLabel}
                     keyboardType="numeric"
                     onChangeText={text => this.props.refine({...this.props.currentRefinement,
-                        max: text})}
+                        max: Number(text)})}
                     maxLength={3}
-                    value={this.props.currentRefinement.max}
+                    value={this.props.currentRefinement.max.toString()}
                     underlineColorAndroid="transparent"
                 />
             </View>    
@@ -40,8 +40,6 @@ class RangeInput extends Component {
 RangeInput.propTypes = {
     refine: PropTypes.func.isRequired,
     currentRefinement: PropTypes.object,
-    min: PropTypes.string,
-    max: PropTypes.string,
     minLabel: PropTypes.string,
     maxLabel: PropTypes.string
 }
