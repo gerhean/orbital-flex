@@ -147,7 +147,7 @@ class ScheduleCard extends Component {
           <Row>
             <Col>
               {button2Text ? 
-                <Button rounded bordered onPress={onButton2Press}>
+                <Button block rounded bordered onPress={onButton2Press}>
                   <Text>{button2Text}</Text>
                 </Button>
                 : null
@@ -155,7 +155,7 @@ class ScheduleCard extends Component {
             </Col>
             <Col>
               {button3Text ? 
-                <Button rounded bordered onPress={onButton3Press}>
+                <Button block rounded bordered onPress={onButton3Press}>
                   <Text>{button3Text}</Text>
                 </Button>
                 : null
