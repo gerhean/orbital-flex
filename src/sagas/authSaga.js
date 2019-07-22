@@ -12,6 +12,7 @@ import {
   SIGNUP_FAIL,
   LOGOUT,
   LOGOUT_SUCCESS,
+  RESET_PASSWORD
 } from '../actions/actionTypes';
 
 import {  
@@ -39,6 +40,8 @@ function* authSaga() {
         action.user.email,
         action.user.password
       )
+      const currentUser = auth.currentUser;
+      yield call([currentUser, currentUser.sendEmailVerification])
       const uid = result.user.uid;
       let user = {
         ...initialUser,
@@ -55,6 +58,15 @@ function* authSaga() {
       const error_message = { code: error.code, message: error.message };
       yield put({ type: SIGNUP_FAIL, error: error_message });
       yield call(displayErrorMessage, error, SIGNUP_INITIALIZE);
+    }
+  })
+
+  yield takeEvery(RESET_PASSWORD, function*(action){
+    try{
+      const auth = firebase.auth();
+      yield call([auth, auth.sendPasswordResetEmail], action.email);
+    } catch (error) {
+      yield call(displayErrorMessage, error, RESET_PASSWORD);
     }
   })
 

@@ -32,6 +32,10 @@ export const logout = () => ({
   type: actionTypes.LOGOUT
 })
 
+export const resetPassword = email => ({
+  type:actionTypes.RESET_PASSWORD,
+  email
+})
 //INITIALIZE APP
 // this isn't done, no try/catch and LOGIN_FAIL isn't hooked up
 // but you get the idea
