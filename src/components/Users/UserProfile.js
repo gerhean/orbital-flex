@@ -76,10 +76,10 @@ class UserProfile extends Component {
           <Card>
             <CardItem>
               {profilePictureDisplay(user.profilePic, {large: true})}
-              <Body>
+              <Body style={{ "margin": 5 }}>
                 <H2>{user.username}</H2>
                 <TouchableOpacity onPress={()=>Clipboard.setString(this.props.uid)}>
-                  <Text note>{this.props.uid}</Text>
+                  <Text note>{this.props.uid.substring(0, 20)}...</Text>
                 </TouchableOpacity>
                 <Text>Gender: {gender}</Text>
               </Body>

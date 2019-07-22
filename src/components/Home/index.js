@@ -78,14 +78,14 @@ class Home extends Component {
         </Header>
 
         <Content>
-          <Card>
+          <Card transparent>
             <CardItem>
               {profilePictureDisplay(user.profilePic, {large: true})}
               <Body>
                 <H2>{user.username}</H2>
                 <TouchableOpacity onPress={()=>Clipboard.setString(user.uid)}>
                   <Text>User Id (Tap to copy):</Text>
-                  <Text note>{user.uid}</Text>
+                  <Text note>{user.uid.substring(0, 20)}...</Text>
                 </TouchableOpacity>
               </Body>
             </CardItem>
@@ -123,7 +123,7 @@ class Home extends Component {
           
           <Accordion dataArray={scheduleArray} renderContent={item => <View>{item.content}</View>} />
           
-          <Card>
+          <Card transparent>
             <CardItem>
               <Button onPress={this.navigate("CreateSchedule")}>
                 <Text>Create Schedule</Text>
