@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { TextInput, View } from 'react-native';
 
 class RangeInput extends Component {
-    propTypes = {
+    static propTypes = {
         refine: PropTypes.func.isRequired,
         currentRefinement: PropTypes.object,
         minLabel: PropTypes.string,
@@ -32,7 +32,7 @@ class RangeInput extends Component {
                     keyboardType="numeric"
                     onChangeText={text => this.props.refine({...this.props.currentRefinement,
                         max: Number(text)})}
-                    maxLength={4}
+                    maxLength={3}
                     value={this.props.currentRefinement.max.toString()}
                     underlineColorAndroid="transparent"
                 />

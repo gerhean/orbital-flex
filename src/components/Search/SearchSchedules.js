@@ -20,11 +20,7 @@ export default class SearchSchedules extends Component {
   
   state = {
     isModalOpen: false,
-    searchState: {
-      district: ["City", "Central", "North", "South", "East", "West"],
-      category: ["Aerobics", "Swimming", "Weight training"
-          , "Calisthenics", "Pilates", "Yoga", "Others"]
-    }
+    searchState: {}
   };
 
   toggleModal = () =>

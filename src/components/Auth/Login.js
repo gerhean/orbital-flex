@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { Icon, Button, Input } from "react-native-elements";
 import { AppLoading } from "expo";
 import firebase from 'firebase';
-
-import { loginEmail, loginInitialize, changeScreen, logout } from "../../actions";
+import { loginEmail, loginInitialize, 
+    changeScreen, logout, resetPassword } from "../../actions";
 
 const mapStateToProps = state => ({
   authError: state.auth.error,
@@ -20,6 +20,7 @@ const mapDispatchToProps = dispatch =>
       handleEmailLogin: loginEmail,
       handleChangeScreen: changeScreen,
       handleLogout: logout,
+      handleReset: resetPassword
     },
     dispatch
   );
@@ -94,6 +95,11 @@ class LoginBase extends Component {
             onPress={this.navigate("Register")}
             title="Create new account"
           />
+          <TouchableOpacity
+            onPress={this.props.handleReset({ email })}
+          >
+            <Text>Reset password</Text>
+          </TouchableOpacity>
         </View>
       </View>
     );
