@@ -15,16 +15,18 @@ class RangeInput extends Component {
                 <TextInput
                     placeholder={this.props.minLabel}
                     keyboardType="numeric"
-                    onChangeText={text => this.props.refine({...currentRefinement,
+                    onChangeText={text => this.props.refine({...this.props.currentRefinement,
                         min: text})}
+                    maxLength={3}
                     value={this.props.currentRefinement.min}
                     underlineColorAndroid="transparent"
                 />
                 <TextInput
                     placeholder={this.props.maxLabel}
                     keyboardType="numeric"
-                    onChangeText={text => this.props.refine({...currentRefinement,
+                    onChangeText={text => this.props.refine({...this.props.currentRefinement,
                         max: text})}
+                    maxLength={3}
                     value={this.props.currentRefinement.max}
                     underlineColorAndroid="transparent"
                 />

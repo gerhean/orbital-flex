@@ -12,6 +12,7 @@ import algoliasearch from 'algoliasearch/reactnative';
 import RefinementList from './RefinementList';
 import ConnectedRangeInput from './RangeInput';
 import { ALOGOLIA_API_KEY, ALOGOLIA_APP_ID } from '../../../env';
+import RangeInput from './RangeInput';
 
 const searchClient = algoliasearch(ALOGOLIA_APP_ID, ALOGOLIA_API_KEY);
 
@@ -35,6 +36,11 @@ const Filters = ({
           <RefinementList attribute="district" title="district" />
           <RefinementList attribute="category" title="workout category" />
           <RefinementList attribute="day" title="day of the week" />
+          <RangeInput 
+              attribute="price"
+              minLabel="minimum price" 
+              maxLabel="maximum price" />
+
           <TouchableOpacity style={styles.closeButton} onPress={toggleModal}>
             <Text style={styles.closeButtonText}>Apply</Text>
           </TouchableOpacity>

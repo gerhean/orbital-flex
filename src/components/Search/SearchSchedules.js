@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { View, StyleSheet, Text, FlatList, TextInput, Image, Button } from 'react-native';
 import PropTypes from 'prop-types';
 import { InstantSearch, connectSearchBox,
-  connectInfiniteHits, connectRefinementList } from 'react-instantsearch-native';
+  connectInfiniteHits, connectRefinementList, connectRange } from 'react-instantsearch-native';
 import algoliasearch from 'algoliasearch/reactnative';
 import Constants from 'expo-constants'
 import layout from './layout';
@@ -14,6 +14,7 @@ import ScheduleList from '../Home/ScheduleList';
 const searchClient = algoliasearch(ALOGOLIA_APP_ID, ALOGOLIA_API_KEY);
 
 const VirtualRefinementList = connectRefinementList(() => null);
+const VirtualRangeInput = connectRange(() => null);
 
 export default class SearchSchedules extends Component {
   
@@ -53,6 +54,7 @@ export default class SearchSchedules extends Component {
           <VirtualRefinementList attribute="district" />
           <VirtualRefinementList attribute="category" />
           <VirtualRefinementList attribute="day" />
+          <VirtualRangeInput attribute="price" />
           <Filters
                 isModalOpen={isModalOpen}
                 searchClient={searchClient}

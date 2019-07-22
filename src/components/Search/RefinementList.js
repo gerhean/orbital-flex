@@ -9,26 +9,28 @@ const RefinementList = ({ items, refine, title }) => (
       <View style={styles.title}>
         <Text style={styles.titleText}>{ title }</Text> 
       </View>
-      <View style={styles.list}>
-        {items.map(item => {
-          const labelStyle = {
-            fontSize: 16,
-            fontWeight: item.isRefined ? '800' : '400',
-          };    
-          return (
-            <TouchableOpacity
-              key={item.value}
-              onPress={() => refine(item.value)}
-              style={styles.item}
-            >
-              <Text style={labelStyle}>{item.label}</Text>
-              <View style={styles.itemCount}>
-                <Text style={styles.itemCountText}>{item.count}</Text>
-              </View>
-            </TouchableOpacity>
-          );
-        })}
-      </View>
+        
+        <View style={styles.list}>
+          {items.map(item => {
+            const labelStyle = {
+              fontSize: 16,
+              fontWeight: item.isRefined ? '800' : '400',
+            };    
+            return (
+              <TouchableOpacity
+                key={item.value}
+                onPress={() => refine(item.value)}
+                style={styles.item}
+              >
+                <Text style={labelStyle}>{item.label}</Text>
+                <View style={styles.itemCount}>
+                  <Text style={styles.itemCountText}>{item.count}</Text>
+                </View>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+
     </View>
   );
   

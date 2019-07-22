@@ -284,6 +284,7 @@ class ScheduleForm extends Component {
               <Label>Price</Label>
               <Input
                 value={this.state.price}
+                maxLength={3}
                 onChangeText={this.setValue("price")}
                 keyboardType={'numeric'}
               />
