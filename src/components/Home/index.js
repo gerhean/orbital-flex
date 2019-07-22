@@ -99,7 +99,7 @@ class Home extends Component {
               <Right>
                 <TouchableOpacity style={{ paddingLeft: 10, margin: 10 }} onPress={()=>Clipboard.setString(user.uid)}>
                   <Text style={{ fontWeight: '500'}}>Tap my user ID to copy:</Text>
-                  <Text note>{user.uid}</Text>
+                  <Text note>{user.uid.substring(0, 20)}...</Text>
                 </TouchableOpacity>
                 <Button style={{  margin: 5 }} onPress={this.navigate("EditUserInfoForm")}>
                   <Text>Edit</Text>
@@ -136,7 +136,7 @@ class Home extends Component {
           
           <Accordion dataArray={scheduleArray} renderContent={item => <View>{item.content}</View>} />
           
-          <Card>
+          <Card transparent>
             <CardItem>
               <Button onPress={this.navigate("CreateSchedule")}>
                 <Text>Create Schedule</Text>

@@ -77,6 +77,7 @@ function* userSaga() {
         sentTime: Date.now()
       };
       yield put({ type: ADD_USER_REVIEW_SUCCESS, uid, review: localReview});
+      displayMessage("Review successfully submitted!")
     } catch (error) {
       yield call(displayErrorMessage, error, ADD_USER_REVIEW);
     }

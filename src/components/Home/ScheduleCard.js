@@ -97,21 +97,15 @@ class ScheduleCard extends Component {
             <H2>{schedule.name}</H2>
           </Row>
           <Row>
-            <Col>
-              <Row>
-                {profilePictureDisplay(schedule.image, {square: true, large: true})}
-              </Row>
 
-              <Row>
+            <Col>
+              <View style={{flexDirection: "column"}}>
+                {profilePictureDisplay(schedule.image, {square: true, large: true})}
                 <Text note>Poster:</Text>
-              </Row>
-              <Row>
-                <Button 
-                  block rounded bordered 
-                  onPress={this.navigate("UserProfile/" + schedule.poster)}>
+                <TouchableOpacity onPress={this.navigate("UserProfile/" + schedule.poster)}>
                   <Text>{schedule.posterName}</Text>
-                </Button>
-              </Row>
+                </TouchableOpacity>
+              </View>
             </Col>
 
             <Col>
@@ -119,8 +113,8 @@ class ScheduleCard extends Component {
                 <Text note>Location:</Text>
                 <Text>{schedule.location}</Text>
       
-              <Text note>Price: </Text>
-              <Text>${schedule.price}</Text>
+                <Text note>Price: </Text>
+                <Text>${schedule.price}</Text>
                 
                 <Text note>Day of the week:</Text>
                 <Text>{schedule.day}</Text>
@@ -132,7 +126,9 @@ class ScheduleCard extends Component {
           </Row>
 
           <TouchableOpacity onPress={this.toggleMoreDetails}>
-            <Text note style={{ textAlign: "center", "marginTop": 5 }}>More Details</Text>
+            <Text note style={{ textAlign: "center", "marginTop": 5 }}>
+              {this.state.moreDetails ? "Less" : "More"} Details
+            </Text>
           </TouchableOpacity>
           {this.state.moreDetails ?
             <View style={{flexDirection: "column"}}>
