@@ -7,9 +7,7 @@ import {
   ListItem,
   Body,
   Button,
-  Right,
   Left,
-  View
 } from "native-base";
 import { changeScreen, fetchUserInfo } from "../../actions";
 import profilePictureDisplay from '../profilePictureDisplay';
@@ -37,7 +35,7 @@ class OfferCard extends Component {
 
   constructor(props) {
     super(props);
-  };
+  }
 
   componentDidMount() {
     this.props.handleFetchUserInfo(this.props.uid);

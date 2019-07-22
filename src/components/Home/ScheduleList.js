@@ -74,7 +74,7 @@ class ScheduleList extends Component {
     </Dialog>
   );
 
-  onPressBook = (scheduleId, bookingOffer = false) => {
+  onPressBook = (scheduleId, bookingOffer = {}) => {
     this.setState({ bookingId: scheduleId, bookingOffer });
   };
 

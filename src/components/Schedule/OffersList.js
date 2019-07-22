@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { PropTypes } from 'prop-types';
 import { FlatList } from 'react-native';
@@ -21,7 +20,7 @@ class OffersList extends Component {
 
   constructor(props) {
     super(props);
-  };
+  }
 
   render() {
     const bookerIds = Object.keys(this.props.bookers);

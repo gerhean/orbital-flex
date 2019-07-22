@@ -5,24 +5,21 @@ import { connect } from "react-redux";
 import {
   Text,
   Container,
-  Header,
   Body,
   Title,
   Button,
   Content,
-  Right,
   Left,
-  Thumbnail,
   View,
   List, 
-  ListItem
+  ListItem,
+  H3
 } from "native-base";
 import { FlatList } from 'react-native';
 import StarRating from 'react-native-star-rating';
 
 import { changeScreen, fetchUserReviews, addUserReview } from "../../actions";
 import profilePictureDisplay from '../profilePictureDisplay';
-import ScheduleList from "../Home/ScheduleList";
 import EditOwnReview from "./EditOwnReview";
 
 const mapStateToProps = (state, ownProps) => {
@@ -68,14 +65,17 @@ class ViewReviews extends Component {
   reviewCard = review => (
     <ListItem bordered>
       <Left>
-        {profilePictureDisplay(user.profilePic, {large: true})}
+        {profilePictureDisplay(this.props.user.profilePic, {large: true})}
       </Left>
       <Body>
+        <H3>{this.props.user.username}</H3>
         <StarRating
           maxStars={5}
           rating={review.rating}
+          disabled={true}
+          fullStarColor="yellow"
+          starSize={20}
         />
-        <Text>{user.username}</Text>
         <Text>{review.text}</Text>
       </Body>
     </ListItem>
@@ -103,13 +103,11 @@ class ViewReviews extends Component {
               handleAddUserReview={this.props.handleAddUserReview}
             />
           }
-          <List> 
-            <FlatList 
-              data={reviews} 
-              renderItem={({ item }) => reviewCard(item) }
-              keyExtractor={item => item.poster}
-            />
-          </List> 
+          <FlatList 
+            data={reviews} 
+            renderItem={({ item }) => this.reviewCard(item) }
+            keyExtractor={item => item.poster}
+          /> 
         </Content>
       </Container>
     );
