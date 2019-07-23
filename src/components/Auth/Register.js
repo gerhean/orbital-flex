@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
-import { View, StyleSheet, Text, KeyboardAvoidingView } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import { connect } from "react-redux";
 import { Icon, Button, Input } from "react-native-elements";
 import { signupInitialize, changeScreen } from "../../actions";
@@ -67,6 +67,7 @@ class SignUpForm extends Component {
         />
         <Input
           placeholder="Username"
+          maxLength={17}
           value={username}
           onChangeText={username => this.setState({ username })}
         />

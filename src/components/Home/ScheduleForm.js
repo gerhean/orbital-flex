@@ -167,6 +167,7 @@ class ScheduleForm extends Component {
             <Item stackedLabel>
               <Label style={styles.label}>Name of Schedule*</Label>
               <Input
+                maxLength={20}
                 value={this.state.name}
                 onChangeText={this.setValue("name")}
               />
