@@ -59,7 +59,7 @@ function* chatSaga() {
         const roomId = chatroom.roomId;
         const storedChatroom = storedChatrooms[roomId];
         if (storedChatroom) {
-          if (storedChatroom.lastFetch.nanoseconds < chatroom.updated.nanoseconds) {
+          if (storedChatroom.lastFetch.seconds < chatroom.updated.seconds) {
             yield put({ type: FETCH_MESSAGES, storedRoom: storedChatroom, roomId, otherUid })
           }
         } else {
@@ -128,26 +128,24 @@ function* chatSaga() {
         });
       }); 
       if (messages[0]) {
-        const lastMessageTime = messages[0].createdAt.getTime();
-        
+        const chatroom = {
+          otherUid: action.otherUid, 
+          messages, 
+          lastFetch: localTimestamp(),
+          lastMessageTime: messages[0].createdAt.getTime()
+        };
         if (storedRoom) {
-          const chatroom = {
-            ...storedRoom,
-            otherUid: action.otherUid, 
-            messages: Array.of(messages, ...storedRoom.messages),
-            lastFetch: localTimestamp(),
-            lastMessageTime,
-          }
+          chatroom.messages = Array.of(messages, ...storedRoom.messages);
           yield put({ type: FETCH_MESSAGES_SUCCESS, chatroom, roomId });
         } else {
-          const chatroom = {
-            otherUid: action.otherUid, 
-            messages, 
-            lastFetch: localTimestamp(),
-            lastMessageTime
-          };
           yield put({ type: CHATROOM_CREATE_SUCCESS, chatroom, roomId })
         }
+      } else if (storedRoom) {
+        const chatroom = {
+          ...storedRoom,
+          lastFetch: localTimestamp(),
+        };
+        yield put({ type: FETCH_MESSAGES_SUCCESS, chatroom, roomId });
       }
 
     } catch (error) {
