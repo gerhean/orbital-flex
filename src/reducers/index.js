@@ -45,6 +45,18 @@ const miscReducer = {
       screenHistory
     }
   },
+
+  [actionTypes.REPLACE_SCREEN]: (state, action) => {
+    Keyboard.dismiss();
+    const screen = action.screen;
+    const screenHistory = state.screenHistory.slice(0, length - 1);
+    screenHistory.push(screen);
+    return {
+      ...state,
+      screen,
+      screenHistory
+    }
+  },
 };
 
 const reducerArr = [miscReducer, loginReducer, userReducer, scheduleReducer, chatReducer];
