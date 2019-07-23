@@ -17,15 +17,16 @@ export default chatReducer = {
     let screen = hasExistingChat ? 
       "Chatroom/" + hasExistingChat 
       : "ChatroomNew/" + action.otherUid;
+    screenHistory = state.screenHistory.concat([screen])
     return {
       ...state,
-      screen
+      screen,
+      screenHistory
     }
   },
 
   [actionTypes.CHATROOM_CREATE_SUCCESS]: (state, action) => ({
     ...state,
-    // screen: "Chatroom/" + action.roomId,
     chat: {
       ...state.chat,
       chatroomArr: Array.of(action.roomId, ...state.chat.chatroomArr), 

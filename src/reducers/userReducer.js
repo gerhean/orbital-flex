@@ -12,7 +12,8 @@ export default userReducer = {
       ...state.user,
       ...action.userInfo
     },
-    screen: "Home"
+    screen: "Home",
+    screenHistory: ["Home"]
   }),
 
   [actionTypes.FETCH_USER_INFO_SUCCESS]: (state, action) => {

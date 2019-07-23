@@ -61,7 +61,6 @@ class ScheduleForm extends Component {
     handleChangeScreen: PropTypes.func.isRequired,
     schedules: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
-    isEditForm: PropTypes.bool
   }
 
   constructor(props) {
@@ -109,7 +108,7 @@ class ScheduleForm extends Component {
       price,
       remarks
     }
-    if (this.props.isEditForm) {
+    if (this.props.editFormId) {
       schedule["scheduleId"] = this.state.scheduleId;
     }
     

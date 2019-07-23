@@ -7,7 +7,7 @@ import {
   ListItem,
   Body,
   Button,
-  Left,
+  H3
 } from "native-base";
 import { changeScreen, fetchUserInfo } from "../../actions";
 import profilePictureDisplay from '../profilePictureDisplay';
@@ -48,19 +48,17 @@ class OfferCard extends Component {
     }
     const offer = this.props.offer;
     return (
-      <ListItem bordered>
-        <Left>
-          {profilePictureDisplay(user.profilePic, {large: true})}
-        </Left>
-        <Body>
-          <Text>{user.username}</Text>
+      <ListItem bordered avatar>
+        {profilePictureDisplay(user.profilePic, {large: true})}
+        <Body style={{ "paddingLeft": 10 }}>
+          <H3>{user.username}</H3>
 
           <Text note>Offer price:</Text>
-          <Text>{offer.price.toString()}</Text>
+          <Text>${offer.price.toString()}</Text>
           <Text note>Remarks:</Text>
           <Text>{offer.remarks}</Text>
 
-          <Button onPress={this.navigate("UserProfile/" + this.props.uid)}>
+          <Button block rounded bordered onPress={this.navigate("UserProfile/" + this.props.uid)}>
             <Text>View Profile</Text>
           </Button>
         </Body>
