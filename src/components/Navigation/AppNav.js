@@ -94,7 +94,10 @@ export class AppNav extends Component {
         </React.Fragment>
       
       case "Search":
-        return <Search />;
+        return <React.Fragment>
+          <DefaultHeader title='Search'/>
+          <Search />
+        </React.Fragment>
       
       case "Chat":
         return <React.Fragment>

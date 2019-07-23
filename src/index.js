@@ -1,13 +1,17 @@
 import React, { Component } from "react";
 import { Root } from "native-base";
 import { Provider } from "react-redux";
+import { PersistGate } from 'redux-persist/lib/integration/react';
 import { AppLoading } from "expo";
 import * as Font from "expo-font";
+import firebase from 'firebase';
 
-import firebaseApp from './firebase';
 import AuthNavigator from "./components/Navigation/AuthNav";
 import store, { persistor } from "./store";
-import { PersistGate } from 'redux-persist/lib/integration/react';
+
+import { firebaseConfig } from "../env.js";
+firebase.initializeApp(firebaseConfig);
+firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 
 class AppWrapper extends Component {
   constructor(props) {

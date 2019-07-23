@@ -10,8 +10,9 @@ import { GiftedChat } from 'react-native-gifted-chat';
 import { createChat, changeScreen, fetchUserInfo } from "../../actions";
 
 const mapStateToProps = (state, ownProps) => ({
-    uid: state.user.uid,
-  });
+  uid: state.user.uid,
+  user: state.users[ownProps.otherUid],
+});
 
 const mapDispatchToProps = dispatch =>
 bindActionCreators(
@@ -45,8 +46,7 @@ class ChatRoomNew extends Component {
   }
 
   render() {
-    const user = this.props.users[this.props.otherUid]
-    if (!user) return null;
+    if (!this.props.user) return null;
     return (
       <Container>
         <Header>

@@ -1,16 +1,13 @@
-import { AppLoading } from "expo";
 import { PropTypes } from 'prop-types';
 import React, { Component } from 'react';
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import Dialog, { DialogContent, DialogFooter, DialogButton, DialogTitle } from 'react-native-popup-dialog';
 
-import { View, Card, Body, Text, Right, Left, Thumbnail, SwipeRow, Icon, List, ListItem, Button,
-Grid, Row, Col, H2, Form, Item, Label, Input} from 'native-base';
+import { View, Text } from 'native-base';
 import { FlatList } from 'react-native';
 
 import { changeScreen, bookSchedule, unbookSchedule, fetchSchedule } from "../../actions";
-import profilePictureDisplay from '../profilePictureDisplay';
 import ScheduleCard from './ScheduleCard';
 import BookSchedulePopup from './BookSchedulePopup';
 

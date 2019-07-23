@@ -7,9 +7,6 @@ import {
   ListItem,
   Body,
   Button,
-  Right,
-  Left,
-  View
 } from "native-base";
 import { changeScreen, fetchUserInfo } from "../../actions";
 import profilePictureDisplay from '../profilePictureDisplay';

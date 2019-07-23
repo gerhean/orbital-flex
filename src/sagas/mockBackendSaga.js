@@ -126,7 +126,6 @@ function* mockBackendSaga() {
       }
       yield put({ type: SCHEDULE_CREATE_SUCCESS, schedule, scheduleId: "someId"}) 
     } catch (error) {
-      const error_message = { code: error.code, message: error.message };
       // yield put({ type: SCHEDULE_CREATE_FAIL, error: error_message });
       yield call(displayErrorMessage, error, SCHEDULE_CREATE)
     }
@@ -137,7 +136,6 @@ function* mockBackendSaga() {
       yield put({ type: SCHEDULE_UPDATE_SUCCESS, schedule: action.schedule })
       yield call(displayMessage, "Schedule Updated");
     } catch (error) {
-      const error_message = { code: error.code, message: error.message };
       yield call(displayErrorMessage, error, SCHEDULE_UPDATE);
     }
   })
@@ -153,7 +151,6 @@ function* mockBackendSaga() {
         posted: ["B"] 
       }) 
     } catch (error) {
-      const error_message = { code: error.code, message: error.message };
       yield call(displayErrorMessage, error)
     }
   })
@@ -167,7 +164,6 @@ function* mockBackendSaga() {
       yield put({ type: UPDATE_USER_INFO_SUCCESS, userInfo: action.userInfo })
       yield call(displayMessage, "User Info Updated");
     } catch (error) {
-      const error_message = { code: error.code, message: error.message };
       yield call(displayErrorMessage, error)
     }
   })

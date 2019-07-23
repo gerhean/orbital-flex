@@ -25,10 +25,10 @@ const mapDispatchToProps = dispatch =>
     dispatch
   );
 
-const initialState = {
-  email: "",
-  password: ""
-};
+// const initialState = {
+//   email: "",
+//   password: ""
+// };
 
 class LoginBase extends Component {
   constructor(props) {

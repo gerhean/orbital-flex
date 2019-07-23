@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from "redux";
-import { View, BackHandler } from "react-native";
+import { BackHandler } from "react-native";
 import { connect } from "react-redux";
-// import firebase from 'react-native-firebase';
-import firebase from 'firebase';
-import { AppLoading } from 'expo';
 
 import { changePreviousScreen } from "../../actions";
 import Register from "../Auth/Register";

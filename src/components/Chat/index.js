@@ -1,18 +1,8 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import {
-  Text,
-  TextInput,
-  TouchableHighlight,
-  StatusBar,
-  ListView,
-  FlatList,
-  View,
-  Image
-  } from 'react-native';
-import { Container, Header, Content, List } from 'native-base';
-import styles from './styles.js';
+import { FlatList } from 'react-native';
+import { Container, Content, List } from 'native-base';
 import { changeScreen } from "../../actions";
 import ChatRow from "./ChatRow";
 

@@ -132,6 +132,7 @@ function* userSaga() {
             const ownReviewQuery = yield call([ownReviewRef, ownReviewRef.get]);
             const review = ownReviewQuery.data()
             if (review) {
+              // eslint-disable-next-line
               ownReview = {
                 rating: review.rating,
                 text: review.text,

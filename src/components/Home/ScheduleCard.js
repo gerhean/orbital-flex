@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import firebase from 'firebase';
-import { TouchableOpacity, StyleSheet } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { View, Text, ListItem, Button, Grid, Row, Col, H2} from 'native-base';
 
 import profilePictureDisplay from '../profilePictureDisplay';
