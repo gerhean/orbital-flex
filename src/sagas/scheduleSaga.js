@@ -122,7 +122,7 @@ function* scheduleSaga() {
 
         const data = yield scheduleData.data();
         if (!data) {
-          yield call(displayErrorMessage, {code: '', message:'Schedule data has been deleted'}, FETCH_SCHEDULE);
+          displayMessage('Schedule data has been deleted');
           yield put({ type: REMOVE_SCHEDULE, id, isBooked });
         } else {
           const schedule = yield {
