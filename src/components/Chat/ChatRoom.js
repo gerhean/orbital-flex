@@ -6,11 +6,11 @@ import {
     StatusBar,
     View
   } from 'react-native';
-import { Container, Header, Content, Left, Body, Right, Text, Title, Button } from 'native-base';
+import { Container, Header, Left, Body, Right, Text, Title, Button } from 'native-base';
 import { GiftedChat } from 'react-native-gifted-chat';
 
 import profilePictureDisplay from '../profilePictureDisplay';
-import { sendMessage, changeScreen, changePreviousScreen } from "../../actions";
+import { sendMessage, changeScreen, changePreviousScreen, fetchUserInfo } from "../../actions";
 
 const mapStateToProps = (state, ownProps) => ({
     uid: state.user.uid,
@@ -24,6 +24,7 @@ bindActionCreators(
     handleChangeScreen: changeScreen,
     handleSendMessage: sendMessage,
     handlePreviousScreen: changePreviousScreen,
+    handleFetchUserInfo: fetchUserInfo,
   },
   dispatch
 );
@@ -36,6 +37,10 @@ class ChatRoom extends Component {
   constructor(props) {
     super(props);
   }
+
+  componentDidMount() {
+    this.props.handleFetchUserInfo(this.props.room.otherUid);
+  }
     
   navigate = screen => () => {
     this.props.handleChangeScreen(screen);
@@ -43,7 +48,6 @@ class ChatRoom extends Component {
   
   sendMessage = (messages = []) => {
     for (const message of messages) {
-      console.log(message);
       this.props.handleSendMessage({
         text: message.text,
         _id: message._id,
@@ -55,9 +59,9 @@ class ChatRoom extends Component {
     }
   }
 
-  // missing back button
   render() {
     const user = this.props.users[this.props.room.otherUid]
+    if (!user) return null;
     return (
       <Container>
         <Header>

@@ -17,6 +17,7 @@ export const objFilter = (obj, predicate) =>
 const miscReducer = {
   [actionTypes.CHANGE_SCREEN]: (state, action) => {
     Keyboard.dismiss();
+    if (state.screen === action.screen) return state;
     const screen = action.screen;
     let screenHistory;
     if (screen === "Home" || screen === "Login") {
@@ -39,6 +40,18 @@ const miscReducer = {
     }
     const screen = state.screenHistory[length - 2];
     const screenHistory = state.screenHistory.slice(0, length - 1);
+    return {
+      ...state,
+      screen,
+      screenHistory
+    }
+  },
+
+  [actionTypes.REPLACE_SCREEN]: (state, action) => {
+    Keyboard.dismiss();
+    const screen = action.screen;
+    const screenHistory = state.screenHistory.slice(0, length - 1);
+    screenHistory.push(screen);
     return {
       ...state,
       screen,
