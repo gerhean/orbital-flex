@@ -11,12 +11,9 @@ import {
   Button,
   Card,
   Content,
-  Right,
-  Left,
   CardItem,
   View,
   H2,
-  Icon,
   Separator
 } from "native-base";
 import StarRating from 'react-native-star-rating';
@@ -142,7 +139,9 @@ class UserProfile extends Component {
                   <Text>Oops, this user has no reviews yet</Text> :
                   <StarRating
                     maxStars={5}
+                    fullStarColor="#ffd700"
                     rating={user.avgRating}
+                    disabled={true}
                   />
                 }
                 <Button

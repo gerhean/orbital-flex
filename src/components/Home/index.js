@@ -134,9 +134,11 @@ class Home extends Component {
                       maxStars={5}
                       fullStarColor="#ffd700"
                       rating={user.avgRating}
-                      starSize={20}
+                      disabled={true}
                     />
-                    <Button rounded bordered onPress={this.navigate("ViewReviews/" + this.props.user.uid)}>
+                    <Button 
+                      block rounded bordered style={{ margin: 5 }}
+                      onPress={this.navigate("ViewReviews/" + this.props.user.uid)}>
                       <Text>{user.numRatings.toString()} Reviews</Text>
                     </Button>
                   </React.Fragment>
@@ -187,8 +189,7 @@ const styles = StyleSheet.create({
     borderTopColor:'rgb(200, 199, 204)',
     borderTopWidth: StyleSheet.hairlineWidth,
     borderBottomColor:'rgb(200, 199, 204)',
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    paddingLeft: 45
+    borderBottomWidth: StyleSheet.hairlineWidth
   },
   about: {
     backgroundColor: "#faf0e6",
