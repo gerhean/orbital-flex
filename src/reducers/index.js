@@ -49,6 +49,7 @@ const miscReducer = {
 
   [actionTypes.REPLACE_SCREEN]: (state, action) => {
     Keyboard.dismiss();
+    const length = state.screenHistory.length;
     const screen = action.screen;
     const screenHistory = state.screenHistory.slice(0, length - 1);
     screenHistory.push(screen);
