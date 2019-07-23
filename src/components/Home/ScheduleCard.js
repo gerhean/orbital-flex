@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import firebase from 'firebase';
-import { TouchableOpacity } from "react-native";
+import { TouchableOpacity, StyleSheet } from "react-native";
 import { View, Text, ListItem, Button, Grid, Row, Col, H2} from 'native-base';
 
 import profilePictureDisplay from '../profilePictureDisplay';
@@ -88,18 +88,29 @@ class ScheduleCard extends Component {
       <ListItem bordered>
         <Grid>
           <Row>
-            <H2>{schedule.name}</H2>
+            <H2 style={{fontStyle:"italic", backgroundColor: "#d8bfd8"}}>{schedule.name}</H2>
           </Row>
           <Row>
 
             <Col>
-              <View style={{flexDirection: "column"}}>
-                {profilePictureDisplay(schedule.image, {square: true, large: true})}
-                <Text note>Poster:</Text>
+              <View>
                 <TouchableOpacity onPress={this.navigate("UserProfile/" + schedule.poster)}>
-                  <Text>{schedule.posterName}</Text>
+                  {profilePictureDisplay(schedule.image, {square: true, large: true})}
+                  <Text style={{fontSize: 10 , fontWeight: "100"}}>
+                    Click to see profile...
+                  </Text>
                 </TouchableOpacity>
               </View>
+              <View>
+                <Text note>Poster's name:</Text>
+                <Text style={{fontSize: 16}}>{schedule.posterName}</Text></View>
+              <View>
+                  <TouchableOpacity onPress={this.toggleMoreDetails}>
+                    <Text note style={{ textAlign: "center", "marginTop": 5 }}>
+                      {this.state.moreDetails ? "Less" : "More"} Details...
+                    </Text>
+                  </TouchableOpacity>
+                </View>
             </Col>
 
             <Col>
@@ -119,19 +130,18 @@ class ScheduleCard extends Component {
             </Col>
           </Row>
 
-          <TouchableOpacity onPress={this.toggleMoreDetails}>
-            <Text note style={{ textAlign: "center", "marginTop": 5 }}>
-              {this.state.moreDetails ? "Less" : "More"} Details
-            </Text>
-          </TouchableOpacity>
           {this.state.moreDetails ?
             <View style={{flexDirection: "column"}}>
-              <Text note>District:</Text>
-              <Text>{schedule.district}</Text>
-
-              <Text note>Workout category:</Text>
-              <Text>{schedule.category}</Text>       
-              
+              <View style={{flexDirection: "row", justifyContent: "flex-start"}}>
+                <View>
+                  <Text note>District:</Text>
+                  <Text>{schedule.district}</Text>
+                </View>
+                <View style={{marginLeft: 60}}>
+                  <Text note>Workout category:</Text>
+                  <Text>{schedule.category}</Text>
+                </View> 
+              </View>      
               <Text note>Type of service: </Text>
               <Text>{schedule.services}</Text>
     
@@ -142,7 +152,7 @@ class ScheduleCard extends Component {
           }
 
           {buttonText ? 
-            <Button block rounded bordered onPress={onButtonPress} style={{"marginTop": 5}}>
+            <Button block rounded onPress={onButtonPress} style={{"marginTop": 5}}>
               <Text>{buttonText}</Text>
             </Button>
             : null
@@ -150,7 +160,7 @@ class ScheduleCard extends Component {
           <Row>
             <Col>
               {button2Text ? 
-                <Button block rounded bordered onPress={onButton2Press} style={{ "margin": 5 }}>
+                <Button block rounded onPress={onButton2Press} style={{ "margin": 5 }}>
                   <Text>{button2Text}</Text>
                 </Button>
                 : null
@@ -158,7 +168,7 @@ class ScheduleCard extends Component {
             </Col>
             <Col>
               {button3Text ? 
-                <Button block rounded bordered onPress={onButton3Press} style={{ "margin": 5 }}>
+                <Button block rounded onPress={onButton3Press} style={{ "margin": 5 }}>
                   <Text>{button3Text}</Text>
                 </Button>
                 : null
