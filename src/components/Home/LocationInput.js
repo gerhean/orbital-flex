@@ -9,7 +9,7 @@ class LocationInput extends Component {
     render() {
         return (
             <GooglePlacesAutocomplete
-                placeholder='Recommend Location'
+                placeholder='Tap here to suggest location...'
                 minLength={2}
                 autoFocus={false}
                 listViewDisplayed='true'
@@ -46,5 +46,6 @@ class LocationInput extends Component {
         );
     }
 }
+
 
 export default LocationInput;

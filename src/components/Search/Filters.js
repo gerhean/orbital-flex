@@ -2,22 +2,24 @@ import React from 'react';
 import {
   StyleSheet,
   Modal,
-  Text,
-  TouchableOpacity,
-  Button
+  ScrollView
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { InstantSearch } from 'react-instantsearch-native';
 import algoliasearch from 'algoliasearch/reactnative';
 import {
   Container,
-  Body
+  Body,
+  Button,
+  Text,
+  Card,
+  CardItem,
+  Left,
+  Right
 } from "native-base";
 import RefinementList from './RefinementList';
 import { ALOGOLIA_API_KEY, ALOGOLIA_APP_ID } from '../../../env';
 import RangeInput from './RangeInput';
-
-const searchClient = algoliasearch(ALOGOLIA_APP_ID, ALOGOLIA_API_KEY);
 
 const Filters = ({
     isModalOpen,
@@ -27,8 +29,8 @@ const Filters = ({
     onSearchStateChange,
   }) => (
     <Modal animationType="slide" visible={isModalOpen}>
-      <Container>
-        <Body>
+      <ScrollView>
+        <Container>
           <InstantSearch
             searchClient={searchClient}
             // appId={ALOGOLIA_APP_ID}
@@ -46,16 +48,17 @@ const Filters = ({
                 max={999}
                 minLabel="minimum price:" 
                 maxLabel="maximum price:" />
-
-            <Button 
-              onPress={toggleModal}
-              title="Apply"
-            >
-
-            </Button>
           </InstantSearch>
-        </Body>
-      </Container>
+          <Body>
+          <Button
+              onPress={toggleModal}
+              bordered dark
+            >
+              <Text>Apply</Text>
+            </Button>
+          </Body>
+        </Container>
+      </ScrollView>
     </Modal>
   );
 

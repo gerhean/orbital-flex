@@ -1,5 +1,6 @@
 import { PropTypes } from 'prop-types';
 import React, { Component } from "react";
+import { StyleSheet } from "react-native";
 import {
   Text,
   Container,
@@ -161,10 +162,10 @@ class ScheduleForm extends Component {
           </Right>
         </Header>
 
-        <Content>
+        <Content style={styles.content}>
           <Form>
             <Item stackedLabel>
-              <Label>Name of Schedule*</Label>
+              <Label style={styles.label}>Name of Schedule*</Label>
               <Input
                 value={this.state.name}
                 onChangeText={this.setValue("name")}
@@ -172,7 +173,7 @@ class ScheduleForm extends Component {
             </Item>
 
             <Item stackedLabel>
-              <Label>Image URL (current profile picture used if blank)</Label>
+              <Label style={styles.label}>Image URL (current profile picture used if blank)</Label>
               <Input
                 value={this.state.image}
                 onChangeText={this.setValue("image")}
@@ -180,14 +181,11 @@ class ScheduleForm extends Component {
             </Item>
 
             <Item picker fixedLabel>
-              <Label>Day of the week</Label>
+              <Label style={styles.label}>Day of the week</Label>
               <Picker
                 mode="dropdown"
                 iosIcon={<Icon name="arrow-down" />}
                 style={{ width: undefined }}
-                placeholder="Day of the week"
-                placeholderStyle={{ color: "#bfc6ea" }}
-                placeholderIconColor="#007aff"
                 selectedValue={this.state.day}
                 onValueChange={this.setValue("day")}
               >
@@ -202,12 +200,12 @@ class ScheduleForm extends Component {
             </Item>
 
             <Item fixedLabel>
-              <Label>Time</Label>
-              <Button rounded bordered onPress={this.changeTimePickerState("timeStart")}>
+              <Label style={styles.label}>Time</Label>
+              <Button rounded info onPress={this.changeTimePickerState("timeStart")}>
                 <Text>{timeToString(this.state.timeStart)}</Text>
               </Button>
               <Text> to </Text>
-              <Button rounded bordered onPress={this.changeTimePickerState("timeEnd")}>
+              <Button rounded info onPress={this.changeTimePickerState("timeEnd")}>
                 <Text>{timeToString(this.state.timeEnd)}</Text>
               </Button>
 
@@ -220,14 +218,11 @@ class ScheduleForm extends Component {
             </Item>
 
             <Item picker fixedLabel>
-              <Label>District</Label>
+              <Label style={styles.label}>District</Label>
               <Picker
                 mode="dropdown"
                 iosIcon={<Icon name="arrow-down" />}
                 style={{ width: undefined }}
-                placeholder="General location"
-                placeholderStyle={{ color: "#bfc6ea" }}
-                placeholderIconColor="#007aff"
                 selectedValue={this.state.district}
                 onValueChange={this.setValue("district")}
               >
@@ -241,24 +236,24 @@ class ScheduleForm extends Component {
             </Item>
 
             <Item stackedLabel>
-              <Label>Location*</Label>
+              <Label style={styles.label}>Location*</Label>
               <Input
                 placeholder="Enter a location here or search below"
                 value={this.state.location}
                 onChangeText={this.setValue("location")}
               />
+            </Item>
+
+            <Item>
               <LocationInput handler={this.handler.bind(this)} />
             </Item>
 
             <Item picker fixedLabel>
-              <Label>category of workout</Label>
+              <Label style={styles.label}>category of workout</Label>
               <Picker
                 mode="dropdown"
                 iosIcon={<Icon name="arrow-down" />}
                 style={{ width: undefined }}
-                placeholder="Day of the week"
-                placeholderStyle={{ color: "#bfc6ea" }}
-                placeholderIconColor="#007aff"
                 selectedValue={this.state.category}
                 onValueChange={this.setValue("category")}
               >
@@ -273,7 +268,7 @@ class ScheduleForm extends Component {
             </Item>
 
             <Item stackedLabel>
-              <Label>Type of service</Label>
+              <Label style={styles.label}>Type of service</Label>
               <Input
                 value={this.state.services}
                 onChangeText={this.setValue("services")}
@@ -281,7 +276,7 @@ class ScheduleForm extends Component {
             </Item>
 
             <Item stackedLabel>
-              <Label>Price</Label>
+              <Label style={styles.label}>Price</Label>
               <Input
                 value={this.state.price}
                 maxLength={3}
@@ -291,7 +286,7 @@ class ScheduleForm extends Component {
             </Item>
 
             <Item stackedLabel>
-              <Label>Remarks</Label>
+              <Label style={styles.label}>Remarks</Label>
               <Input
                 value={this.state.remarks}
                 onChangeText={this.setValue("remarks")}
@@ -307,6 +302,19 @@ class ScheduleForm extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({ 
+  bold: {
+    fontWeight: "600"
+  },
+  content: {
+    paddingRight:5
+  },
+  label: {
+    backgroundColor: '#f5f5f5',
+    padding: 2
+  }
+});
 
 const timeToString = time => {
   const minute = time%60;

@@ -86,7 +86,7 @@ class Home extends Component {
             <Title>Profile</Title>
           </Body>
           <Right>
-          <Button onPress={() => this.props.handleLogout()}>
+          <Button small rounded info onPress={() => this.props.handleLogout()}>
             <Text>Log out</Text>
             <Icon name='log-out' />
           </Button>
@@ -101,9 +101,9 @@ class Home extends Component {
               </Separator>
             </CardItem>
 
-            <CardItem>
+            <CardItem style={styles.seg}>
               {profilePictureDisplay(user.profilePic, {style: styles.picture})}
-              <Right>
+              <Right style={{ paddingLeft: 5}}>
                 <TouchableOpacity style={{ margin: 5 }} onPress={()=>Clipboard.setString(user.uid)}>
                   <Text style={styles.bold }>Tap user ID to copy:</Text>
                   <Text note>{user.uid}</Text>
@@ -115,14 +115,16 @@ class Home extends Component {
               </Right>
             </CardItem>
 
-            <CardItem>
+            <CardItem style={styles.seg}>
               <Body>
                 <Text style={styles.bold}>About me:</Text>
-                <Text>{user.about}</Text>
+                <View style={styles.about} >
+                  <Text>{user.about}</Text>
+                </View>
               </Body>
             </CardItem>
             
-            <CardItem>
+            <CardItem style={styles.seg3}>
               <Body>
                 <H2>User Ratings</H2>
                 {!user.numRatings ? 
@@ -130,9 +132,10 @@ class Home extends Component {
                   <React.Fragment>
                     <StarRating
                       maxStars={5}
+                      fullStarColor="#ffd700"
                       rating={user.avgRating}
                     />
-                    <Button block rounded bordered onPress={this.navigate("ViewReviews/" + this.props.user.uid)}>
+                    <Button rounded bordered onPress={this.navigate("ViewReviews/" + this.props.user.uid)}>
                       <Text>{user.numRatings.toString()} Review</Text>
                     </Button>
                   </React.Fragment>
@@ -144,11 +147,13 @@ class Home extends Component {
           <Accordion dataArray={scheduleArray} renderContent={item => <View>{item.content}</View>} />
           
           <Card transparent>
-            <CardItem>
-              <Button onPress={this.navigate("CreateSchedule")}>
-                <Text>Create Schedule</Text>
-              </Button>
-            </CardItem>
+            <Body>
+              <CardItem style={styles.seg2}>
+                <Button onPress={this.navigate("CreateSchedule")}>
+                  <Text>Create Schedule</Text>
+                </Button>
+              </CardItem>
+            </Body>
           </Card>
         </Content>
       </Container>
@@ -168,6 +173,26 @@ const styles = StyleSheet.create({
   },
   bold: {
     fontWeight: "500"
+  },
+  seg: {
+    borderBottomColor:'rgb(200, 199, 204)',
+    borderBottomWidth: StyleSheet.hairlineWidth
+  },
+  seg2: {
+    borderTopColor:'rgb(200, 199, 204)',
+    borderTopWidth: StyleSheet.hairlineWidth
+  },
+  seg3: {
+    borderTopColor:'rgb(200, 199, 204)',
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderBottomColor:'rgb(200, 199, 204)',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    paddingLeft: 45
+  },
+  about: {
+    backgroundColor: "#faf0e6",
+    borderRadius: 5,
+    padding: 5
   }
 });
 

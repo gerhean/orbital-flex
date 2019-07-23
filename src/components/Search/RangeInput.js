@@ -44,7 +44,7 @@ class RangeInput extends Component {
 const styles = StyleSheet.create({
     viewContainer: {
         flexDirection: 'row',
-        justifyContent: 'flex-start',
+        justifyContent: 'center',
         alignItems: 'center'
     },
     textInput: {
@@ -52,7 +52,9 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         padding: 5,
         margin: 5,
-    }
+        borderBottomColor:'rgb(200, 199, 204)',
+        borderBottomWidth: StyleSheet.hairlineWidth
+    },
 });
 
 export default ConnectedRangeInput = connectRange(RangeInput);
