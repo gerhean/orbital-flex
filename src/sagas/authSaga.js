@@ -1,5 +1,6 @@
 import firebase from 'firebase';
 import '@firebase/firestore'
+import { Alert } from 'react-native';
 import { takeEvery, takeLeading, put, call } from 'redux-saga/effects';
 
 import { 
@@ -19,6 +20,8 @@ import {
   db, 
   displayErrorMessage, 
 } from './backendConstants';
+
+//const console = require('console');
 
 const initialUser = {
   contact: "",
@@ -55,6 +58,9 @@ function* authSaga() {
         uid
       }
       yield put({ type: SIGNUP_SUCCESS, user });
+      Alert.alert(
+        'Welcome!'
+     )
     } catch (error) {
       const error_message = { code: error.code, message: error.message };
       yield put({ type: SIGNUP_FAIL, error: error_message });
@@ -65,7 +71,11 @@ function* authSaga() {
   yield takeEvery(RESET_PASSWORD, function*(action){
     try{
       const auth = firebase.auth();
-      yield call([auth, auth.sendPasswordResetEmail], action.email);
+      console.log(action.email);
+      yield call([auth, auth.sendPasswordResetEmail], action.email.email);
+      Alert.alert(
+        'A link to reset password has been sent to your email.'
+      );
     } catch (error) {
       yield call(displayErrorMessage, error, RESET_PASSWORD);
     }
@@ -99,6 +109,9 @@ function* authSaga() {
        }
     
       yield put({ type: LOGIN_SUCCESS, user });
+      Alert.alert(
+        'Welcome!'
+     )
     } catch (error) {
       const error_message = { code: error.code, message: error.message };
       yield put({ type: LOGIN_FAIL, error: error_message });

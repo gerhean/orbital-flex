@@ -71,21 +71,25 @@ class LoginBase extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.loginContainer}>
-          <Icon name="heartbeat" type="font-awesome" color="#f50" />
-          <Text style={styles.textStyle}>Welcome to Flex</Text>
-          <Text style={styles.textStyle}>Find fitness trainers near you</Text>
+          <Text style={styles.textStyle1}>Welcome to Flex</Text>
+          <Icon name="heartbeat" type="font-awesome" color="#f50" size={60} />
+          <Text style={styles.textStyle2}>Find fitness trainers near you</Text>
         </View>
 
-        <View>
+        <View style={{ alignItems: "center" }}>
           <Text>{this.state.error}</Text>
           <Text>{this.props.authError}</Text>
           <Input
-            placeholder="Email"
+            inputContainerStyle={styles.inputContainerStyle}
+            containerStyle={styles.containerStyle}
+            label="Email"
             value={this.state.email}
             onChangeText={email => this.setState({ email })}
           />
           <Input
-            placeholder="Password"
+            inputContainerStyle={styles.inputContainerStyle}
+            containerStyle={styles.containerStyle}
+            label="Password"
             secureTextEntry
             value={this.state.password}
             onChangeText={password => this.setState({ password })}
@@ -100,11 +104,14 @@ class LoginBase extends Component {
             onPress={this.navigate("Register")}
             title="Create new account"
           />
-          <TouchableOpacity
-            onPress={this.onButton2Press}
-          >
-            <Text>Reset password</Text>
-          </TouchableOpacity>
+          <View style={{marginTop: 20}}>
+            <Text>Forgot your password?</Text>
+            <TouchableOpacity
+              onPress={this.onButton2Press}
+            >
+              <Text style={{color:'#6495ed'}}>Reset password</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     );
@@ -114,24 +121,39 @@ class LoginBase extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#3F51B5"
+    backgroundColor: "#faebd7",
+    alignItems: "center",
+    justifyContent: "center"
   },
   loginContainer: {
     alignItems: "center",
-    flexGrow: 1,
     justifyContent: "center"
   },
   buttonStyle: {
     margin: 5,
-    backgroundColor: '#607D8B'
+    backgroundColor: '#cd5c5c',
+    width: 160
   },
-  textStyle: {
-    color: "#c5cae9",
+  textStyle1: {
+    color: "#4b0082",
     fontStyle: "italic",
-    fontSize: 25
+    fontSize: 40
+  },
+  textStyle2: {
+    color: "#4b0082",
+    fontStyle: "italic",
+    fontSize: 16
+  },
+  inputContainerStyle: {
+    width: 240,
+    paddingLeft: 10,
+    margin:5
+  },
+  containerStyle: {
+    
   },
   errorStyle: {
-    color: "#c5cae9",
+    color: "#7B1FA2",
     fontSize: 10
   }
 });

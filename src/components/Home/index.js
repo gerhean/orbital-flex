@@ -101,7 +101,7 @@ class Home extends Component {
               </Separator>
             </CardItem>
 
-            <CardItem style={styles.seg}>
+            <CardItem style={styles.seg0}>
               {profilePictureDisplay(user.profilePic, {style: styles.picture})}
               <Right style={{ paddingLeft: 5}}>
                 <TouchableOpacity style={{ margin: 5 }} onPress={()=>Clipboard.setString(user.uid)}>
@@ -176,6 +176,10 @@ const styles = StyleSheet.create({
   },
   bold: {
     fontWeight: "500"
+  },
+  seg0: {
+    borderBottomColor:'rgb(200, 199, 204)',
+    borderBottomWidth: StyleSheet.hairlineWidth
   },
   seg: {
     borderBottomColor:'rgb(200, 199, 204)',

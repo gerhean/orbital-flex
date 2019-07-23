@@ -57,28 +57,36 @@ class SignUpForm extends Component {
 
     return (
       <View style={styles.container}>
-        <Icon name="heartbeat" type="font-awesome" color="#f50" />
-        <Text style={styles.textStyle}>Signup for Flex</Text>
+        <Icon name="heartbeat" type="font-awesome" color="#f50" size={60} />
+        <Text style={styles.textStyle2}>Signup for Flex</Text>
         <Text>{error}</Text>
         <Input
-          placeholder="Email"
+          inputContainerStyle={styles.inputContainerStyle}
+          containerStyle={styles.containerStyle}
+          label="Email"
           value={email}
           onChangeText={email => this.setState({ email })}
         />
         <Input
-          placeholder="Username"
+          inputContainerStyle={styles.inputContainerStyle}
+          containerStyle={styles.containerStyle}
+          label="Username"
           maxLength={17}
           value={username}
           onChangeText={username => this.setState({ username })}
         />
         <Input
-          placeholder="Password"
+          inputContainerStyle={styles.inputContainerStyle}
+          containerStyle={styles.containerStyle}
+          label="Password"
           secureTextEntry
           value={passwordOne}
           onChangeText={passwordOne => this.setState({ passwordOne })}
         />
         <Input
-          placeholder="Confirm Password"
+          inputContainerStyle={styles.inputContainerStyle}
+          containerStyle={styles.containerStyle}
+          label="Confirm Password"
           secureTextEntry
           value={passwordTwo}
           onChangeText={passwordTwo => this.setState({ passwordTwo })}
@@ -102,18 +110,37 @@ class SignUpForm extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#3F51B5",
-    justifyContent: "center",
-    alignItems: "center"
+    backgroundColor: "#faebd7",
+    alignItems: "center",
+    justifyContent: "center"
   },
-  textStyle: {
-    color: "#c5cae9",
-    fontStyle: "italic",
-    fontSize: 25
+  loginContainer: {
+    alignItems: "center",
+    justifyContent: "center"
   },
   buttonStyle: {
     margin: 5,
-    backgroundColor: '#607D8B'
+    backgroundColor: '#cd5c5c',
+    width: 160
+  },
+  textStyle1: {
+    color: "#7B1FA2",
+    fontSize: 40
+  },
+  textStyle2: {
+    color: "#7B1FA2",
+    fontStyle: "italic",
+    fontSize: 18
+  },
+  inputContainerStyle: {
+    margin:5
+  },
+  containerStyle: {
+    
+  },
+  errorStyle: {
+    color: "#7B1FA2",
+    fontSize: 10
   }
 });
 
