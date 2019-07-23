@@ -46,7 +46,8 @@ class ChatRoomNew extends Component {
   }
 
   render() {
-    if (!this.props.user) return null;
+    const user = this.props.user; 
+    if (!user) return null;
     return (
       <Container>
         <Header>
