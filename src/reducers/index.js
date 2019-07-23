@@ -17,6 +17,7 @@ export const objFilter = (obj, predicate) =>
 const miscReducer = {
   [actionTypes.CHANGE_SCREEN]: (state, action) => {
     Keyboard.dismiss();
+    if (state.screen === action.screen) return state;
     const screen = action.screen;
     let screenHistory;
     if (screen === "Home" || screen === "Login") {
