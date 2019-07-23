@@ -3,12 +3,11 @@ import React, { Component } from 'react';
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import {
-    StatusBar,
-    View
-  } from 'react-native';
+  StatusBar,
+} from 'react-native';
+import { Container, Header, Left, Body, Right, Text, Title, Button } from 'native-base';
 import { GiftedChat } from 'react-native-gifted-chat';
-import styles from './styles.js';
-import { createChat, changeScreen } from "../../actions";
+import { createChat, changeScreen, fetchUserInfo } from "../../actions";
 
 const mapStateToProps = (state, ownProps) => ({
     uid: state.user.uid,
@@ -19,6 +18,7 @@ bindActionCreators(
   {
     handleChangeScreen: changeScreen,
     handleCreateChat: createChat,
+    handleFetchUserInfo: fetchUserInfo,
   },
   dispatch
 );
@@ -31,6 +31,10 @@ class ChatRoomNew extends Component {
   constructor(props) {
     super(props);
   }
+
+  componentDidMount() {
+    this.props.handleFetchUserInfo(this.props.otherUid);
+  }
     
   navigate = screen => () => {
     this.props.handleChangeScreen(screen);
@@ -40,10 +44,25 @@ class ChatRoomNew extends Component {
     this.props.handleCreateChat(messages[0].text, this.props.otherUid)
   }
 
-  // missing back button
   render() {
+    const user = this.props.users[this.props.otherUid]
+    if (!user) return null;
     return (
-      <View style={{flex: 1}}>
+      <Container>
+        <Header>
+          <Left>
+            {profilePictureDisplay(user.profilePic, {small:true})}
+          </Left>
+          <Body>
+            <Title>{user.username}</Title>
+          </Body>
+          <Right>
+            <Button onPress={this.props.handlePreviousScreen}>
+              <Text>Back</Text>
+            </Button>
+          </Right>
+        </Header>
+
         <StatusBar barStyle="light-content"/>
         <GiftedChat
           messages={[]}  // array of messages to display
@@ -52,7 +71,7 @@ class ChatRoomNew extends Component {
             _id: this.props.uid,
           }}
         />
-      </View>
+      </Container>
     );
   }
 }
