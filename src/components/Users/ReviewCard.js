@@ -6,7 +6,7 @@ import {
   Text,
   Body,
   ListItem,
-  H3
+  H2,
 } from "native-base";
 import StarRating from 'react-native-star-rating';
 
@@ -56,15 +56,16 @@ class ReviewCard extends Component {
       <ListItem bordered>
         {profilePictureDisplay(user.profilePic, {large: true})}
         <Body style={{ "margin": 5 }}>
-          <H3>{user.username}</H3>
+          <H2 style={{backgroundColor: "#dcdcdc"}}>{user.username}</H2>
           <StarRating
             maxStars={5}
             rating={review.rating}
             disabled={true}
             fullStarColor="yellow"
-            starSize={20}
+            starSize={25}
           />
-          <Text>{review.text}</Text>
+          <Text style={{fontWeight:"bold", marginTop: 10}}>Comments: </Text>
+          <Text style={{marginLeft: 5, marginTop: 5}}>{review.text}</Text>
         </Body>
       </ListItem>
     );
