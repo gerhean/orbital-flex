@@ -16,11 +16,13 @@ const VirtualRefinementList = connectRefinementList(() => null);
 const VirtualRangeInput = connectRange(() => null);
 
 export default class SearchSchedules extends Component {
-  
-  state = {
-    isModalOpen: false,
-    searchState: {}
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      isModalOpen: false,
+      searchState: {}
+    };
+  }
 
   toggleModal = () =>
     this.setState(({ isModalOpen }) => ({

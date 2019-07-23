@@ -134,9 +134,10 @@ class Home extends Component {
                       maxStars={5}
                       fullStarColor="#ffd700"
                       rating={user.avgRating}
+                      starSize={20}
                     />
                     <Button rounded bordered onPress={this.navigate("ViewReviews/" + this.props.user.uid)}>
-                      <Text>{user.numRatings.toString()} Review</Text>
+                      <Text>{user.numRatings.toString()} Reviews</Text>
                     </Button>
                   </React.Fragment>
                 }
