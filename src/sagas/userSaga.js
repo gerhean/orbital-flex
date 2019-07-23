@@ -11,11 +11,16 @@ import {
   ADD_USER_REVIEW_SUCCESS,
   FETCH_USER_REVIEWS,
   FETCH_USER_REVIEWS_SUCCESS,
+  FOLLOW_USER,
+  FOLLOW_USER_SUCCESS,
+  UNFOLLOW_USER,
+  UNFOLLOW_USER_SUCCESS,
 } from '../actions/actionTypes';
 
 import { 
   serverTimestamp, 
   db, 
+  deleteField,
   displayErrorMessage, 
   displayMessage
 } from './backendConstants';
@@ -33,7 +38,7 @@ function* userSaga() {
       yield put({ type: UPDATE_USER_INFO_SUCCESS, userInfo: action.userInfo })
       yield call(displayMessage, "User Info Updated");
     } catch (error) {
-      yield call(displayErrorMessage, error, UPDATE_USER_INFO);
+      displayErrorMessage(error, UPDATE_USER_INFO);
     }
   })
 
@@ -54,7 +59,7 @@ function* userSaga() {
       }
 
     } catch (error) {
-      yield call(displayErrorMessage, error, FETCH_USER_INFO);
+      displayErrorMessage(error, FETCH_USER_INFO);
     }
   })
 
@@ -79,7 +84,7 @@ function* userSaga() {
       yield put({ type: ADD_USER_REVIEW_SUCCESS, uid, review: localReview});
       displayMessage("Review successfully submitted!")
     } catch (error) {
-      yield call(displayErrorMessage, error, ADD_USER_REVIEW);
+      displayErrorMessage(error, ADD_USER_REVIEW);
     }
   })
 
@@ -141,6 +146,39 @@ function* userSaga() {
       displayErrorMessage(error, FETCH_USER_REVIEWS);
     }
   })
+
+  yield takeEvery(FOLLOW_USER, function*(action){
+    try {
+      const ownUid = firebase.auth().currentUser.uid;
+      const uid = action.uid;
+      const userRef = db.collection('users').doc(ownUid)
+      yield call(
+        [userRef, userRef.update], 
+        {["followedUsers." + uid]: true}
+      )
+      yield put({ type: FOLLOW_USER_SUCCESS, uid });
+      yield call(displayMessage, "User Followed");
+    } catch (error) {
+      displayErrorMessage(error, FOLLOW_USER);
+    }
+  })
+
+  yield takeEvery(UNFOLLOW_USER, function*(action){
+    try {
+      const ownUid = firebase.auth().currentUser.uid;
+      const uid = action.uid;
+      const userRef = db.collection('users').doc(ownUid)
+      yield call(
+        [userRef, userRef.update], 
+        {["followedUsers." + uid]: deleteField()}
+      )
+      yield put({ type: UNFOLLOW_USER_SUCCESS, uid });
+      displayMessage("User Unfollowed");
+    } catch (error) {
+      yield call(displayErrorMessage, error, FOLLOW_USER);
+    }
+  })
+
 
 }
 

@@ -27,6 +27,7 @@ const initialUser = {
   gender: 0, // means unspecified gender
   bookedSchedules: {}, // might be violate privacy but lets leave it for now
   postedSchedules: {},
+  followedUsers: {},
 };
 
 function* authSaga() {

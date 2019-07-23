@@ -78,4 +78,26 @@ export default userReducer = {
     }
   },
 
+  [actionTypes.FOLLOW_USER_SUCCESS]: (state, action) => ({
+    ...state,
+    user: {
+      ...state.user,
+      followedUsers: {
+        ...state.user.followedUsers,
+        [action.uid]: true
+      }
+    }
+  }),
+
+  [actionTypes.UNFOLLOW_USER_SUCCESS]: (state, action) => {
+    const {[action.uid]: value, ...followedUsers} = state.user.followedUsers;
+    return {
+      ...state,
+      user: {
+        ...state.user,
+        followedUsers
+      }
+    }
+  },
+
 }

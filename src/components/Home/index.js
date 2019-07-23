@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { Clipboard, TouchableOpacity, StyleSheet } from "react-native";
+import { Clipboard, FlatList, TouchableOpacity, StyleSheet } from "react-native";
 import {
   Accordion,
   Text,
@@ -24,6 +24,7 @@ import StarRating from 'react-native-star-rating';
 import { changeScreen, logout, setScheduleEditIndex } from "../../actions";
 import profilePictureDisplay from '../profilePictureDisplay';
 import ScheduleList from "./ScheduleList";
+import UserCard from "../Users/UserCard";
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -51,6 +52,18 @@ class Home extends Component {
   };
 
   render() {
+    const user = this.props.user;
+
+    const followedUserArr = Object.keys(user.followedUsers)
+    const followedUserList = <FlatList 
+      data={followedUserArr} 
+      renderItem={({ item }) => (
+        <UserCard 
+          uid={item}
+        />
+      )}
+      keyExtractor={item => item}
+    />
     const bookedScheduleList = <ScheduleList 
       scheduleArr={this.props.bookedSchedules}
       isBooked={1}
@@ -60,10 +73,10 @@ class Home extends Component {
       isBooked={-1}
     />
     const scheduleArray = [
+      { title: "Followed Users", content: followedUserList },
       { title: "Booked Schedules", content: bookedScheduleList },
       { title: "Posted Schedules", content: postedScheduleList },
     ]
-    const user = this.props.user;
 
     return (
       <Container>
