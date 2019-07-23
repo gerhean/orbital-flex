@@ -60,7 +60,7 @@ function* chatSaga() {
         const storedChatroom = storedChatrooms[roomId];
         if (storedChatroom) {
           if (storedChatroom.lastFetch.nanoseconds < chatroom.updated.nanoseconds) {
-            yield put({ type: FETCH_MESSAGES, storedRoom: storedChatroom, roomId })
+            yield put({ type: FETCH_MESSAGES, storedRoom: storedChatroom, roomId, otherUid })
           }
         } else {
           yield put({ type: FETCH_MESSAGES, roomId, otherUid })
@@ -100,7 +100,7 @@ function* chatSaga() {
   yield takeEvery(FETCH_MESSAGES, function*(action) {
     try {
       const roomId = action.roomId; 
-      const storedRoom = action.room; // may not exist
+      const storedRoom = action.storedRoom; // may not exist
       let messageRef;
 
       if (storedRoom) {
@@ -133,6 +133,7 @@ function* chatSaga() {
         if (storedRoom) {
           const chatroom = {
             ...storedRoom,
+            otherUid: action.otherUid, 
             messages: Array.of(messages, ...storedRoom.messages),
             lastFetch: localTimestamp(),
             lastMessageTime,

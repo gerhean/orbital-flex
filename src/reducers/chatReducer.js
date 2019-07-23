@@ -1,14 +1,17 @@
 import * as actionTypes from "../actions/actionTypes";
 
-const sortChatrooms = (rooms) => (a, b) => rooms[b].lastMessageTime - rooms[a].lastMessageTime;
+const getSortedChatrooms = (rooms) => (
+  Object.keys(rooms).sort(
+      (a, b) => rooms[b].lastMessageTime - rooms[a].lastMessageTime
+    )
+)
 
 export default chatReducer = {
   [actionTypes.FETCH_CHATROOMS_SUCCESS]: (state, action) => ({
     ...state,
     chat: {
       ...state.chat,
-      chatroomArr: Object.keys(state.chat.chatrooms)
-        .sort(sortChatrooms(state.chat.chatrooms)),
+      chatroomArr: getSortedChatrooms(state.chat.chatrooms)
     }
   }),
 
