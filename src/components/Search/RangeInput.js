@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connectRange } from 'react-instantsearch-native';
+import { View, StyleSheet, Text, FlatList, TextInput, Image, Button } from 'react-native';
 import PropTypes from 'prop-types';
-import { TextInput, View } from 'react-native';
 
 class RangeInput extends Component {
     static propTypes = {
@@ -17,9 +17,9 @@ class RangeInput extends Component {
 
     render() {
         return (
-            <View>
-                <TextInput
-                    placeholder={this.props.minLabel}
+            <View style={styles.viewContainer}>
+                <Text>{this.props.minLabel}</Text>
+                <TextInput style={styles.textInput}
                     keyboardType="numeric"
                     onChangeText={text => this.props.refine({...this.props.currentRefinement,
                         min: Number(text)})}
@@ -27,8 +27,8 @@ class RangeInput extends Component {
                     value={this.props.currentRefinement.min.toString()}
                     underlineColorAndroid="transparent"
                 />
-                <TextInput
-                    placeholder={this.props.maxLabel}
+                <Text>{this.props.maxLabel}</Text>
+                <TextInput style={styles.textInput}
                     keyboardType="numeric"
                     onChangeText={text => this.props.refine({...this.props.currentRefinement,
                         max: Number(text)})}
@@ -37,10 +37,22 @@ class RangeInput extends Component {
                     underlineColorAndroid="transparent"
                 />
             </View>    
-                
-            
         );
     }
 }
+
+const styles = StyleSheet.create({
+    viewContainer: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center'
+    },
+    textInput: {
+        fontSize: 20,
+        textAlign: 'center',
+        padding: 5,
+        margin: 5,
+    }
+});
 
 export default ConnectedRangeInput = connectRange(RangeInput);

@@ -120,7 +120,7 @@ class Home extends Component {
                       rating={user.avgRating}
                     />
                     <Button block rounded bordered onPress={this.navigate("ViewReviews/" + this.props.user.uid)}>
-                      <Text>{user.numRatings.toString()} Reviews</Text>
+                      <Text>{user.numRatings.toString()} Review</Text>
                     </Button>
                   </React.Fragment>
                 }

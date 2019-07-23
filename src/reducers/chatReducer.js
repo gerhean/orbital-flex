@@ -25,7 +25,7 @@ export default chatReducer = {
 
   [actionTypes.CHATROOM_CREATE_SUCCESS]: (state, action) => ({
     ...state,
-    screen: "Chatroom/" + action.roomId,
+    // screen: "Chatroom/" + action.roomId,
     chat: {
       ...state.chat,
       chatroomArr: Array.of(action.roomId, ...state.chat.chatroomArr), 

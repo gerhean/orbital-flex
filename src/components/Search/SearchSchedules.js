@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { InstantSearch, connectSearchBox,
   connectInfiniteHits, connectRefinementList, connectRange } from 'react-instantsearch-native';
 import algoliasearch from 'algoliasearch/reactnative';
-import Constants from 'expo-constants'
 import layout from './layout';
 import Filters from './Filters';
 import { ALOGOLIA_API_KEY, ALOGOLIA_APP_ID } from '../../../env';
@@ -59,18 +58,17 @@ export default class SearchSchedules extends Component {
                 onSearchStateChange={this.onSearchStateChange}
           />
           <View style={styles.searchContainer}>
-            <ConnectedSearchBar />
             <Image
               source={require('../../../assets/algolia.png')}
               style={styles.logo}
               resizeMode="contain"
             />
-          </View>
-          <Button
+            <ConnectedSearchBar />
+            <Button style={styles.filterButton}
                 title="Filters"
-                color="#252b33"
                 onPress={this.toggleModal}
               />
+          </View>
           <ConnectedHits />
         </InstantSearch>
       </View>
@@ -124,13 +122,13 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     flexDirection: 'column',
-    paddingTop: Constants.statusBarHeight,
-    paddingBottom: 40
+    paddingTop: 5,
   },
   searchContainer: {
     width: layout.window.width,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: 'rgb(200, 199, 204)',
+    borderWidth: 5,
+    borderColor: 'rgb(200, 199, 204)',
+    padding: 10,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center'
@@ -140,9 +138,16 @@ const styles = StyleSheet.create({
     width: 20,
     padding : 5
   },
+  filterButton: {
+    height: 40,
+    width: 80
+  },
   textInput: {
-    height: 30,
+    height: 40,
     fontSize: 24,
-    width: layout.window.width - 20,
+    fontWeight: "300",
+    textAlign: 'left',
+    padding: 5,
+    width: layout.window.width - 120,
   }
 })
