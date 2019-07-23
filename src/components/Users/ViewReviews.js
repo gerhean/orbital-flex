@@ -57,8 +57,8 @@ class ViewReviews extends Component {
     const reviews = this.props.user.reviews;
     if (reviews === undefined) {
       return (
-        <Container>
-          <Text>Loading</Text>
+        <Container style={{justifyContent: 'center', alignItems: 'center'}}>
+          <Text>Loading...</Text>
         </Container>
       );
     } 

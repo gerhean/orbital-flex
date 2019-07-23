@@ -88,7 +88,7 @@ class ScheduleCard extends Component {
       <ListItem bordered>
         <Grid>
           <Row>
-            <H2 style={{fontStyle:"italic", backgroundColor: "#d3d3d3"}}>{schedule.name}</H2>
+            <H2 style={{fontStyle:"italic", backgroundColor: "#dcdcdc", marginBottom: 5}}>{schedule.name}</H2>
           </Row>
           <Row>
 
@@ -106,7 +106,7 @@ class ScheduleCard extends Component {
                 <Text style={{fontSize: 16}}>{schedule.posterName}</Text></View>
               <View>
                   <TouchableOpacity onPress={this.toggleMoreDetails}>
-                    <Text note style={{ textAlign: "center", "marginTop": 5 }}>
+                    <Text note style={{ "marginTop": 5 }}>
                       {this.state.moreDetails ? "Less" : "More"} Details...
                     </Text>
                   </TouchableOpacity>
