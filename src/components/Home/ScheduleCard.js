@@ -95,7 +95,7 @@ class ScheduleCard extends Component {
             <Col>
               <View>
                 <TouchableOpacity onPress={this.navigate("UserProfile/" + schedule.poster)}>
-                  {profilePictureDisplay(schedule.image, {square: true, large: true})}
+                  {profilePictureDisplay(schedule.image, { large: true})}
                   <Text style={{fontSize: 10 , fontWeight: "100"}}>
                     Click to see profile...
                   </Text>
