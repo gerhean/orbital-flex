@@ -91,7 +91,7 @@ function* chatSaga() {
       localChatroom = {otherUid, messages: [], lastFetch: localTimestamp()};
       yield put({ type: CHATROOM_CREATE_SUCCESS, chatroom: localChatroom, roomId });
       yield put({ type: SEND_MESSAGE, payload: { text: action.text, roomId, otherUid } });
-      yield put({type: CHANGE_SCREEN, screen: "Chatroom/" + action.roomId});
+      yield put({type: CHANGE_SCREEN, screen: "Chatroom/" + roomId});
     } catch (error) {
       displayErrorMessage(error, CHATROOM_CREATE);
     }
