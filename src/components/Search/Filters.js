@@ -44,8 +44,6 @@ const Filters = ({
             <RefinementList attribute="day" title="day of the week" />
             <RangeInput 
                 attribute="price"
-                min={0}
-                max={999}
                 minLabel="minimum price:" 
                 maxLabel="maximum price:" />
           </InstantSearch>

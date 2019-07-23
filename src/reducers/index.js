@@ -1,3 +1,5 @@
+import { Keyboard} from 'react-native';
+
 import * as actionTypes from "../actions/actionTypes";
 import initialState from './state';
 import userReducer from './userReducer';
@@ -14,6 +16,7 @@ export const objFilter = (obj, predicate) =>
 
 const miscReducer = {
   [actionTypes.CHANGE_SCREEN]: (state, action) => {
+    Keyboard.dismiss();
     const screen = action.screen;
     let screenHistory;
     if (screen === "Home" || screen === "Login") {
@@ -29,6 +32,7 @@ const miscReducer = {
   },
 
   [actionTypes.CHANGE_PREVIOUS_SCREEN]: (state, action) => {
+    Keyboard.dismiss();
     const length = state.screenHistory.length;
     if (length <= 1) {
       return state;
