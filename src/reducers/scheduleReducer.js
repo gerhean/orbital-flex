@@ -27,7 +27,8 @@ export default scheduleReducer = {
         [action.scheduleId]: true
       },
     },
-    screen: "Home"
+    screen: "Home",
+    screenHistory: ["Home"]
   }),
 
   [actionTypes.SCHEDULE_UPDATE_SUCCESS]: (state, action) => ( {
@@ -40,7 +41,8 @@ export default scheduleReducer = {
       }
     },
     editScheduleId: '',
-    screen: "Home"
+    screen: "Home",
+    screenHistory: ["Home"]
   }),
 
   [actionTypes.FETCH_SCHEDULE_SUCCESS]: (state, action) => {

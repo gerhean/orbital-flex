@@ -16,7 +16,8 @@ export default loginReducer = {
       isAuthenticated: true
     },
     user: action.user,
-    screen: "Home"
+    screen: "Home",
+    screenHistory: ["Home"]
   }),
 
   [actionTypes.LOGOUT_SUCCESS]: (state, action) => ({
@@ -31,7 +32,8 @@ export default loginReducer = {
       isAuthenticated: true
     },
     user: action.user,
-    screen: "Home"
+    screen: "Home",
+    screenHistory: ["Home"]
   }),
 
   [actionTypes.SIGNUP_FAIL]: (state, action) => ({
