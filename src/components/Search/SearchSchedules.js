@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, StyleSheet, Text, FlatList, TextInput, Image, Button } from 'react-native';
+import { View, StyleSheet, TextInput, Image, Button } from 'react-native';
 import PropTypes from 'prop-types';
 import { InstantSearch, connectSearchBox,
   connectInfiniteHits, connectRefinementList, connectRange } from 'react-instantsearch-native';
@@ -125,6 +125,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'column',
     paddingTop: 5,
+    marginBottom: 120,
   },
   searchContainer: {
     width: layout.window.width,

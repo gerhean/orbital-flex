@@ -60,7 +60,7 @@ class UserCard extends Component {
         <Body>
           <Text style={{fontWeight: "500"}}>{user.username}</Text>
           <Text note>{aboutText}</Text>
-          <Button block rounded bordered onPress={this.navigate("UserProfile/" + this.props.uid)}>
+          <Button block rounded small onPress={this.navigate("UserProfile/" + this.props.uid)}>
             <Text>View Profile</Text>
           </Button>
         </Body>

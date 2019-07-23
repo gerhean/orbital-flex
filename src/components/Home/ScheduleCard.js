@@ -59,9 +59,9 @@ class ScheduleCard extends Component {
     if (schedule.isBooked === -1) {
       buttonText = "View Offers";
       onButtonPress = this.navigate("ViewOffers/" + scheduleId);
-      button2Text = "Edit Schedule";
+      button2Text = "Edit";
       onButton2Press = this.navigate("EditSchedule/" + scheduleId);
-      button3Text = "Delete Schedule";
+      button3Text = "Delete";
       onButton3Press = () => this.props.handleDelete(scheduleId);
 
     } else if (schedule.isBooked === 0) {
@@ -88,7 +88,7 @@ class ScheduleCard extends Component {
       <ListItem bordered>
         <Grid>
           <Row>
-            <H2 style={{fontStyle:"italic", backgroundColor: "#d8bfd8"}}>{schedule.name}</H2>
+            <H2 style={{fontStyle:"italic", backgroundColor: "#d3d3d3"}}>{schedule.name}</H2>
           </Row>
           <Row>
 
@@ -152,7 +152,7 @@ class ScheduleCard extends Component {
           }
 
           {buttonText ? 
-            <Button block rounded onPress={onButtonPress} style={{"marginTop": 5}}>
+            <Button block rounded small onPress={onButtonPress} style={{"marginTop": 5}}>
               <Text>{buttonText}</Text>
             </Button>
             : null
@@ -160,7 +160,7 @@ class ScheduleCard extends Component {
           <Row>
             <Col>
               {button2Text ? 
-                <Button block rounded onPress={onButton2Press} style={{ "margin": 5 }}>
+                <Button block rounded small onPress={onButton2Press} style={{ "margin": 5 }}>
                   <Text>{button2Text}</Text>
                 </Button>
                 : null
@@ -168,7 +168,7 @@ class ScheduleCard extends Component {
             </Col>
             <Col>
               {button3Text ? 
-                <Button block rounded onPress={onButton3Press} style={{ "margin": 5 }}>
+                <Button block rounded small onPress={onButton3Press} style={{ "margin": 5 }}>
                   <Text>{button3Text}</Text>
                 </Button>
                 : null

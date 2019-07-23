@@ -46,7 +46,7 @@ function* userSaga() {
     try {
       const uid = action.uid;
       const storedUser = yield select(state => state.users[uid]);
-      if (!storedUser || (Date.now() - storedUser.timeFetched > 300000)) { // reduce api calls
+      if (!storedUser || (Date.now() - storedUser.timeFetched > 3000000)) { // reduce api calls
         const userDocRef = db.collection('users').doc(uid);
         const userData = yield call([userDocRef, userDocRef.get]);
         const user = yield {
