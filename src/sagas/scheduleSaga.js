@@ -1,7 +1,7 @@
 import firebase from 'firebase';
 import '@firebase/firestore'
 import { takeEvery, takeLeading, put, call, select } from 'redux-saga/effects';
-
+import { Alert } from 'react-native';
 import { 
   SCHEDULE_CREATE,
   SCHEDULE_CREATE_SUCCESS,
@@ -216,7 +216,7 @@ function* scheduleSaga() {
       yield call([userRef, userRef.update], {[`bookedSchedules.${scheduleId}`]: true})
 
       yield put({ type: BOOK_SCHEDULE_SUCCESS, scheduleId, offer });
-
+      displayMessage("You have booked a schedule/updated your booking");
     } catch (error) {
       yield call(displayErrorMessage, error, BOOK_SCHEDULE);
     }
@@ -232,7 +232,7 @@ function* scheduleSaga() {
       const userRef = db.collection('users').doc(uid) 
       yield call([userRef, userRef.update], {[`bookedSchedules.${scheduleId}`]: deleteField()})
       yield put({ type: UNBOOK_SCHEDULE_SUCCESS, scheduleId });
-
+      displayMessage("You have unbooked a schedule");
     } catch (error) {
       yield call(displayErrorMessage, error, UNBOOK_SCHEDULE);
     }

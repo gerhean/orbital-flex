@@ -7,7 +7,8 @@ import {
   Input,
   Item,
   Label,
-  View
+  View,
+  Icon
 } from "native-base";
 import Dialog, { DialogContent, DialogTitle } from 'react-native-popup-dialog';
 import profilePictureDisplay from '../profilePictureDisplay';
@@ -88,11 +89,12 @@ class ChooseImage extends Component {
           {profilePictureDisplay(localImage)}
           <Body>
             <Text>Using Local Image</Text>
-            <Button rounded block bordered onPress={this.pickImage}>
+            <Button style={{margin: 5}} block onPress={this.pickImage}>
               <Text>Choose Another Image</Text>
             </Button>
             <Button 
-              rounded block bordered 
+              style={{margin: 5}}
+              block 
               onPress={() => this.props.handleChangeLocalImg('')}
             >
               <Text>Use Image URL</Text>
@@ -108,12 +110,16 @@ class ChooseImage extends Component {
             value={this.props.urlImage}
             onChangeText={this.props.handleChangeUrlImg}
           />
-          <Button rounded block bordered onPress={this.toggleCheckPicture(true)}>
-            <Text>Check Image</Text>
-          </Button>
-          <Button rounded block bordered onPress={this.pickImage}>
-            <Text>Upload Image</Text>
-          </Button>
+          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+            <Button rounded onPress={this.toggleCheckPicture(true)}>
+              <Text style={{marginRight: 5}}>Check Image</Text>
+              <Icon name="eye"/>
+            </Button>
+            <Button rounded onPress={this.pickImage}>
+              <Text>Upload Image</Text>
+              <Icon name="photos"/>
+            </Button>
+          </View>
           {this.viewImageDialog()}
         </Item>
       );

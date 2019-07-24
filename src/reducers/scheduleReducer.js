@@ -94,6 +94,8 @@ export default scheduleReducer = {
     if (state.user.bookedSchedules[action.scheduleId]) {
       return {
         ...state,
+        screen: "Home",
+        screenHistory: ["Home"],
         schedules: {
           ...state.schedule,
           [action.scheduleId]: {
@@ -109,6 +111,8 @@ export default scheduleReducer = {
     } else {
       return {
         ...state,
+        screen: "Home",
+        screenHistory: ["Home"],
         schedules: {
           ...state.schedule,
           [action.scheduleId]: {
@@ -136,6 +140,8 @@ export default scheduleReducer = {
     const {[action.scheduleId]: value, ...bookedSchedules} = state.user.bookedSchedules;
     return {
       ...state,
+      screen: "Home",
+      screenHistory: ["Home"],
       schedules: {
         ...state.schedule,
         [action.scheduleId]: {

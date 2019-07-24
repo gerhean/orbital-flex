@@ -97,7 +97,7 @@ class UserInfoForm extends Component {
             </Item>
 
             <ChooseImage 
-              urlLabel="Profile Picture URL"
+              urlLabel="Enter Profile Picture URL below or upload from phone"
               localImage={this.state.profilePicLocal}
               urlImage={this.state.profilePic}
               handleChangeLocalImg={this.setValue("profilePicLocal")}
