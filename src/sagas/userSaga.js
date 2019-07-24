@@ -28,7 +28,7 @@ import {
 } from './backendConstants';
 
 import ImagePicker from 'react-native-image—picker';
-import RNFetchBlob from 'react—natiVe-fetCh—blob';
+import RNFetchBlob from 'react—native-fetCh—blob';
 
 const Blob = RNFetchBlob.polyfill.Blob
 const fs = RNFetchBlob.fs
