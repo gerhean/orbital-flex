@@ -6,6 +6,7 @@ import {
   Text,
   Container,
   Content,
+  View
 } from "native-base";
 import { FlatList } from 'react-native';
 
@@ -57,9 +58,9 @@ class ViewReviews extends Component {
     const reviews = this.props.user.reviews;
     if (reviews === undefined) {
       return (
-        <Container style={{justifyContent: 'center', alignItems: 'center'}}>
-          <Text>Loading...</Text>
-        </Container>
+        <View style={{flex: 1 ,justifyContent: 'center', alignItems: 'center'}}>
+          <Text>Loading</Text>
+        </View>
       );
     } 
     const ownReview = this.props.user.ownReview;

@@ -65,8 +65,8 @@ class ScheduleList extends Component {
         </DialogFooter>
       }
     >
-      <DialogContent>
-        <Text>Are You Sure You Want To Unbook Schedule?</Text>
+      <DialogContent style={{paddingTop: 10}}>
+        <Text style={{textAlign: 'center'}}>Are you sure you want to unbook this schedule?</Text>
       </DialogContent>
     </Dialog>
   );

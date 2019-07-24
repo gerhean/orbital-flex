@@ -19,6 +19,7 @@ import {
 import {  
   db, 
   displayErrorMessage, 
+  displayMessage
 } from './backendConstants';
 
 //const console = require('console');
@@ -62,9 +63,10 @@ function* authSaga() {
         'Welcome!'
      )
     } catch (error) {
-      const error_message = { code: error.code, message: error.message };
-      yield put({ type: SIGNUP_FAIL, error: error_message });
-      yield call(displayErrorMessage, error, SIGNUP_INITIALIZE);
+      // const error_message = { code: error.code, message: error.message };
+      // yield put({ type: SIGNUP_FAIL, error: error_message });
+      // yield call(displayErrorMessage, error, SIGNUP_INITIALIZE);
+      yield call(displayMessage, "The email address you have entered is already in use.");
     }
   })
 
@@ -77,7 +79,8 @@ function* authSaga() {
         'A link to reset password has been sent to your email.'
       );
     } catch (error) {
-      yield call(displayErrorMessage, error, RESET_PASSWORD);
+      // yield call(displayErrorMessage, error, RESET_PASSWORD);
+      yield call(displayMessage, "You have entered an invalid email!");
     }
   })
 
@@ -91,9 +94,10 @@ function* authSaga() {
       )
       yield put({ type: LOGIN_INITIALIZE });
     } catch (error) {
-      const error_message = { code: error.code, message: error.message };
-      yield put({ type: LOGIN_FAIL, error: error_message });
-      yield call(displayErrorMessage, error, LOGIN_EMAIL);
+      // const error_message = { code: error.code, message: error.message };
+      // yield put({ type: LOGIN_FAIL, error: error_message });
+      // yield call(displayErrorMessage, error, LOGIN_EMAIL);
+      yield call(displayMessage, "You have entered an invalid email or password!");
     }
   })
 

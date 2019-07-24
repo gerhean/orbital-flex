@@ -52,7 +52,7 @@ class SignUpForm extends Component {
     const { username, email, passwordOne, passwordTwo, error } = this.state;
 
     const isInvalid =
-      passwordOne !== passwordTwo || passwordOne === "" 
+      passwordOne !== passwordTwo || passwordOne === "" || passwordOne.length < 6
       || email === "" || username === '';    
 
     return (

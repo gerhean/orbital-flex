@@ -122,7 +122,7 @@ function* scheduleSaga() {
 
         const data = yield scheduleData.data();
         if (!data) {
-          displayMessage('Schedule data has been deleted');
+          // displayMessage('A schedule has been removed, do check booked or posted schedules.');
           yield put({ type: REMOVE_SCHEDULE, id, isBooked });
         } else {
           const schedule = yield {
@@ -147,19 +147,17 @@ function* scheduleSaga() {
       const userRef = db.collection('users').doc(uid) 
       if (action.isBooked === 1) {
         yield call([userRef, userRef.update], {[`bookedSchedules.${scheduleId}`]: deleteField()})
-      } else if (action.isBooked === -1) {
-        yield call([userRef, userRef.update], {[`postedSchedules.${scheduleId}`]: deleteField()})
+        displayMessage("A booked schedule was removed by its poster");
+      } 
+        // else if (action.isBooked === -1) {
+        // yield call([userRef, userRef.update], {[`postedSchedules.${scheduleId}`]: deleteField()})
+        // displayMessage("You have removed a schedule");
     }
     // delete from Algolia
-    yield call([schedule_index, schedule_index.deleteObject], scheduleId)
+    // yield call([schedule_index, schedule_index.deleteObject], scheduleId)
     } catch (error) {
       yield call(displayErrorMessage, error, REMOVE_SCHEDULE);
   }
-  /* if (action.isBooked == 1) {
-    yield call([userRef, userRef.update], {[`bookedSchedules.${scheduleId}`]: deleteField()})
-  } else if (action.isBooked == -1) {
-    yield call([userRef, userRef.update], {[`postedSchedules.${scheduleId}`]: deleteField()})
-  }*/
   })
 
   yield takeEvery(CANCEL_SCHEDULE, function*(action){
@@ -179,7 +177,7 @@ function* scheduleSaga() {
       yield call([scheduleRef, scheduleRef.delete]);
       // delete from Algolia
       yield call([schedule_index, schedule_index.deleteObject], scheduleId)
-      // to update state.user.postedSchedules
+      displayMessage("You have removed a schedule");
       yield put({ type: CANCEL_SCHEDULE_SUCCESS, scheduleId })
     } catch (error) {
       yield call(displayErrorMessage, error, CANCEL_SCHEDULE);
