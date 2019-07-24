@@ -84,7 +84,8 @@ export default scheduleReducer = {
         ...state.user,
         // bookedSchedules,
         postedSchedules,
-      }
+      },
+      postedSchedules: Object.keys(postedSchedules),
     }
   },
 
