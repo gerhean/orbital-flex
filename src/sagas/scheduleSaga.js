@@ -151,15 +151,10 @@ function* scheduleSaga() {
         yield call([userRef, userRef.update], {[`postedSchedules.${scheduleId}`]: deleteField()})
     }
     // delete from Algolia
-    yield call([schedule_index, schedule_index.deleteObject], scheduleId)
+    // yield call([schedule_index, schedule_index.deleteObject], scheduleId)
     } catch (error) {
       yield call(displayErrorMessage, error, REMOVE_SCHEDULE);
   }
-  /* if (action.isBooked == 1) {
-    yield call([userRef, userRef.update], {[`bookedSchedules.${scheduleId}`]: deleteField()})
-  } else if (action.isBooked == -1) {
-    yield call([userRef, userRef.update], {[`postedSchedules.${scheduleId}`]: deleteField()})
-  }*/
   })
 
   yield takeEvery(CANCEL_SCHEDULE, function*(action){
