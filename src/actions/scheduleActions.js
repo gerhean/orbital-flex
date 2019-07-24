@@ -1,16 +1,18 @@
 import * as actionTypes from "./actionTypes";
 
-export const scheduleCreate = (schedule) => {
+export const scheduleCreate = (schedule, imageLocal) => {
   return {
     type: actionTypes.SCHEDULE_CREATE,
-    payload: schedule
+    payload: schedule,
+    imageLocal
   };
 };
 
-export const scheduleUpdate = schedule => { 
+export const scheduleUpdate = (schedule, imageLocal) => { 
 	return {
 		type: actionTypes.SCHEDULE_UPDATE,
-		schedule
+		schedule,
+    imageLocal
 	}
 }
 

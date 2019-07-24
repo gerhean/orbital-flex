@@ -29,21 +29,39 @@ import {
   displayMessage
 } from './backendConstants';
 
-function* scheduleSaga() {
+const storeImage = async (imageLocal, foldername, filename) => {
+  const response = await fetch(imageLocal);
+  const blob = await response.blob();
+  const imageRef = firebase.storage().ref(foldername).child(filename + '.png');
+  await imageRef.put(blob);
+  const downloadURL = await imageRef.getDownloadURL();
+  return downloadURL;
+}
 
+function* scheduleSaga() {
   yield takeLeading(SCHEDULE_CREATE, function*(action){
     try {
+      displayMessage("Creating Schedule...");
       const uid = firebase.auth().currentUser.uid;
       const posterName = yield select(state => state.user.username);
       const schedule = { ...action.payload, poster: uid, bookers: {}, posterName, timeCreated: serverTimestamp() }
       const collectionRef = db.collection("trainer_schedules")
-        const ref = yield call([collectionRef, collectionRef.add], schedule); 
+      const ref = yield call([collectionRef, collectionRef.add], schedule); 
+      
+      const imageLocal = action.imageLocal;
+      if (imageLocal) {
+        downloadURL = yield call(storeImage, imageLocal, "scheduleImages", ref.id);
+        yield call([ref, ref.update], {image: downloadURL});
+        schedule.image = downloadURL;
+      }
+
       // index schedule to algolia https://www.algolia.com/doc/api-reference/api-methods/add-objects/
       yield call([schedule_index, schedule_index.addObject], { ...schedule, objectID: ref.id })
       const userRef = db.collection('users').doc(uid) 
-        yield call([userRef, userRef.update], {[`postedSchedules.${ref.id}`]: true})
+      yield call([userRef, userRef.update], {[`postedSchedules.${ref.id}`]: true})
       schedule["isBooked"] = -1;
-        yield put({ type: SCHEDULE_CREATE_SUCCESS, schedule, scheduleId: ref.id }) // need to navigate back to home page/search page
+      yield put({ type: SCHEDULE_CREATE_SUCCESS, schedule, scheduleId: ref.id }) 
+      displayMessage("Schedule Created!");
   } catch (error) {
       // const error_message = { code: error.code, message: error.message };
       // yield put({ type: SCHEDULE_CREATE_FAIL, error: error_message });
@@ -53,18 +71,21 @@ function* scheduleSaga() {
 
   yield takeLeading(SCHEDULE_UPDATE, function*(action){
     try {
-      const schedule = action.schedule;
+      displayMessage("Updating Schedule...");
+      const { schedule, imageLocal} = action;
       const scheduleId = schedule.scheduleId;
       delete schedule.scheduleId;
       const ref = db.collection('trainer_schedules').doc(scheduleId) 
+
+      if (imageLocal) {
+        downloadURL = yield call(storeImage, imageLocal, "scheduleImages", scheduleId);
+        schedule.image = downloadURL;
+      }
     
-      yield call(
-        [ref, ref.update], 
-        schedule
-      )
+      yield call([ref, ref.update], schedule)
       yield call([schedule_index, schedule_index.partialUpdateObject], { ...schedule, objectID: scheduleId })
       yield put({ type: SCHEDULE_UPDATE_SUCCESS, schedule: action.schedule, scheduleId })
-      yield call(displayMessage, "Schedule Updated");   
+      displayMessage("Schedule Updated!");   
     } catch (error) {      
       yield call(displayErrorMessage, error, SCHEDULE_UPDATE);
     }

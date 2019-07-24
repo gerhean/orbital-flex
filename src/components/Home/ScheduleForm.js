@@ -24,6 +24,7 @@ import { bindActionCreators } from "redux";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import { changeScreen } from "../../actions";
 import LocationInput from './LocationInput';
+import ChooseImage from './ChooseImage';
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -73,6 +74,7 @@ class ScheduleForm extends Component {
     } 
     this.state = {
       ...schedule,
+      imageLocal: '',
       scheduleId,
       price: schedule.price.toString(),
       timePickerVisible: ""
@@ -80,8 +82,10 @@ class ScheduleForm extends Component {
   }
 
   submitForm = () => {
-    const { name, day, timeStart, timeEnd, district, 
-      location, category, services, remarks} = this.state;
+    const { name, day, timeStart, 
+      timeEnd, district, location, 
+      category, services, remarks, imageLocal
+    } = this.state;
     let { price, image } = this.state;
     if (!name || !location) {
       Toast.show({ text: "Missing fields" })
@@ -112,7 +116,7 @@ class ScheduleForm extends Component {
       schedule["scheduleId"] = this.state.scheduleId;
     }
     
-    this.props.handleSubmitSchedule(schedule);
+    this.props.handleSubmitSchedule(schedule, imageLocal);
   };
 
   setValue = key => value => {
@@ -172,13 +176,13 @@ class ScheduleForm extends Component {
               />
             </Item>
 
-            <Item stackedLabel>
-              <Label style={styles.label}>Image URL (current profile picture used if blank)</Label>
-              <Input
-                value={this.state.image}
-                onChangeText={this.setValue("image")}
-              />
-            </Item>
+            <ChooseImage 
+              urlLabel="Image URL (current profile picture used if blank)"
+              localImage={this.state.imageLocal}
+              urlImage={this.state.image}
+              handleChangeLocalImg={this.setValue("imageLocal")}
+              handleChangeUrlImg={this.setValue("image")}
+            />
 
             <Item picker fixedLabel>
               <Label style={styles.label}>Day of the week</Label>

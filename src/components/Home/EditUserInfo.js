@@ -14,16 +14,12 @@ import {
   Item,
   Label,
   Picker,
-  Icon,
-  View
+  Icon
 } from "native-base";
 import { connect } from "react-redux";
-import Dialog, { DialogContent, DialogTitle } from 'react-native-popup-dialog';
 import { bindActionCreators } from "redux";
 import { updateUserInfo, changeScreen } from "../../actions";
-import profilePictureDisplay from '../profilePictureDisplay';
-import { Constants, Permissions } from 'expo';
-import * as ImagePicker from 'expo-image-picker'
+import ChooseImage from './ChooseImage';
 
 const mapStateToProps = state => ({
   user: state.user
@@ -47,9 +43,8 @@ class UserInfoForm extends Component {
       contact, 
       about, 
       profilePic, 
-      profilePicLocal: undefined,
-      gender,
-      checkProfilePicVisible: false
+      profilePicLocal: '',
+      gender
     };
   }
 
@@ -69,31 +64,6 @@ class UserInfoForm extends Component {
     this.setState({
       [key]: value
     })
-  };
-
-  toggleCheckPicture = value => () => {
-    this.setState({checkProfilePicVisible: value })
-  };
-
-  getPermissionAsync = async () => {
-    if (Constants.platform.ios) {
-      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-      if (status !== 'granted') {
-        Toast.show({ text: 'Sorry, we need camera roll permissions to make this work!' });
-      }
-    }
-  };
-
-  pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [1, 1],
-    });
-    // console.log(result);
-    if (!result.cancelled) {
-      this.setState({ profilePicLocal: result.uri });
-    }
   };
 
   navigate = screen => () => {
@@ -126,38 +96,13 @@ class UserInfoForm extends Component {
               />
             </Item>
 
-            {
-              this.state.profilePicLocal ?
-                <Item avatar>
-                  {profilePictureDisplay(this.state.profilePicLocal)}
-                  <Body>
-                    <Text>Using Local Image</Text>
-                    <Button rounded block bordered onPress={this.pickImage}>
-                      <Text>Choose Another Image</Text>
-                    </Button>
-                    <Button 
-                      rounded block bordered 
-                      onPress={() => this.setState({profilePicLocal: undefined })}
-                    >
-                      <Text>Use Image URL</Text>
-                    </Button>
-                  </Body>
-                </Item>
-              :
-                <Item stackedLabel>
-                  <Label>Profile Picture URL</Label>
-                  <Input
-                    value={this.state.profilePic}
-                    onChangeText={this.setValue("profilePic")}
-                  />
-                  <Button rounded block bordered onPress={this.toggleCheckPicture(true)}>
-                    <Text>Check Image</Text>
-                  </Button>
-                  <Button rounded block bordered onPress={this.pickImage}>
-                    <Text>Upload Image</Text>
-                  </Button>
-                </Item>
-            }
+            <ChooseImage 
+              urlLabel="Profile Picture URL"
+              localImage={this.state.profilePicLocal}
+              urlImage={this.state.profilePic}
+              handleChangeLocalImg={this.setValue("profilePicLocal")}
+              handleChangeUrlImg={this.setValue("profilePic")}
+            />
 
             <Item picker fixedLabel>
               <Label>Gender</Label>
@@ -197,23 +142,6 @@ class UserInfoForm extends Component {
           <Button rounded block bordered onPress={this.submitForm}>
             <Text>Submit</Text>
           </Button>
-
-          <Dialog
-            visible={this.state.checkProfilePicVisible}
-            onTouchOutside={this.toggleCheckPicture(false)}
-            dialogTitle={<DialogTitle title="Check Profile Picture" />}
-            footer={
-              <View>
-                <Button block onPress={this.toggleCheckPicture(false)}>
-                  <Text>Done</Text>
-                </Button>
-              </View>
-            }
-          >
-            <DialogContent>
-              {profilePictureDisplay(this.state.profilePic, {large: true})}
-            </DialogContent>
-          </Dialog>
         </Content>
       </Container>
     );
