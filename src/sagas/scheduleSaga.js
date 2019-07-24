@@ -152,7 +152,6 @@ function* scheduleSaga() {
         // else if (action.isBooked === -1) {
         // yield call([userRef, userRef.update], {[`postedSchedules.${scheduleId}`]: deleteField()})
         // displayMessage("You have removed a schedule");
-    }
     // delete from Algolia
     // yield call([schedule_index, schedule_index.deleteObject], scheduleId)
     } catch (error) {

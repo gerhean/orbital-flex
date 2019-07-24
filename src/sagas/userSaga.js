@@ -14,9 +14,7 @@ import {
   FOLLOW_USER,
   FOLLOW_USER_SUCCESS,
   UNFOLLOW_USER,
-  UNFOLLOW_USER_SUCCESS,
-  UPLOAD_IMAGE,
-  UPLOAD_IMAGE_SUCCESS,
+  UNFOLLOW_USER_SUCCESS
 } from '../actions/actionTypes';
 
 import { 
@@ -27,23 +25,27 @@ import {
   displayMessage
 } from './backendConstants';
 
-import ImagePicker from 'react-native-image—picker';
-import RNFetchBlob from 'react—native-fetch—blob';
-
-const Blob = RNFetchBlob.polyfill.Blob
-const fs = RNFetchBlob.fs
-window.XMLHttpRequest = RNFetchBlob.polyFill.XMLHttpRequest
-window.Blob = Blob
-
 function* userSaga() {
 
   yield takeLeading(UPDATE_USER_INFO, function*(action){
     try {
+      displayMessage("User Updating... This might take a while.");
       const uid = firebase.auth().currentUser.uid;
+      const {userInfo, profilePicLocal} = action;
+      if (profilePicLocal) {
+        const response = yield call(fetch, profilePicLocal);
+        const blob = yield call([response, response.blob]);
+        const imageRef = firebase.storage().ref("profilePics").child(uid + '.png');
+        yield call([imageRef, imageRef.put], blob);
+        const downloadURL = yield call([imageRef, imageRef.getDownloadURL])
+        console.log(downloadURL);
+        userInfo.profilePic = downloadURL;
+      }
+
       const userRef = db.collection('users').doc(uid)
       yield call(
         [userRef, userRef.update], 
-        action.userInfo
+        userInfo
       )
       yield put({ type: UPDATE_USER_INFO_SUCCESS, userInfo: action.userInfo })
       yield call(displayMessage, "User Info Updated");
@@ -189,29 +191,6 @@ function* userSaga() {
       displayErrorMessage(error, FOLLOW_USER);
     }
   })
-
-  yield takeEvery(UPLOAD_IMAGE, function*(action){
-    try {
-      const { uri, folder, imageName } = action; 
-      const mime = action.mime || 'image/jpg';
-
-      const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri
-      let uploadBlob = null
-      const imageRef = firebaseApp.storage().ref(folder).child(imageName)
-      const data = yield fs.readFile(uploadUri, 'base64')
-      const blob = yield Blob.build(data, { type: `${mime};BASE64` })
-      uploadBlob = blob;
-      yield imageRef.put(blob, { contentType: mime })
-      uploadBlob.close();
-      const url = yield imageRef.getDownloadURL(); 
-
-      yield put({ type: UPLOAD_IMAGE_SUCCESS, url });
-      displayMessage("Image Uploaded");
-    } catch (error) {
-      displayErrorMessage(error, UPLOAD_IMAGE);
-    }
-  })
-
 
 }
 

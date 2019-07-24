@@ -6,14 +6,18 @@ const objFilter = (obj, predicate) =>
           .reduce( (res, key) => (res[key] = obj[key], res), {} );
 
 export default userReducer = {
+  [actionTypes.UPDATE_USER_INFO]: (state, action) => ({
+    ...state,
+    screen: "Home",
+    screenHistory: ["Home"]
+  }),
+
 	[actionTypes.UPDATE_USER_INFO_SUCCESS]: (state, action) => ({
     ...state,
     user: {
       ...state.user,
       ...action.userInfo
-    },
-    screen: "Home",
-    screenHistory: ["Home"]
+    }
   }),
 
   [actionTypes.FETCH_USER_INFO_SUCCESS]: (state, action) => {

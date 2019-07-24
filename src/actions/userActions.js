@@ -1,8 +1,9 @@
 import * as actionTypes from "./actionTypes";
 
-export const updateUserInfo = (userInfo) => ({
+export const updateUserInfo = (userInfo, profilePicLocal = '') => ({
   type: actionTypes.UPDATE_USER_INFO,
-  userInfo
+  userInfo,
+  profilePicLocal
 });
 
 export const fetchUserReviews = (uid) => ({
