@@ -59,7 +59,11 @@ class UserProfile extends Component {
   render() {
     const user = this.props.user;
     if (!user) {
-      return <Text>Loading</Text>
+      return (
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <Text>Loading</Text>
+        </View>
+      );
     }
     const uid = this.props.uid;
     const postedScheduleList = <ScheduleList 
