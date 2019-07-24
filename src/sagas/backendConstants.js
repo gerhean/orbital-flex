@@ -4,7 +4,6 @@ import { Toast } from 'native-base';
 import algoliasearch from 'algoliasearch/reactnative';
 
 import { ALOGOLIA_APP_ID, ALOGOLIA_API_KEY } from '../../env';
-// import { ALOGOLIA_APP_ID, ALOGOLIA_API_KEY, CHATKIT_INSTANCE_LOCATOR, CHATKIT_KEY} from '../../env';
 
 export const client = algoliasearch(ALOGOLIA_APP_ID, ALOGOLIA_API_KEY);
 export const ALGOLIA_INDEX_NAME = 'trainer_schedules';

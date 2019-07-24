@@ -15,6 +15,8 @@ import {
   FOLLOW_USER_SUCCESS,
   UNFOLLOW_USER,
   UNFOLLOW_USER_SUCCESS,
+  UPLOAD_IMAGE,
+  UPLOAD_IMAGE_SUCCESS,
 } from '../actions/actionTypes';
 
 import { 
@@ -24,6 +26,14 @@ import {
   displayErrorMessage, 
   displayMessage
 } from './backendConstants';
+
+import ImagePicker from 'react-native-image—picker';
+import RNFetchBlob from 'react—natiVe-fetCh—blob';
+
+const Blob = RNFetchBlob.polyfill.Blob
+const fs = RNFetchBlob.fs
+window.XMLHttpRequest = RNFetchBlob.polyFill.XMLHttpRequest
+window.Blob = Blob
 
 function* userSaga() {
 
@@ -176,7 +186,29 @@ function* userSaga() {
       yield put({ type: UNFOLLOW_USER_SUCCESS, uid });
       displayMessage("User Unfollowed");
     } catch (error) {
-      yield call(displayErrorMessage, error, FOLLOW_USER);
+      displayErrorMessage(error, FOLLOW_USER);
+    }
+  })
+
+  yield takeEvery(UPLOAD_IMAGE, function*(action){
+    try {
+      const { uri, folder, imageName } = action; 
+      const mime = action.mime || 'image/jpg';
+
+      const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri
+      let uploadBlob = null
+      const imageRef = firebaseApp.storage().ref(folder).child(imageName)
+      const data = yield fs.readFile(uploadUri, 'base64')
+      const blob = yield Blob.build(data, { type: `${mime};BASE64` })
+      uploadBlob = blob;
+      yield imageRef.put(blob, { contentType: mime })
+      uploadBlob.close();
+      const url = yield imageRef.getDownloadURL(); 
+
+      yield put({ type: UPLOAD_IMAGE_SUCCESS, url });
+      displayMessage("Image Uploaded");
+    } catch (error) {
+      displayErrorMessage(error, UPLOAD_IMAGE);
     }
   })
 
