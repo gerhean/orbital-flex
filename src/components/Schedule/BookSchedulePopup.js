@@ -2,8 +2,7 @@ import { PropTypes } from 'prop-types';
 import React, { Component } from 'react';
 import Dialog, { DialogContent, DialogFooter, DialogButton, DialogTitle } from 'react-native-popup-dialog';
 
-import { View, Card, Body, Text, Right, Left, Thumbnail, SwipeRow, Icon, List, ListItem, Button,
-Grid, Row, Col, H2, Form, Item, Label, Input} from 'native-base';
+import { Form, Item, Label, Input} from 'native-base';
 
 const initialState = () => ({
   bookingId: '',

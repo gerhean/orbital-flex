@@ -1,18 +1,15 @@
 import React, { Component } from "react";
 import {
   Modal,
-  ScrollView
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { InstantSearch } from 'react-instantsearch-native';
 // import algoliasearch from 'algoliasearch/reactnative';
 import {
   Container,
-  Body,
   Button,
   Text,
   Form,
-  Item,
   Content
 } from "native-base";
 import RefinementList from './RefinementList';

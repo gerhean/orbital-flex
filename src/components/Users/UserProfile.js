@@ -20,7 +20,7 @@ import StarRating from 'react-native-star-rating';
 
 import { changeScreen, fetchUserInfo, startChat, followUser, unfollowUser } from "../../actions";
 import profilePictureDisplay from '../profilePictureDisplay';
-import ScheduleList from "../Home/ScheduleList";
+import ScheduleList from "../Schedule/ScheduleList";
 
 const mapStateToProps = (state, ownProps) => ({
   user: state.users[ownProps.uid],

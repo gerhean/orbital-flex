@@ -23,7 +23,7 @@ import {
 import StarRating from 'react-native-star-rating';
 import { changeScreen, logout, setScheduleEditIndex } from "../../actions";
 import profilePictureDisplay from '../profilePictureDisplay';
-import ScheduleList from "./ScheduleList";
+import ScheduleList from "../Schedule/ScheduleList";
 import UserCard from "../Users/UserCard";
 
 const mapStateToProps = state => ({

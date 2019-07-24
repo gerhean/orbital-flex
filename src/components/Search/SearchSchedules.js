@@ -7,7 +7,7 @@ import algoliasearch from 'algoliasearch/reactnative';
 import layout from './layout';
 import Filters from './Filters';
 import { ALOGOLIA_API_KEY, ALOGOLIA_APP_ID } from '../../../env';
-import ScheduleList from '../Home/ScheduleList';
+import ScheduleList from '../Schedule/ScheduleList';
 
 //  allow you to pre-refine any widget without rendering anything
 const searchClient = algoliasearch(ALOGOLIA_APP_ID, ALOGOLIA_API_KEY);
