@@ -1,6 +1,7 @@
 import { PropTypes } from 'prop-types';
 import React, { Component } from "react";
 import { StyleSheet } from "react-native";
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 import {
   Text,
   Container,
@@ -301,6 +302,7 @@ class ScheduleForm extends Component {
           <Button rounded block bordered onPress={this.submitForm}>
             <Text>Submit</Text>
           </Button>
+          <KeyboardSpacer/>
         </Content>
       </Container>
     );

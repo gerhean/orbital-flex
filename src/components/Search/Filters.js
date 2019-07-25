@@ -3,6 +3,7 @@ import {
   Modal,
 } from 'react-native';
 import PropTypes from 'prop-types';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { InstantSearch } from 'react-instantsearch-native';
 // import algoliasearch from 'algoliasearch/reactnative';
 import {
@@ -54,6 +55,7 @@ class Filters extends Component {
               >
                 <Text>Apply</Text>
             </Button>
+            <KeyboardSpacer/>
           </Content>
         </Container>
       </Modal>

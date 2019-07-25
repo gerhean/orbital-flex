@@ -153,8 +153,8 @@ export class AppNav extends Component {
   render() {
     return(
       <Container style={{ flex: 1 }}>
-      { this.renderContent() }
-      { this.footer() }
+        { this.renderContent() }
+        { this.footer() }
       </Container>
     );
   }

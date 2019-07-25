@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { View, StyleSheet, Text } from "react-native";
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { connect } from "react-redux";
 import { Icon, Button, Input } from "react-native-elements";
 import { signupInitialize, changeScreen } from "../../actions";
@@ -102,6 +103,7 @@ class SignUpForm extends Component {
           buttonStyle={styles.buttonStyle}
           title="Already have an account?"
         />
+        <KeyboardSpacer/>
       </View>
     );
   }

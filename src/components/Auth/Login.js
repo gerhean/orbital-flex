@@ -3,6 +3,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { Icon, Button, Input } from "react-native-elements";
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { AppLoading } from "expo";
 import firebase from 'firebase';
 import { loginEmail, loginInitialize, 
@@ -113,6 +114,7 @@ class LoginBase extends Component {
             </TouchableOpacity>
           </View>
         </View>
+        <KeyboardSpacer/>
       </View>
     );
   }

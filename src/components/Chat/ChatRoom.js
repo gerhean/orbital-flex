@@ -2,10 +2,8 @@ import { PropTypes } from 'prop-types';
 import React, { Component } from 'react';
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import {
-    StatusBar,
-    View
-  } from 'react-native';
+import { StatusBar, View } from 'react-native';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { Container, Header, Left, Body, Right, Text, Title, Button } from 'native-base';
 import { GiftedChat } from 'react-native-gifted-chat';
 
@@ -87,6 +85,7 @@ class ChatRoom extends Component {
               _id: this.props.uid,
             }}
           />
+          <KeyboardSpacer/>
         </View>
       </Container>
     );

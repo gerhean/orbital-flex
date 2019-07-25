@@ -17,6 +17,7 @@ import {
   Icon
 } from "native-base";
 import { connect } from "react-redux";
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { bindActionCreators } from "redux";
 import { updateUserInfo, changeScreen } from "../../actions";
 import ChooseImage from './ChooseImage';
@@ -142,6 +143,7 @@ class UserInfoForm extends Component {
           <Button rounded block bordered onPress={this.submitForm}>
             <Text>Submit</Text>
           </Button>
+          <KeyboardSpacer/>
         </Content>
       </Container>
     );

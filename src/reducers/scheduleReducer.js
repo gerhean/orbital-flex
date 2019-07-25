@@ -59,8 +59,10 @@ export default scheduleReducer = {
   },
 
   [actionTypes.REMOVE_SCHEDULE]: (state, action) => {
-    const {[action.scheduleId]: value, ...bookedSchedules} = state.user.bookedSchedules;
-    const {[action.scheduleId]: value2, ...postedSchedules} = state.user.postedSchedules;
+    const scheduleId = action.scheduleId; 
+    const {[scheduleId]: value, ...bookedSchedules} = state.user.bookedSchedules;
+    const {[scheduleId]: value2, ...postedSchedules} = state.user.postedSchedules;
+    const {[scheduleId]: value3, ...schedules} = state.schedules;
     return {
       ...state,
       user: {
@@ -68,6 +70,7 @@ export default scheduleReducer = {
         bookedSchedules,
         postedSchedules
       },
+      schedules,
       bookedSchedules: Object.keys(bookedSchedules),
       postedSchedules: Object.keys(postedSchedules),
     }

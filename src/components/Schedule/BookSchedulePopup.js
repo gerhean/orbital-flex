@@ -1,5 +1,6 @@
 import { PropTypes } from 'prop-types';
 import React, { Component } from 'react';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 import Dialog, { DialogContent, DialogFooter, DialogButton, DialogTitle } from 'react-native-popup-dialog';
 
 import { Form, Item, Label, Input} from 'native-base';
@@ -100,6 +101,7 @@ class BookSchedulePopup extends Component {
               />
             </Item>
           </Form>
+          <KeyboardSpacer/>
         </DialogContent>
       </Dialog>
     );
