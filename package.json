@@ -22,7 +22,7 @@
     "expo-image-picker": "^5.0.2",
     "expo-web-browser": "^5.0.0",
     "firebase": "^6.0.4",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "moment": "^2.24.0",
     "native-base": "^2.12.1",
     "prop-types": "^15.7.2",
